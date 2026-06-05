@@ -1,0 +1,1250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OHME! Package Size Comparator</title>
+    <style>
+:root {
+  --ink: #1f2933;
+  --muted: #667481;
+  --line: #d7dee5;
+  --surface: #f5f7f8;
+  --panel: #ffffff;
+  --blue: #1c5a6e;
+  --blue-soft: #dceff4;
+  --green: #2c765a;
+  --green-soft: #e1f1e9;
+  --orange: #b06b2f;
+  --orange-soft: #f5e6d6;
+  --danger: #a43f46;
+  --shadow: 0 14px 32px rgba(30, 45, 58, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 440px);
+  gap: 24px;
+  align-items: end;
+  padding: 28px 32px 22px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  margin: 0 0 7px;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: 30px;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.top-note {
+  padding: 12px 14px;
+  border-left: 4px solid var(--blue);
+  background: #edf5f7;
+  color: #344250;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+main {
+  padding: 24px 32px 36px;
+}
+
+.toolbar,
+  .comparison-shell,
+  .detail-grid > article,
+  .picker-section,
+  .strategy-section,
+  .matrix-section,
+  .edit-section {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(240px, 1.2fr) auto auto;
+  gap: 14px;
+  align-items: end;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+select,
+input,
+textarea {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid #bdc8d2;
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--ink);
+  padding: 8px 10px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.zoom-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.icon-btn,
+.primary-btn,
+.secondary-btn {
+  min-height: 38px;
+  border: 1px solid #b8c5ce;
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--ink);
+  padding: 8px 12px;
+  font-weight: 700;
+}
+
+.icon-btn {
+  width: 40px;
+  padding: 0;
+}
+
+.primary-btn {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #ffffff;
+}
+
+.secondary-btn:hover,
+.icon-btn:hover {
+  background: #f0f5f7;
+}
+
+.zoom-value {
+  min-width: 58px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.comparison-shell {
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.scale-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.comparison-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+  gap: 24px;
+  min-width: 720px;
+  min-height: 350px;
+  padding: 18px;
+  background:
+    linear-gradient(#edf2f5 1px, transparent 1px),
+    linear-gradient(90deg, #edf2f5 1px, transparent 1px),
+    #ffffff;
+  background-size: 30px 30px;
+  border: 1px solid #edf2f5;
+  border-radius: 8px;
+}
+
+.package-lane {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
+  min-height: 310px;
+}
+
+.lane-title {
+  width: 100%;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.lane-title span {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.lane-title strong {
+  display: block;
+  font-size: 16px;
+}
+
+.package-floor {
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  width: 100%;
+  min-height: 235px;
+  border-bottom: 2px solid #c9d3db;
+}
+
+.package-shape {
+  position: relative;
+  display: grid;
+  place-items: center;
+  max-width: 100%;
+  border: 2px solid var(--blue);
+  border-radius: 9px 9px 4px 4px;
+  background: linear-gradient(135deg, #f8fbfc 0%, #d9eef4 100%);
+  box-shadow: var(--shadow);
+  transition: width 140ms ease, height 140ms ease;
+}
+
+.package-shape.ohme {
+  border-color: var(--green);
+  background: linear-gradient(135deg, #f8fcf9 0%, #ddefe4 100%);
+}
+
+.package-shape.competitor {
+  border-color: var(--blue);
+}
+
+.package-shape::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 14px;
+  right: 14px;
+  height: 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.package-shape::after {
+  content: "";
+  position: absolute;
+  right: -11px;
+  top: 12px;
+  width: 10px;
+  height: calc(100% - 14px);
+  border-radius: 0 6px 6px 0;
+  background: rgba(28, 90, 110, 0.2);
+  transform: skewY(12deg);
+}
+
+.shape-inner {
+  width: 100%;
+  padding: 18px 12px 12px;
+  text-align: center;
+}
+
+.shape-inner strong {
+  display: block;
+  font-size: 14px;
+}
+
+.shape-inner span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dimension-tag {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.delta-card {
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px;
+  border: 1px solid #bfd1d8;
+  border-radius: 8px;
+  background: #f8fbfc;
+  color: #344250;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.picker-section {
+  margin-top: 18px;
+  padding: 16px;
+}
+
+.section-head.compact {
+  margin-bottom: 10px;
+}
+
+.picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(154px, 1fr));
+  gap: 10px;
+}
+
+.picker-card {
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: 5px;
+  min-height: 146px;
+  border: 1px solid #c3d0d9;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  padding: 10px;
+  text-align: center;
+}
+
+.picker-card:hover,
+.picker-card.active {
+  border-color: var(--blue);
+  background: #eef7f9;
+  box-shadow: inset 0 0 0 2px rgba(28, 90, 110, 0.12);
+}
+
+.mini-pack {
+  display: grid;
+  place-items: center;
+  align-self: end;
+  border: 2px solid var(--blue);
+  border-radius: 7px 7px 4px 4px;
+  background: linear-gradient(135deg, #f8fbfc 0%, #d9eef4 100%);
+  color: #18495a;
+  font-size: 10px;
+  font-weight: 800;
+  overflow: hidden;
+}
+
+.picker-card strong {
+  font-size: 13px;
+}
+
+.picker-card small {
+  min-height: 30px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+.picker-card em {
+  color: var(--blue);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.detail-grid > article {
+  padding: 16px;
+}
+
+.detail-grid dl {
+  display: grid;
+  grid-template-columns: 138px 1fr;
+  gap: 8px 12px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.detail-grid dt {
+  color: var(--muted);
+}
+
+.detail-grid dd {
+  margin: 0;
+}
+
+.claim-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.claim-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--blue-soft);
+  color: #174a5b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.edit-section {
+  padding: 16px;
+}
+
+.strategy-section {
+  margin-bottom: 18px;
+  padding: 16px;
+}
+
+.matrix-section {
+  margin-bottom: 18px;
+  padding: 16px;
+}
+
+.strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.strategy-card {
+  min-height: 126px;
+  border: 1px solid #c3d0d9;
+  border-radius: 8px;
+  background: #fbfcfd;
+  padding: 14px;
+}
+
+.strategy-card h3 {
+  color: var(--blue);
+}
+
+.strategy-card p {
+  color: #344250;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.matrix-table-wrap {
+  overflow-x: auto;
+}
+
+.matrix-table {
+  min-width: 1360px;
+}
+
+.matrix-table td:first-child strong,
+.matrix-table td:first-child span {
+  display: block;
+}
+
+.matrix-table td:first-child span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.matrix-table .claims-cell,
+.matrix-table .comparison-cell {
+  max-width: 280px;
+  line-height: 1.35;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 12px;
+}
+
+.section-head p {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 1220px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #174a5b;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+td input,
+td textarea {
+  min-height: 34px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+td textarea {
+  min-height: 60px;
+}
+
+.compare-btn,
+.delete-btn {
+  min-height: 34px;
+  margin-right: 8px;
+  border: 1px solid #d6aeb2;
+  border-radius: 6px;
+  background: #fff6f7;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.compare-btn {
+  border-color: #9fc0ca;
+  background: #eef7f9;
+  color: var(--blue);
+}
+
+.selected-row {
+  background: #eaf5f8;
+  box-shadow: inset 4px 0 0 var(--blue);
+}
+
+.source-note {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+@media (max-width: 920px) {
+  .topbar,
+  .toolbar,
+  .detail-grid,
+  .strategy-grid {
+    grid-template-columns: 1fr;
+  }
+
+  main,
+  .topbar {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .comparison-stage {
+    min-width: 680px;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script>
+const { useMemo, useState } = React;
+const h = React.createElement;
+
+const ohmePackages = [
+  {
+    id: "ohme-snack",
+    brand: "OHME!",
+    product: "Snack pouch",
+    widthMm: 130,
+    heightMm: 155,
+    depthMm: null,
+    weightG: 44,
+    packCount: 1,
+    priceCad: null,
+    packagingCostCad: 0.10,
+    claims: "Healthy, convenient, snack size",
+    channel: "Planned OHME format",
+    notes: "Han note: all snack bags are 130 mm W x 155 mm H. Packaging cost is roughly CAD 0.10 per bag.",
+  },
+  {
+    id: "ohme-regular",
+    brand: "OHME!",
+    product: "Regular fruit pouch",
+    widthMm: 170,
+    heightMm: 185,
+    depthMm: 77,
+    weightG: 46,
+    packCount: 1,
+    priceCad: 22.89,
+    packagingCostCad: 0.50,
+    claims: "Freeze-dried fruit, healthy snack",
+    channel: "Amazon.ca and planned OHME pouch",
+    notes: "Han note: new regular fruit pouch is 170 x 77 x 185 mm. Amazon price shown from OHME strawberry listing.",
+  },
+];
+
+const starterCompetitors = [
+  {
+    id: "nature-valley-oats-honey",
+    brand: "Nature Valley",
+    product: "Oats 'n Honey Crunchy Granola Bars",
+    category: "Mainstream granola bar",
+    widthMm: 145,
+    heightMm: 45,
+    depthMm: 16,
+    weightG: 42,
+    packCount: 12,
+    priceCad: 12.47,
+    salesSignal: "Mainstream General Mills snack-bar benchmark; official pack has 12 two-bar pouches",
+    claims: "Whole grain oats, portable, no artificial flavors, no artificial colors, no high fructose corn syrup",
+    channel: "Nature Valley official page / Walmart Canada",
+    comparison: "Large mainstream snack-bar benchmark. Competes with OHME! on portability and lunchbox/pantry use, but with a grain-based bar format rather than fruit/yogurt crunch.",
+    notes: "Individual pouch dimensions are a working estimate for visualization. Product source confirms 12 two-bar pouches and 17.88 oz box.",
+  },
+  {
+    id: "kind-dark-chocolate-nuts",
+    brand: "KIND",
+    product: "Dark Chocolate Nuts & Sea Salt Bar",
+    category: "Nut bar",
+    widthMm: 145,
+    heightMm: 50,
+    depthMm: 15,
+    weightG: 40,
+    packCount: 5,
+    priceCad: 11.97,
+    salesSignal: "Recognized wellness/nut bar brand; SPINS uses KIND as a snack bar example",
+    claims: "Almonds as first ingredient, gluten free, low glycemic index, 5g sugar, 6g protein, good source of fiber",
+    channel: "KIND official page / Walmart Canada",
+    comparison: "Useful premium bar benchmark for OHME!'s mid and upper-mid target. Competes on simple ingredients and portion control.",
+    notes: "Individual bar wrapper dimensions are a working estimate. Official KIND page confirms 1 bar is 40g.",
+  },
+  {
+    id: "clif-chocolate-chip",
+    brand: "CLIF",
+    product: "Chocolate Chip Energy Bar",
+    category: "Energy bar",
+    widthMm: 150,
+    heightMm: 60,
+    depthMm: 18,
+    weightG: 68,
+    packCount: 12,
+    priceCad: 29.99,
+    salesSignal: "Established performance bar under Mondelēz; SPINS uses CLIF as a wellness/nutrition bar example",
+    claims: "Energy bar, 68g bar, portable, performance-oriented",
+    channel: "CLIF official page / Canadian retail benchmark",
+    comparison: "Competes with OHME! for on-the-go energy occasions, but uses a larger, denser single bar format.",
+    notes: "Individual wrapper dimensions are a working estimate. Official CLIF Canada page confirms 1 bar is 68g.",
+  },
+  {
+    id: "rxbar-chocolate-sea-salt",
+    brand: "RXBAR",
+    product: "Chocolate Sea Salt Protein Bar",
+    category: "Protein bar",
+    widthMm: 145,
+    heightMm: 55,
+    depthMm: 16,
+    weightG: 52,
+    packCount: 12,
+    priceCad: 38.35,
+    salesSignal: "RXBAR official page calls Chocolate Sea Salt one of its top sellers",
+    claims: "12g protein, 5g fiber, no added sugar, simple ingredient list",
+    channel: "RXBAR official shop / Canadian retail benchmark",
+    comparison: "Strong benchmark for clean protein and simple ingredient messaging. Competes with OHME! on health cue and premium feel.",
+    notes: "Price is an approximate CAD conversion from RXBAR's USD 27.99 12-count official price. Individual wrapper dimensions are a working estimate.",
+  },
+  {
+    id: "quest-nacho",
+    brand: "Quest",
+    product: "Nacho Cheese Protein Chips",
+    category: "High-protein chips",
+    widthMm: 130,
+    heightMm: 185,
+    depthMm: 45,
+    weightG: 32,
+    packCount: 8,
+    priceCad: 31.50,
+    salesSignal: "Snack Food & Wholesale Bakery reports Quest brand snacks grew 37.9% in better-for-you puffed/extruded snacks",
+    claims: "18g protein, gluten free, keto-friendly, 1g sugar, 5g carbs",
+    channel: "Quest official page / Canadian retail benchmark",
+    comparison: "Best direct benchmark for Han's broad competitor definition because it is a portable, high-protein, better-for-you salty snack.",
+    notes: "Official Quest page confirms 8-count box option and 1 bag is 32g. Pouch dimensions are a working estimate.",
+  },
+  {
+    id: "sunchips-original",
+    brand: "SunChips",
+    product: "Original Whole Grain Snacks",
+    category: "Whole-grain chips",
+    widthMm: 135,
+    heightMm: 190,
+    depthMm: 50,
+    weightG: 28,
+    packCount: 1,
+    priceCad: 1.25,
+    salesSignal: "Snack Food & Wholesale Bakery reports SunChips at $652.7M in puffed/extruded snack sales",
+    claims: "Whole grain, 16g or more whole grains per serving where certified, portable savory snack",
+    channel: "SunChips official page / PepsiCo Product Facts / retail benchmark",
+    comparison: "Large-company better-for-you savory benchmark. Competes with OHME! on convenient single-serve snacking, not on fruit nutrition.",
+    notes: "1 oz single-serve pouch dimensions and price are working estimates for visualization.",
+  },
+  {
+    id: "popcorners-sea-salt",
+    brand: "PopCorners",
+    product: "Sea Salt",
+    category: "Popped corn snack",
+    widthMm: 135,
+    heightMm: 185,
+    depthMm: 45,
+    weightG: 28,
+    packCount: 15,
+    priceCad: 24.99,
+    salesSignal: "PepsiCo-owned better-for-you popped snack; official product line includes variety pack and protein snacks",
+    claims: "Never fried, no artificial flavors/colors/preservatives, non-GMO, gluten free, 120 calories per serving",
+    channel: "PopCorners official page / retail benchmark",
+    comparison: "Good benchmark for a large-company snack that uses simple claims and lighter processing cues.",
+    notes: "Single bag dimensions are a working estimate. Official PopCorners page confirms better-for-you claims; product line includes a 15-count variety pack.",
+  },
+  {
+    id: "madegood-chocolate-chip",
+    brand: "MadeGood",
+    product: "Chocolate Chip Granola Bites",
+    category: "Organic school-safe granola bites",
+    widthMm: 130,
+    heightMm: 155,
+    depthMm: 35,
+    weightG: 24,
+    packCount: 28,
+    priceCad: 21.69,
+    salesSignal: "Known North American allergy-friendly school snack brand; official pack has 28 individual bags",
+    claims: "Organic, gluten free, non-GMO, dairy free, vegan, allergy friendly, school-safe positioning",
+    channel: "MadeGood official page / Canadian retail benchmark",
+    comparison: "Directly relevant to OHME!'s small-pack convenience because it uses individual pouches for school, lunchbox, and on-the-go occasions.",
+    notes: "Official MadeGood page confirms 28 individual bags and 24g serving size. Dimensions are estimated near OHME snack pouch for visual comparison.",
+  },
+  {
+    id: "thats-it-mini",
+    brand: "That's it.",
+    product: "Mini Fruit Bars Variety",
+    category: "Fruit bar",
+    widthMm: 145,
+    heightMm: 55,
+    depthMm: 16,
+    weightG: 20,
+    packCount: 24,
+    priceCad: 30.10,
+    salesSignal: "Official fruit-bar collection labels several variety packs as best sellers",
+    claims: "100% fruit, plant-based, gluten free, non-GMO, allergen-free, no added sugar",
+    channel: "That's it. official page",
+    comparison: "Closest simple-fruit bar competitor. Useful for Han because it sells fruit-based convenience through small units and multipacks.",
+    notes: "Price is an approximate CAD conversion from the official USD 21.99 24-count mini variety pack. Individual bar dimensions are a working estimate.",
+  },
+];
+
+function numberOrNull(value) {
+  if (value === "" || value === null || value === undefined) return null;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+function money(value) {
+  const n = numberOrNull(value);
+  return n === null ? "N/A" : `CAD $${n.toFixed(2)}`;
+}
+
+function pricePerGram(item) {
+  const price = numberOrNull(item.priceCad);
+  const weight = numberOrNull(item.weightG);
+  const count = numberOrNull(item.packCount) || 1;
+  if (!price || !weight || !count) return null;
+  return price / (weight * count);
+}
+
+function netWeightText(item) {
+  const weight = numberOrNull(item.weightG);
+  const count = numberOrNull(item.packCount) || 1;
+  if (!weight) return "N/A";
+  if (item.brand === "OHME!" && count > 1) {
+    return `Approx. ${weight} g total (${Math.round(weight / count)} g x ${count})`;
+  }
+  return count > 1 ? `${weight} g per unit; ${Math.round(weight * count)} g total` : `${weight} g per unit`;
+}
+
+function packagingCostText(item) {
+  const cost = numberOrNull(item.packagingCostCad);
+  if (cost === null) return "N/A";
+  const count = numberOrNull(item.packCount) || 1;
+  if (count > 1) {
+    return `Approx. CAD $${cost.toFixed(2)} internal pouch cost (${count} x CAD $0.10); outer pack not included`;
+  }
+  return `Approx. CAD $${cost.toFixed(2)} per bag`;
+}
+
+function mmText(item) {
+  const depth = item.depthMm ? ` x ${item.depthMm}D` : "";
+  return `${item.widthMm}W x ${item.heightMm}H${depth} mm`;
+}
+
+function PackageCard({ item, type, zoom }) {
+  const scale = 0.72 * zoom;
+  const w = Math.max(48, item.widthMm * scale);
+  const hgt = Math.max(56, item.heightMm * scale);
+  return h("div", { className: "package-lane" },
+    h("div", { className: "lane-title" },
+      h("span", null, type === "ohme" ? "OHME! reference" : "Competitor"),
+      h("strong", null, `${item.brand} ${item.product}`)
+    ),
+    h("div", { className: "package-floor" },
+      h("div", {
+        className: `package-shape ${type}`,
+        style: { width: `${w}px`, height: `${hgt}px` },
+        title: `${item.brand} ${item.product}: ${mmText(item)}`,
+      },
+        h("div", { className: "shape-inner" },
+          h("strong", null, item.brand),
+          h("span", null, `${item.weightG || "?"}g unit`)
+        )
+      )
+    ),
+    h("div", { className: "dimension-tag" }, mmText(item))
+  );
+}
+
+function DetailPanel({ title, item }) {
+  const ppg = pricePerGram(item);
+  const claims = String(item.claims || "").split(",").map((x) => x.trim()).filter(Boolean);
+  return h("article", null,
+    h("h2", null, title),
+    h("dl", null,
+      h("dt", null, "Width"),
+      h("dd", null, `${item.widthMm || "N/A"} mm`),
+      h("dt", null, "Height"),
+      h("dd", null, `${item.heightMm || "N/A"} mm`),
+      h("dt", null, "Net weight"),
+      h("dd", null, netWeightText(item)),
+      h("dt", null, "Pack count"),
+      h("dd", null, `${item.packCount || 1}`),
+      h("dt", null, "Price"),
+      h("dd", null, money(item.priceCad)),
+      h("dt", null, "Packaging cost"),
+      h("dd", null, packagingCostText(item)),
+      h("dt", null, "Price per gram"),
+      h("dd", null, ppg === null ? "N/A" : `CAD $${ppg.toFixed(3)}/g`),
+      h("dt", null, "Sales signal"),
+      h("dd", null, item.salesSignal || "N/A"),
+      h("dt", null, "Channel"),
+      h("dd", null, item.channel || "N/A"),
+      h("dt", null, "Claims"),
+      h("dd", { className: "claim-list" }, claims.length ? claims.map((claim) => h("span", { key: claim }, claim)) : "N/A"),
+      h("dt", null, "Notes"),
+      h("dd", null, item.notes || "N/A")
+    )
+  );
+}
+
+function DifferenceNote({ ohme, competitor }) {
+  const widthDiff = competitor.widthMm - ohme.widthMm;
+  const heightDiff = competitor.heightMm - ohme.heightMm;
+  const areaOhme = ohme.widthMm * ohme.heightMm;
+  const areaComp = competitor.widthMm * competitor.heightMm;
+  const areaPct = areaOhme ? ((areaComp / areaOhme - 1) * 100) : 0;
+  const ppg = pricePerGram(competitor);
+  return h("div", { className: "delta-card" },
+    h("strong", null, "Notes on package size difference"),
+    h("p", null,
+      `${competitor.brand} is ${Math.abs(widthDiff).toFixed(0)} mm ${widthDiff >= 0 ? "wider" : "narrower"} and ${Math.abs(heightDiff).toFixed(0)} mm ${heightDiff >= 0 ? "taller" : "shorter"} than the selected OHME! package. Its front-face area is ${Math.abs(areaPct).toFixed(0)}% ${areaPct >= 0 ? "larger" : "smaller"}.`
+    ),
+    h("p", null,
+      `Competitor price per gram: ${ppg === null ? "N/A" : `CAD $${ppg.toFixed(3)}/g`}. This should be read with pack count because many competitors sell small units inside a larger multipack.`
+    )
+  );
+}
+
+function CompetitorPicker({ competitors, selectedId, setSelectedId }) {
+  return h("section", { className: "picker-section", "aria-label": "Competitor package picker" },
+    h("div", { className: "section-head compact" },
+      h("div", null,
+        h("h2", null, "Click a competitor package to compare"),
+        h("p", null, "These mini packs are selection controls. The main comparison above uses the exact same scale for OHME! and the chosen competitor.")
+      )
+    ),
+    h("div", { className: "picker-grid" },
+      competitors.map((item) => {
+        const miniW = Math.max(36, Math.min(92, item.widthMm * 0.22));
+        const miniH = Math.max(34, Math.min(76, item.heightMm * 0.22));
+        return h("button", {
+          key: item.id,
+          className: `picker-card ${item.id === selectedId ? "active" : ""}`,
+          onClick: () => setSelectedId(item.id),
+          "aria-label": `Select ${item.brand} ${item.product}`,
+        },
+          h("span", {
+            className: "mini-pack",
+            style: { width: `${miniW}px`, height: `${miniH}px` },
+          }, item.brand.slice(0, 10)),
+          h("strong", null, item.brand),
+          h("small", null, item.product),
+          h("em", null, `${item.weightG || "?"}g x ${item.packCount || 1}`)
+        );
+      })
+    )
+  );
+}
+
+function EditableTable({ rows, setRows, selectedId, setSelectedId }) {
+  function updateCell(id, key, value) {
+    setRows((prev) => prev.map((row) => row.id === id ? { ...row, [key]: value } : row));
+  }
+
+  function addRow() {
+    const id = `custom-${Date.now()}`;
+    const row = {
+      id,
+      brand: "New brand",
+      product: "New product",
+      category: "New category",
+      widthMm: 140,
+      heightMm: 160,
+      depthMm: 55,
+      weightG: 30,
+      packCount: 1,
+      priceCad: 4.99,
+      salesSignal: "Add sales signal",
+      claims: "Healthy, convenient",
+      channel: "Add channel",
+      comparison: "Add comparison vs OHME!",
+      notes: "Add package size notes",
+    };
+    setRows((prev) => [...prev, row]);
+    setSelectedId(id);
+  }
+
+  function deleteRow(id) {
+    setRows((prev) => {
+      const next = prev.filter((row) => row.id !== id);
+      if (selectedId === id && next[0]) setSelectedId(next[0].id);
+      return next;
+    });
+  }
+
+  const fields = [
+    ["brand", "Brand", "text"],
+    ["product", "Product", "text"],
+    ["category", "Category", "text"],
+    ["widthMm", "W mm", "number"],
+    ["heightMm", "H mm", "number"],
+    ["depthMm", "D mm", "number"],
+    ["weightG", "g/unit", "number"],
+    ["packCount", "Count", "number"],
+    ["priceCad", "Price CAD", "number"],
+    ["salesSignal", "Sales signal", "text"],
+    ["claims", "Claims", "textarea"],
+    ["channel", "Channel", "text"],
+    ["comparison", "OHME comparison", "textarea"],
+    ["notes", "Notes", "textarea"],
+  ];
+
+  return h("section", { className: "edit-section" },
+    h("div", { className: "section-head" },
+      h("div", null,
+        h("h2", null, "Editable Competitor Data"),
+        h("p", null, "Add or edit competitors here. The visual updates immediately from the table. Use width and height in millimetres.")
+      ),
+      h("button", { className: "primary-btn", onClick: addRow }, "Add competitor")
+    ),
+    h("div", { className: "table-wrap" },
+      h("table", null,
+        h("thead", null,
+          h("tr", null,
+            fields.map(([, label]) => h("th", { key: label }, label)),
+            h("th", null, "Action")
+          )
+        ),
+        h("tbody", null,
+          rows.map((row) => h("tr", { key: row.id, className: row.id === selectedId ? "selected-row" : "" },
+            fields.map(([key, , type]) => h("td", { key: key },
+              type === "textarea"
+                ? h("textarea", {
+                    value: row[key] ?? "",
+                    onChange: (e) => updateCell(row.id, key, e.target.value),
+                  })
+                : h("input", {
+                    type,
+                    value: row[key] ?? "",
+                    step: type === "number" ? "0.01" : undefined,
+                    onChange: (e) => updateCell(row.id, key, type === "number" ? numberOrNull(e.target.value) : e.target.value),
+                  })
+            )),
+            h("td", null,
+              h("button", {
+                className: "compare-btn",
+                "aria-label": `Compare ${row.brand} ${row.product}`,
+                onClick: () => setSelectedId(row.id),
+              }, "Compare"),
+              h("button", {
+                className: "delete-btn",
+                "aria-label": `Delete ${row.brand} ${row.product}`,
+                onClick: () => deleteRow(row.id),
+              }, "Delete")
+            )
+          ))
+        )
+      )
+    ),
+    h("p", { className: "source-note" },
+      "No image generation is used. Package shapes are CSS rectangles drawn from width and height values."
+    )
+  );
+}
+
+function CompetitorMatrixSection({ competitors }) {
+  const rows = competitors.filter((row) => row.id !== "placeholder-future");
+  return h("section", { className: "matrix-section" },
+    h("div", { className: "section-head compact" },
+      h("div", null,
+        h("h2", null, "Competitor Matrix"),
+        h("p", null, "Use this view to present the package, price, sales signal, claims, channel, and direct comparison against OHME! in one place.")
+      )
+    ),
+    h("div", { className: "matrix-table-wrap" },
+      h("table", { className: "matrix-table" },
+        h("thead", null,
+          h("tr", null,
+            ["Brand / Product", "Category", "Pack format", "Physical package size", "Price", "Price / gram", "Sales signal", "Claims", "Channel", "Comparison vs OHME!"]
+              .map((label) => h("th", { key: label }, label))
+          )
+        ),
+        h("tbody", null,
+          rows.map((row) => {
+            const ppg = pricePerGram(row);
+            return h("tr", { key: row.id },
+              h("td", null, h("strong", null, row.brand), h("span", null, row.product)),
+              h("td", null, row.category || "N/A"),
+              h("td", null, netWeightText(row)),
+              h("td", null, mmText(row)),
+              h("td", null, money(row.priceCad)),
+              h("td", null, ppg === null ? "N/A" : `CAD $${ppg.toFixed(3)}/g`),
+              h("td", null, row.salesSignal || "N/A"),
+              h("td", { className: "claims-cell" }, row.claims || "N/A"),
+              h("td", null, row.channel || "N/A"),
+              h("td", { className: "comparison-cell" }, row.comparison || row.notes || "N/A")
+            );
+          })
+        )
+      )
+    )
+  );
+}
+
+function StrategySection() {
+  const cards = [
+    {
+      title: "Small pouch",
+      text: "Use the 130 mm x 155 mm pouch for campus, office, gym, vending, convenience stores, and trial. The main job is portability and portion control.",
+    },
+    {
+      title: "Multipack",
+      text: "Add 6/8/12-pack snack pouch options. Working outer-pack estimates are 285W x 165H x 75D mm, 285W x 165H x 95D mm, and 285W x 165H x 135D mm.",
+    },
+    {
+      title: "Regular pouch",
+      text: "Keep the regular pouch for online, home, sharing, and stock-up. This format fits buyers who care more about value and fewer shopping trips.",
+    },
+  ];
+
+  return h("section", { className: "strategy-section" },
+    h("div", { className: "section-head compact" },
+      h("div", null,
+        h("h2", null, "Package strategy notes"),
+        h("p", null, "Use these notes as quick context while comparing OHME! package sizes against competitor packs.")
+      )
+    ),
+    h("div", { className: "strategy-grid" },
+      cards.map((card) => h("article", { key: card.title, className: "strategy-card" },
+        h("h3", null, card.title),
+        h("p", null, card.text)
+      ))
+    )
+  );
+}
+
+function App() {
+  const [selectedOhmeId, setSelectedOhmeId] = useState(ohmePackages[0].id);
+  const [competitors, setCompetitors] = useState(starterCompetitors);
+  const [selectedCompetitorId, setSelectedCompetitorId] = useState(starterCompetitors[0].id);
+  const [zoom, setZoom] = useState(1);
+
+  const selectedOhme = useMemo(
+    () => ohmePackages.find((item) => item.id === selectedOhmeId) || ohmePackages[0],
+    [selectedOhmeId]
+  );
+  const selectedCompetitor = useMemo(
+    () => competitors.find((item) => item.id === selectedCompetitorId) || competitors[0],
+    [competitors, selectedCompetitorId]
+  );
+
+  const scaleText = `Scale: 1 mm = ${(0.72 * zoom).toFixed(2)} px`;
+
+  return h("div", { className: "app" },
+    h("header", { className: "topbar" },
+      h("div", null,
+        h("p", { className: "eyebrow" }, "OHME! package size comparator"),
+        h("h1", null, "Compare OHME! package formats against competitor packs")
+      ),
+      h("div", { className: "top-note" },
+        h("strong", null, "No image generation. "),
+        "This tool draws package rectangles with HTML/CSS/React from package dimensions."
+      )
+    ),
+    h("main", null,
+      h("section", { className: "toolbar", "aria-label": "Package controls" },
+        h("label", null,
+          "OHME! package size",
+          h("select", { value: selectedOhmeId, onChange: (e) => setSelectedOhmeId(e.target.value) },
+            ohmePackages.map((item) => h("option", { key: item.id, value: item.id }, `${item.product} — ${item.widthMm}W x ${item.heightMm}H mm`))
+          )
+        ),
+        h("label", null,
+          "Competitor product",
+          h("select", { value: selectedCompetitor.id, onChange: (e) => setSelectedCompetitorId(e.target.value) },
+            competitors.map((item) => h("option", { key: item.id, value: item.id }, `${item.brand} — ${item.product}`))
+          )
+        ),
+        h("label", null,
+          "Zoom",
+          h("div", { className: "zoom-group" },
+            h("button", {
+              className: "icon-btn",
+              "aria-label": "Zoom out",
+              onClick: () => setZoom((z) => Math.max(0.45, +(z - 0.15).toFixed(2))),
+            }, "-"),
+            h("span", { className: "zoom-value" }, `${Math.round(zoom * 100)}%`),
+            h("button", {
+              className: "icon-btn",
+              "aria-label": "Zoom in",
+              onClick: () => setZoom((z) => Math.min(2.2, +(z + 0.15).toFixed(2))),
+            }, "+")
+          )
+        ),
+        h("button", { className: "secondary-btn", onClick: () => setZoom(1) }, "Reset zoom")
+      ),
+
+      h("section", { className: "comparison-shell" },
+        h("div", { className: "scale-strip" },
+          h("span", null, "Front view compares width x height at the same scale."),
+          h("span", null, scaleText)
+        ),
+        h("div", { className: "comparison-stage" },
+          h(PackageCard, { item: selectedOhme, type: "ohme", zoom }),
+          h(PackageCard, { item: selectedCompetitor, type: "competitor", zoom })
+        ),
+        h(DifferenceNote, { ohme: selectedOhme, competitor: selectedCompetitor })
+      ),
+
+      h(CompetitorPicker, {
+        competitors,
+        selectedId: selectedCompetitorId,
+        setSelectedId: setSelectedCompetitorId,
+      }),
+
+      h("section", { className: "detail-grid" },
+        h(DetailPanel, { title: "OHME! package details", item: selectedOhme }),
+        h(DetailPanel, { title: "Competitor package details", item: selectedCompetitor })
+      ),
+
+      h(StrategySection),
+
+      h(CompetitorMatrixSection, { competitors }),
+
+      h(EditableTable, {
+        rows: competitors,
+        setRows: setCompetitors,
+        selectedId: selectedCompetitorId,
+        setSelectedId: setSelectedCompetitorId,
+      })
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+
+    </script>
+  </body>
+</html>
