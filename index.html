@@ -678,11 +678,12 @@ const ohmePackages = [
     depthMm: null,
     weightG: 44,
     packCount: 1,
-    priceCad: null,
+    priceCad: 12.99,
     packagingCostCad: 0.10,
-    claims: "Healthy, convenient, snack size",
-    channel: "Planned OHME format",
-    notes: "Han note: all snack bags are 130 mm W x 155 mm H. Packaging cost is roughly CAD 0.10 per bag.",
+    salesSignal: "Amazon.ca screenshot shows 50+ bought in the past month, 4.4 rating from 12 reviews, CAD $12.99 for 44g, and CAD $25.98 for the 2-pack option",
+    claims: "Made in Canada, freeze-dried strawberry yogurt crunch, probiotic, no added sugar, vegetarian, snack size",
+    channel: "Amazon.ca / Han package note",
+    notes: "Han note: all snack bags are 130 mm W x 155 mm H and cost roughly CAD 0.10 per bag. Amazon.ca screenshot shows CAD $12.99 for 44g, CAD $29.52 per 100g, and a 2-pack option at CAD $25.98.",
   },
   {
     id: "ohme-regular",
@@ -1156,11 +1157,11 @@ function StrategySection() {
   const cards = [
     {
       title: "Small pouch",
-      text: "Use the 130 mm x 155 mm pouch for campus, office, gym, vending, convenience stores, and trial. This recommendation comes from the small-unit competitor pattern and portion-control evidence.",
+      text: "Use the 130 mm x 155 mm pouch for campus, office, gym, vending, convenience stores, and trial. Amazon.ca gives a current OHME benchmark: 44g at CAD $12.99, or CAD $29.52 per 100g.",
     },
     {
       title: "Multipack",
-      text: "Test 6/8/12-pack snack pouch options. The 8-pack should be the first survey/pilot option because Quest uses an 8-count box and many competitors sell small units inside a larger pack.",
+      text: "Test 6/8/12-pack snack pouch options. Keep the same 44g pouch, then test whether a bundle lowers the purchase barrier versus buying one CAD $12.99 pouch at a time.",
     },
     {
       title: "Regular pouch",
@@ -1184,11 +1185,51 @@ function StrategySection() {
   );
 }
 
+function PackageSuggestionNotes() {
+  const notes = [
+    {
+      title: "Main suggestion",
+      text: "Keep the 44g snack pouch as the trial/on-the-go format, then test 6-pack, 8-pack, and 12-pack bundles as value formats. This keeps OHME!'s small-package convenience while giving shoppers a lower price-per-bag reason to buy more than one.",
+    },
+    {
+      title: "Why this follows from OHME data",
+      text: "Amazon.ca shows the 44g snack pouch at CAD $12.99, CAD $29.52 per 100g, and 50+ bought in the past month. That gives Han a current OHME price and demand signal to compare against competitor multipacks.",
+    },
+    {
+      title: "Why this follows from competitor data",
+      text: "Quest uses an 8-count protein-chip box, PopCorners sells 15 x 18g bags with a visible Walmart Canada demand signal, MadeGood uses 24g individual bags, and That's it. sells 24 x 20g mini fruit bars. The pattern is small units inside larger packs.",
+    },
+    {
+      title: "How to validate before launch",
+      text: "Use the survey and a small pilot to test total price, price per gram, pack count, occasion, waste concern, and hand-packed wording. Public sources support a test, but they do not prove exact sales by package size.",
+    },
+  ];
+
+  return h("section", { className: "strategy-section" },
+    h("div", { className: "section-head compact" },
+      h("div", null,
+        h("h2", null, "Package suggestion summary"),
+        h("p", null, "These notes explain the recommendation in a way Han can trace back to OHME's Amazon signal, competitor package formats, and package-size research.")
+      )
+    ),
+    h("div", { className: "evidence-list" },
+      notes.map((item) => h("article", { key: item.title, className: "evidence-item" },
+        h("strong", null, item.title),
+        h("p", null, item.text)
+      ))
+    )
+  );
+}
+
 function EvidenceChainSection() {
   const evidence = [
     {
       title: "Han package note",
       text: "OHME! snack pouch is 130W x 155H mm with about CAD 0.10 bag cost. Regular pouches are larger and about CAD 0.50 per bag. This creates two different package roles: portable/trial and home/stock-up.",
+    },
+    {
+      title: "OHME Amazon snack-pouch benchmark",
+      text: "Amazon.ca shows the 44g Strawberry Yogurt Crunch snack pouch at CAD $12.99, CAD $29.52 per 100g, CAD $25.98 for the 2-pack option, and 50+ bought in the past month. This sets OHME's current snack-pouch price and demand baseline.",
     },
     {
       title: "Quest + better-for-you sales signal",
@@ -1316,6 +1357,7 @@ function App() {
       ),
 
       h(StrategySection),
+      h(PackageSuggestionNotes),
       h(EvidenceChainSection),
 
       h(CompetitorMatrixSection, { competitors }),
