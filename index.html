@@ -518,6 +518,20 @@ textarea {
   line-height: 1.45;
 }
 
+.retailer-card p + p {
+  margin-top: 8px;
+}
+
+.retailer-label {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 .evidence-note {
   margin-top: 12px;
   padding: 10px 12px;
@@ -855,6 +869,122 @@ const starterCompetitors = [
     channel: "That's it. official page",
     comparison: "Closest simple-fruit bar competitor. Useful for Han because it sells fruit-based convenience through small units and multipacks.",
     notes: "Price is an approximate CAD conversion from the official USD 21.99 24-count mini variety pack. Individual bar dimensions are a working estimate.",
+  },
+  {
+    id: "ld-quest-ranch",
+    brand: "Quest",
+    product: "Tortilla Style Protein Chips - Ranch",
+    category: "High-protein chips at London Drugs",
+    widthMm: 130,
+    heightMm: 185,
+    depthMm: 45,
+    weightG: 32,
+    packCount: 1,
+    priceCad: 5.49,
+    salesSignal: "London Drugs official page shows CAD $5.49, ship-to-home/store pickup options, and no public unit-sales data",
+    claims: "Protein chips, ranch flavor, portable single bag",
+    channel: "London Drugs official product page",
+    comparison: "Useful London Drugs shelf benchmark. It is cheaper per unit than OHME!'s 44g snack pouch, so OHME! needs a clearer fruit/yogurt and no-added-sugar reason for the higher price.",
+    notes: "Retailer page confirms 32g and CAD $5.49. Physical pouch dimensions are a working estimate for visualization.",
+  },
+  {
+    id: "uf-quest-cookie-dough",
+    brand: "Quest",
+    product: "Protein Bar - Chocolate Chip Cookie Dough",
+    category: "Protein bar at Urban Fare",
+    widthMm: 145,
+    heightMm: 55,
+    depthMm: 16,
+    weightG: 60,
+    packCount: 1,
+    priceCad: 6.29,
+    salesSignal: "Urban Fare official page shows CAD $6.29, CAD $10.48/100g, and an often-bought-with panel; no exact unit sales",
+    claims: "Very high fibre, 21g protein, 1g sugar",
+    channel: "Urban Fare official product page",
+    comparison: "Shows how a functional snack uses protein, fibre, and low sugar to justify a premium single unit in a grocery channel.",
+    notes: "Official page confirms 60g, CAD $6.29, and CAD $10.48/100g. Wrapper dimensions are a working estimate.",
+  },
+  {
+    id: "loblaws-madegood-strawberry",
+    brand: "MadeGood",
+    product: "Strawberry Granola Bites 5pk",
+    category: "School-safe granola bites at Loblaws",
+    widthMm: 120,
+    heightMm: 135,
+    depthMm: 32,
+    weightG: 24,
+    packCount: 5,
+    priceCad: 3.99,
+    salesSignal: "Loblaws official page shows CAD $3.99, CAD $16.62/100g, and in-stock status at one store; no exact unit sales",
+    claims: "Organic, gluten free, nut free, vegan, non-GMO, individually wrapped",
+    channel: "Loblaws official product page",
+    comparison: "Direct benchmark for small individual snack packs. It sets a much lower absolute price than OHME!, so OHME! should test whether shoppers accept a premium for freeze-dried fruit/yogurt.",
+    notes: "Retailer page describes 5 individually wrapped 24g packs. Physical pouch dimensions are a working estimate.",
+  },
+  {
+    id: "loblaws-kind-minis",
+    brand: "KIND",
+    product: "Minis Nuts, Sea Salt & Dark Chocolate Bar",
+    category: "Mini nut bars at Loblaws",
+    widthMm: 118,
+    heightMm: 42,
+    depthMm: 14,
+    weightG: 20,
+    packCount: 10,
+    priceCad: 10.00,
+    salesSignal: "Loblaws search page shows CAD $10.00 and CAD $5.00/100g for the 200g mini-bar format; no exact unit sales",
+    claims: "Mini portion, nuts, dark chocolate, portable multipack",
+    channel: "Loblaws official search/product listing",
+    comparison: "Useful mass-grocery value benchmark. Small units inside a larger box lower the per-unit commitment and make the pack easier to repeat-buy.",
+    notes: "Loblaws listing confirms 200g total and CAD $10.00. Assumes 10 x 20g mini bars for package visualization.",
+  },
+  {
+    id: "wfm-365-freeze-dried-strawberry",
+    brand: "365 by Whole Foods Market",
+    product: "Freeze Dried Strawberry Slices",
+    category: "Freeze-dried fruit at Whole Foods Market",
+    widthMm: 130,
+    heightMm: 170,
+    depthMm: 35,
+    weightG: 34,
+    packCount: 1,
+    priceCad: null,
+    salesSignal: "Whole Foods Market page confirms 1.2 oz / 34g and pack-of-1 or pack-of-4 options; store-specific price and unit sales are not public",
+    claims: "Freeze-dried strawberry slices, no sugar added, vegan, non-GMO ingredients",
+    channel: "Whole Foods Market official product page",
+    comparison: "Closest clean freeze-dried fruit retail benchmark. It supports using OHME!'s real-fruit and no-added-sugar cues, but OHME! still needs retailer sell-through data to judge sales by package size.",
+    notes: "Official page confirms 34g serving and pack-of-1/pack-of-4 options. Physical pouch dimensions are a working estimate.",
+  },
+];
+
+const retailerLaunchFindings = [
+  {
+    retailer: "London Drugs",
+    ohmeSignal: "Official page lists OHME! Yogurt Crunch variants at 44g. The checked Blueberry variant shows CAD $8.99 advertised price, regular CAD $12.99, ship-to-store/home options, and a maximum order quantity of 10.",
+    competitorSignal: "Quest Tortilla Style Protein Chips - Ranch: 32g at CAD $5.49. Other visible benchmarks include KIND 40g bars and MadeGood 5 x 37g granola bites.",
+    salesSignal: "No exact unit sales shown. Public signal is price, promo, availability, and order-limit information.",
+    implication: "Drugstore placement makes the snack pouch a trial and grab-and-go format. OHME! should explain why a 44g fruit/yogurt pouch deserves a higher unit price than protein chips or bars.",
+  },
+  {
+    retailer: "Urban Fare",
+    ohmeSignal: "Official pages show OHME! 44g yogurt crunch at CAD $14.49 / CAD $32.93 per 100g and OHME! 56g fruit pouches at CAD $13.99 / CAD $24.98 per 100g.",
+    competitorSignal: "Quest 60g protein bar: CAD $6.29 / CAD $10.48 per 100g. Other visible snack benchmarks include Nora seaweed snacks, Moon Cheese, jerky, and Old Dutch formats.",
+    salesSignal: "No exact unit sales shown. Public signal is price, price per 100g, stock status, add-to-cart availability, and sometimes often-bought-with placement.",
+    implication: "Premium grocery can carry OHME!'s high price per 100g, but the package needs a clear occasion: small pouch for trial/on-the-go, larger fruit pouch for take-home snacking.",
+  },
+  {
+    retailer: "Whole Foods Market",
+    ohmeSignal: "A public OHME! listing was not found in the Whole Foods online catalog during this check. Treat OHME! availability here as company/store-confirmed until a public listing is visible.",
+    competitorSignal: "365 Freeze Dried Strawberry Slices: 1.2 oz / 34g, pack-of-1 and pack-of-4 options. Natierra also shows small freeze-dried fruit packs in the same broad clean-snack space.",
+    salesSignal: "No exact unit sales shown. Store-specific price and availability may require a selected store.",
+    implication: "Whole Foods is useful for clean-ingredient and freeze-dried fruit benchmarking. For decisions, ask Han or the retailer for sell-through by SKU and pack size.",
+  },
+  {
+    retailer: "Loblaws",
+    ohmeSignal: "Exact OHME! public product listing was not found through the Loblaws public search during this check. Treat Loblaws availability as company/store-confirmed until the public listing can be opened.",
+    competitorSignal: "MadeGood Strawberry Granola Bites 5pk: 5 x 24g at CAD $3.99 / CAD $16.62 per 100g. KIND Minis 200g: CAD $10.00 / CAD $5.00 per 100g. KIND 12 x 40g bars: CAD $24.99 / CAD $5.21 per 100g.",
+    salesSignal: "No exact unit sales shown. Public signal is price, price per 100g, stock status, sale tags, and out-of-stock tags.",
+    implication: "Mass grocery creates stronger value pressure than premium grocery. OHME! should keep the snack pouch for trial but test 6/8/12-pack bundles to lower the per-bag barrier.",
   },
 ];
 
@@ -1200,6 +1330,10 @@ function PackageSuggestionNotes() {
       text: "Quest uses an 8-count protein-chip box, PopCorners sells 15 x 18g bags with a visible Walmart Canada demand signal, MadeGood uses 24g individual bags, and That's it. sells 24 x 20g mini fruit bars. The pattern is small units inside larger packs.",
     },
     {
+      title: "Why the new retail listings matter",
+      text: "London Drugs and Urban Fare show OHME! on retail pages with 44g and 56g formats. Loblaws and Whole Foods competitor pages show small single packs and larger value packs. This supports testing snack-pouch trial, regular-pouch take-home, and multipack value roles.",
+    },
+    {
       title: "How to validate before launch",
       text: "Use the survey and a small pilot to test total price, price per gram, pack count, occasion, waste concern, and hand-packed wording. Public sources support a test, but they do not prove exact sales by package size.",
     },
@@ -1217,6 +1351,29 @@ function PackageSuggestionNotes() {
         h("strong", null, item.title),
         h("p", null, item.text)
       ))
+    )
+  );
+}
+
+function RetailerLaunchSection() {
+  return h("section", { className: "strategy-section" },
+    h("div", { className: "section-head compact" },
+      h("div", null,
+        h("h2", null, "Canadian retailer launch evidence"),
+        h("p", null, "These retailer checks add Canadian shelf context for OHME!'s package-size work. Public retailer pages usually show price, promo, availability, stock status, or order limits; they do not usually show exact unit sales by package size.")
+      )
+    ),
+    h("div", { className: "evidence-list" },
+      retailerLaunchFindings.map((row) => h("article", { key: row.retailer, className: "evidence-item retailer-card" },
+        h("strong", null, row.retailer),
+        h("p", null, h("span", { className: "retailer-label" }, "OHME! package / price signal"), row.ohmeSignal),
+        h("p", null, h("span", { className: "retailer-label" }, "Competitor package / price signal"), row.competitorSignal),
+        h("p", null, h("span", { className: "retailer-label" }, "Public sales signal"), row.salesSignal),
+        h("p", null, h("span", { className: "retailer-label" }, "Implication for OHME!"), row.implication)
+      ))
+    ),
+    h("p", { className: "evidence-note" },
+      "Use this section as public evidence for package and price context. For exact sales by retailer and package size, ask Han or the buyer team for sell-through, velocity, or reorder data."
     )
   );
 }
@@ -1242,6 +1399,10 @@ function EvidenceChainSection() {
     {
       title: "MadeGood and That's it.",
       text: "MadeGood uses 24g individual bags and That's it. sells 24 x 20g mini fruit bars. These are close benchmarks for OHME!'s small pouch, lunchbox, office, workout, and on-the-go occasions.",
+    },
+    {
+      title: "Canadian retailer launch signal",
+      text: "London Drugs and Urban Fare public pages show OHME! 44g yogurt crunch and 56g fruit pouches with retail prices. Loblaws and Whole Foods pages show competitor small packs and multipacks. These are price, stock, and shelf-context signals, not exact sales by size.",
     },
     {
       title: "Package-size behavior research",
@@ -1358,6 +1519,7 @@ function App() {
 
       h(StrategySection),
       h(PackageSuggestionNotes),
+      h(RetailerLaunchSection),
       h(EvidenceChainSection),
 
       h(CompetitorMatrixSection, { competitors }),
