@@ -6,15 +6,19 @@
     <title>OHME! Package Size Comparator</title>
     <style>
 :root {
-  --ink: #1f2933;
-  --muted: #667481;
-  --line: #d7dee5;
-  --surface: #f5f7f8;
+  --ink: #211f1d;
+  --muted: #6c625e;
+  --line: #eadbd5;
+  --surface: #fff7f3;
   --panel: #ffffff;
-  --blue: #1c5a6e;
-  --blue-soft: #dceff4;
-  --green: #2c765a;
-  --green-soft: #e1f1e9;
+  --brand-red: #d2291f;
+  --brand-red-dark: #a91812;
+  --brand-cream: #fff1e8;
+  --brand-pink: #ffe4df;
+  --blue: #245f73;
+  --blue-soft: #e1f1f5;
+  --green: #23745b;
+  --green-soft: #dff3e9;
   --orange: #b06b2f;
   --orange-soft: #f5e6d6;
   --costco-red: #b3202a;
@@ -31,7 +35,8 @@
 
 body {
   margin: 0;
-  background: var(--surface);
+  background:
+    linear-gradient(180deg, #fff9f5 0%, #fff3ee 48%, #f7fbfb 100%);
   color: var(--ink);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -53,17 +58,20 @@ button {
 
 .topbar {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 440px);
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 24px;
-  align-items: end;
-  padding: 28px 32px 22px;
-  background: #ffffff;
+  align-items: center;
+  padding: 24px 32px 18px;
+  background: #fffdfb;
   border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .eyebrow {
   margin: 0 0 7px;
-  color: var(--blue);
+  color: var(--brand-red);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0;
@@ -79,7 +87,7 @@ p {
 
 h1 {
   margin-bottom: 0;
-  font-size: 30px;
+  font-size: 32px;
   line-height: 1.12;
   letter-spacing: 0;
 }
@@ -96,15 +104,154 @@ h3 {
 
 .top-note {
   padding: 12px 14px;
-  border-left: 4px solid var(--blue);
-  background: #edf5f7;
+  border-left: 4px solid var(--brand-red);
+  background: var(--brand-cream);
   color: #344250;
   font-size: 14px;
   line-height: 1.4;
 }
 
 main {
-  padding: 24px 32px 36px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 32px 40px;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--brand-red);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.brand-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--brand-red);
+  box-shadow: 18px 0 0 #f1c7bb, 36px 0 0 #f4d86a;
+}
+
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  max-width: 760px;
+}
+
+.nav-btn {
+  min-height: 36px;
+  border: 1px solid #efc8c0;
+  border-radius: 999px;
+  background: #fff8f4;
+  color: #5a3e38;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.nav-btn.active {
+  border-color: var(--brand-red);
+  background: var(--brand-red);
+  color: #ffffff;
+}
+
+.page-shell {
+  display: grid;
+  gap: 18px;
+}
+
+.page-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 18px;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffdfb;
+  padding: 18px;
+}
+
+.page-intro h2 {
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
+.page-intro p {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.48;
+}
+
+.quick-read {
+  border: 1px solid #efc8c0;
+  border-radius: 8px;
+  background: var(--brand-cream);
+  padding: 14px;
+}
+
+.quick-read strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--brand-red-dark);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.summary-card {
+  min-height: 150px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 16px;
+}
+
+.summary-card h3 {
+  color: var(--brand-red);
+  font-size: 15px;
+}
+
+.summary-card p {
+  color: #433a36;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.callout-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.callout-pill {
+  border: 1px solid #efc8c0;
+  border-radius: 8px;
+  background: #fffaf7;
+  padding: 12px;
+}
+
+.callout-pill span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.callout-pill strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink);
+  font-size: 17px;
 }
 
 .toolbar,
@@ -177,8 +324,8 @@ textarea {
 }
 
 .primary-btn {
-  border-color: var(--blue);
-  background: var(--blue);
+  border-color: var(--brand-red);
+  background: var(--brand-red);
   color: #ffffff;
 }
 
@@ -275,8 +422,10 @@ textarea {
 }
 
 .package-shape.ohme {
-  border-color: var(--green);
-  background: linear-gradient(135deg, #f8fcf9 0%, #ddefe4 100%);
+  border-color: var(--brand-red);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(255,228,223,0.9) 100%),
+    repeating-linear-gradient(45deg, rgba(210,41,31,0.08) 0 18px, rgba(210,41,31,0.02) 18px 36px);
 }
 
 .package-shape.competitor {
@@ -485,7 +634,7 @@ textarea {
 }
 
 .strategy-card h3 {
-  color: var(--blue);
+  color: var(--brand-red);
 }
 
 .strategy-card p {
@@ -513,6 +662,35 @@ textarea {
   margin-bottom: 5px;
   color: var(--blue);
   font-size: 13px;
+}
+
+.amazon-section {
+  border: 2px solid #ffb8aa;
+  background: linear-gradient(180deg, #fffdfb 0%, #fff4ef 100%);
+}
+
+.amazon-kicker {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #232f3e;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.amazon-section h2,
+.amazon-section h3 {
+  color: #232f3e;
+}
+
+.amazon-section .evidence-note {
+  border-left-color: var(--brand-red);
+  background: #ffe8e2;
 }
 
 .evidence-item p {
@@ -760,6 +938,9 @@ td textarea {
 
 @media (max-width: 920px) {
   .topbar, 
+  .page-intro,
+  .summary-grid,
+  .callout-strip,
   .toolbar, 
   .detail-grid, 
   .strategy-grid,
@@ -1083,6 +1264,57 @@ const starterCompetitors = [
     comparison: "Closest clean freeze-dried fruit retail benchmark. It supports using OHME!'s real-fruit and no-added-sugar cues, but OHME! still needs retailer sell-through data to judge sales by package size.",
     notes: "Official page confirms 34g serving and pack-of-1/pack-of-4 options. Physical pouch dimensions are a working estimate.",
   },
+  {
+    id: "crispy-green-trial-pack",
+    brand: "Crispy Green",
+    product: "Crispy Fruit Assorted Trial Pack",
+    category: "Direct freeze-dried fruit",
+    widthMm: 120,
+    heightMm: 150,
+    depthMm: 25,
+    weightG: 15,
+    packCount: 4,
+    priceCad: null,
+    salesSignal: "Official/retailer pages confirm a Grab-and-Go 4-pack with four individual freeze-dried fruit bags; Amazon retailer signal checked for larger 12-count formats, but exact package-size sales are not public.",
+    claims: "100% freeze-dried fruit, no added sugar, gluten free, dairy free, vegan, peanut free",
+    channel: "Crispy Green official / retailer listings",
+    comparison: "Direct product-form benchmark. It shows that freeze-dried fruit competitors already use trial-size variety packs, so OHME! should test variety bundles without treating bars and chips as the only benchmark.",
+    notes: "Individual pouch dimensions are a working estimate. The trial pack contains 12g-18g single bags depending on flavour.",
+  },
+  {
+    id: "brothers-fuji-apple-crisps",
+    brand: "Brothers All Natural",
+    product: "Fuji Apple Fruit Crisps",
+    category: "Direct freeze-dried fruit",
+    widthMm: 115,
+    heightMm: 150,
+    depthMm: 22,
+    weightG: 10,
+    packCount: 12,
+    priceCad: 30.10,
+    salesSignal: "Target lists 12 x 10g bags; Amazon showed a 24-count listing with a 600+ bought-in-past-month retailer signal when checked.",
+    claims: "Made with 100% fruit, gluten free, soy free, vegan, lunch-box ready",
+    channel: "Target / Amazon retailer listings",
+    comparison: "Direct freeze-dried fruit case-count benchmark. It supports testing 6/8/12 packs because the closest format competitors already sell small single-serve fruit pouches in bundles.",
+    notes: "CAD price is an approximate conversion from Target's USD 21.99 12-count listing. Physical pouch dimensions are a working estimate.",
+  },
+  {
+    id: "natierra-freeze-dried-strawberry",
+    brand: "Natierra",
+    product: "Organic Freeze-Dried Strawberries",
+    category: "Direct freeze-dried fruit",
+    widthMm: 130,
+    heightMm: 170,
+    depthMm: 35,
+    weightG: 23,
+    packCount: 1,
+    priceCad: 6.84,
+    salesSignal: "Kroger showed a 0.8 oz pouch at USD $4.99 sale price from USD $5.99 when checked; exact unit sales are not public.",
+    claims: "Organic, vegan, no sugar added, excellent source of vitamin C, non-GMO Project verified",
+    channel: "Kroger / Natierra retailer listings",
+    comparison: "Direct premium freeze-dried fruit price anchor below OHME!'s 44g Amazon price. OHME! needs to test whether yogurt crunch, probiotic, Made in Canada, and larger portion justify the premium.",
+    notes: "CAD price is an approximate conversion from Kroger's USD $4.99 sale price. Physical pouch dimensions are a working estimate.",
+  },
 ];
 
 const retailerLaunchFindings = [
@@ -1138,6 +1370,104 @@ const costcoHanBundleNotes = [
   {
     title: "Survey item to add",
     text: "Ask customers what products they want OHME! to add in the future, and test bundle preference by showing 6-pack, 8-pack, and 12-pack options with clear total price and price-per-bag information.",
+  },
+];
+
+const amazonBundleFindings = [
+  {
+    brand: "OHME!",
+    product: "Strawberry Yogurt Crunch",
+    format: "Single 44g pouch and 2-pack option",
+    price: "CAD $12.99 single; CAD $25.98 2-pack",
+    unitSignal: "CAD $29.52 / 100g; Amazon screenshot showed 50+ bought in past month",
+    strategicRead: "Use this as OHME!'s current Amazon entry point. The single pouch is clear for trial, but repeat purchase needs a bundle, deal, or subscription story.",
+    sourceLabel: "OHME Amazon.ca listing/screenshot",
+    sourceUrl: "https://www.amazon.ca/",
+  },
+  {
+    brand: "Origo",
+    product: "Freeze-Dried Strawberry",
+    format: "6 x 20g pouches",
+    price: "CAD $43.14",
+    unitSignal: "CAD $7.19 per pouch; Subscribe & Save shown down to CAD $36.67 / CAD $6.11 per pouch",
+    strategicRead: "Closest Amazon.ca freeze-dried fruit bundle benchmark. It supports testing a 6-pack OHME bundle and a subscription discount.",
+    sourceLabel: "Amazon.ca Origo Strawberry 6-pack",
+    sourceUrl: "https://www.amazon.ca/Origo-Freeze-Dried-Strawberry-Healthy-Preservatives/dp/B0DJMTB2N9",
+  },
+  {
+    brand: "Origo",
+    product: "Very Berry Pack",
+    format: "6 assorted freeze-dried fruit bags",
+    price: "CAD $39.99",
+    unitSignal: "CAD $6.67 per pouch; low-stock retailer signal when checked",
+    strategicRead: "Variety pack benchmark. OHME! can test whether mixed-flavour bundles outperform single-flavour bundles.",
+    sourceLabel: "Amazon.ca Origo Very Berry Pack",
+    sourceUrl: "https://www.amazon.ca/Origo-Berry-Assorted-Freeze-Dried/dp/B0F1C9TD1G",
+  },
+  {
+    brand: "Origo",
+    product: "Strawberry Freeze-Dried Froyo Crunchies",
+    format: "1 x 30g pouch",
+    price: "CAD $8.49",
+    unitSignal: "CAD $28.30 / 100g; Amazon also shows related Origo froyo flavours and OHME in bought-together context",
+    strategicRead: "Direct yogurt-crunch style benchmark. OHME!'s CAD $29.52 / 100g is close by price per 100g, but OHME!'s CAD $12.99 absolute price is higher, so bundle or trial framing matters.",
+    sourceLabel: "Amazon.ca Origo Froyo Crunchies",
+    sourceUrl: "https://www.amazon.ca/Origo-Strawberry-Freeze-Dried-Crunchies-Grass-Fed/dp/B0GJG3BCG1",
+  },
+  {
+    brand: "Quest",
+    product: "Nacho Cheese Protein Chips",
+    format: "8 x 32g bags",
+    price: "CAD $32.38 benchmark; deal price also appeared in Amazon result",
+    unitSignal: "Pack-of-8 protein-snack case; Amazon shows related Quest pack formats",
+    strategicRead: "Supports the 8-pack idea for Amazon because functional snacks often sell as small single-serve bags inside a value case.",
+    sourceLabel: "Amazon.ca Quest 8-count",
+    sourceUrl: "https://www.amazon.ca/Quest-Nutrition-Flavour-Tortilla-Protein/dp/B083PZKRXM",
+  },
+  {
+    brand: "SmartSweets",
+    product: "Peach Rings",
+    format: "12 x 50g bags",
+    price: "CAD $44.99",
+    unitSignal: "CAD $7.50 / 100g; 500+ bought in past month when checked",
+    strategicRead: "Low-sugar sweet benchmark. SmartSweets uses larger cases and much lower price per gram, so OHME! needs a clear fruit/yogurt/probiotic reason for premium pricing.",
+    sourceLabel: "Amazon.ca SmartSweets Peach Rings 12-pack",
+    sourceUrl: "https://www.amazon.ca/SmartSweets-Low-Sugar-Low-Calories-Artificial-Sweeteners/dp/B07VDMBGVD",
+  },
+  {
+    brand: "MadeGood",
+    product: "Granola Bites Variety Pack",
+    format: "28 x 24g bags",
+    price: "CAD $23.99",
+    unitSignal: "CAD $3.57 / 100g; 100+ bought in past week when checked",
+    strategicRead: "Large-count lunchbox benchmark. It is not a direct product substitute, but it shows why parents and repeat buyers may expect value cases on Amazon.",
+    sourceLabel: "Amazon.ca MadeGood 28-count",
+    sourceUrl: "https://www.amazon.ca/MadeGood-Granola-Minis-Count-Chocolate/dp/B089KP5915",
+  },
+  {
+    brand: "That's it.",
+    product: "Mini Fruit Bars Variety",
+    format: "24-count variety pack",
+    price: "CAD $26.99",
+    unitSignal: "CAD $1.12 per count; 2K+ bought in past month when checked",
+    strategicRead: "Fruit-based Amazon benchmark with a strong visible demand signal. It supports variety packs and small-unit convenience, though the format is a bar rather than freeze-dried fruit.",
+    sourceLabel: "Amazon.ca That's it. 24-count",
+    sourceUrl: "https://www.amazon.ca/Thats-Plant-Based-Breakfast-Blueberry-Strawberry/dp/B09852QCLD",
+  },
+];
+
+const amazonBundleSummary = [
+  {
+    title: "Direct freeze-dried Amazon pattern",
+    text: "Origo sells 6-pack freeze-dried fruit bundles and single 30g froyo crunch pouches. This is the closest Amazon benchmark for OHME!: small premium pouches, high price per gram, and a subscription/deal mechanism.",
+  },
+  {
+    title: "Broader Amazon snack pattern",
+    text: "Quest, MadeGood, SmartSweets, and That's it. use 8, 12, 24, and 28-count cases. These brands are not all direct product substitutes, but they show how Amazon shoppers see value through count, per-unit price, and repeat-use occasions.",
+  },
+  {
+    title: "What OHME! should test",
+    text: "Keep the single 44g pouch for discovery, then test a 6-pack variety bundle and an 8-pack value bundle on Amazon. The survey should ask whether lower per-pouch price changes buying interest.",
   },
 ];
 
@@ -1547,7 +1877,7 @@ function CompetitorMatrixSection({ competitors }) {
     h("div", { className: "section-head compact" },
       h("div", null,
         h("h2", null, "Competitor Matrix"),
-        h("p", null, "Use this view to present the package, price, sales signal, claims, channel, and direct comparison against OHME! in one place.")
+        h("p", null, "Use this view in two passes: direct freeze-dried fruit/yogurt competitors first, then broader healthy-snack benchmarks for price, claims, channels, and bundle behaviour.")
       )
     ),
     h("div", { className: "matrix-table-wrap" },
@@ -1615,6 +1945,10 @@ function StrategySection() {
 function PackageSuggestionNotes() {
   const notes = [
     {
+      title: "So what",
+      text: "The matrix supports a two-lane competitor read. Direct freeze-dried fruit brands explain product-form fit; broader healthy snack brands explain price, claims, channel, and bundle strategy. The conclusion is not that OHME! should copy bars or chips. The conclusion is that OHME! should protect the 44g trial pouch, keep the regular pouch for stock-up, and test multipacks to lower the repeat-purchase barrier.",
+    },
+    {
       title: "Main suggestion",
       text: "Keep two package roles: 44g snack pouch for trial/on-the-go, and regular pouch for home/stock-up. Add a multipack test instead of replacing either current format.",
     },
@@ -1625,6 +1959,10 @@ function PackageSuggestionNotes() {
     {
       title: "Why this follows from competitor data",
       text: "Quest uses an 8-count protein-chip box, PopCorners sells 15 x 18g bags with a visible Walmart Canada demand signal, MadeGood uses 24g individual bags, That's it. sells 24 x 20g mini fruit bars, and SmartSweets sells 50g low-sugar candy pouches with visible Walmart Canada demand signals. The pattern is small units for convenience, often supported by multipack value.",
+    },
+    {
+      title: "What direct freeze-dried competitors add",
+      text: "Crispy Green uses a 4-pack trial format, Brothers All Natural sells 10g fruit crisps in 12-count and 24-count bundles, Natierra sells small premium freeze-dried strawberry pouches, and 365 by Whole Foods Market lists 34g freeze-dried strawberry packs. These are closer product-form benchmarks than granola bars or chips, and they support testing smaller single-serve fruit/yogurt pouches inside value bundles.",
     },
     {
       title: "What SmartSweets adds",
@@ -1679,6 +2017,47 @@ function RetailerLaunchSection() {
     ),
     h("p", { className: "evidence-note" },
       "Use this section as public evidence for package and price context. For exact sales by retailer and package size, ask Han or the buyer team for sell-through, velocity, or reorder data."
+    )
+  );
+}
+
+function AmazonBundleSection() {
+  return h("section", { className: "strategy-section amazon-section" },
+    h("div", { className: "section-head compact" },
+      h("div", null,
+        h("span", { className: "amazon-kicker" }, "Amazon bundle strategy"),
+        h("h2", null, "Amazon.ca bundle and pricing benchmark"),
+        h("p", null, "This page separates direct Amazon freeze-dried benchmarks from broader healthy-snack pack-count benchmarks. Use it to discuss whether OHME! should test a 6-pack, 8-pack, subscription discount, or mixed-flavour bundle on Amazon.")
+      )
+    ),
+    h("div", { className: "strategy-grid" },
+      amazonBundleSummary.map((item) => h("article", { key: item.title, className: "strategy-card" },
+        h("h3", null, item.title),
+        h("p", null, item.text)
+      ))
+    ),
+    h("div", { className: "matrix-table-wrap" },
+      h("table", { className: "matrix-table" },
+        h("thead", null,
+          h("tr", null,
+            ["Brand / Product", "Amazon format", "Price", "Unit or sales signal", "Strategic read", "Source"]
+              .map((label) => h("th", { key: label }, label))
+          )
+        ),
+        h("tbody", null,
+          amazonBundleFindings.map((row) => h("tr", { key: `${row.brand}-${row.product}` },
+            h("td", null, h("strong", null, row.brand), h("span", null, row.product)),
+            h("td", null, row.format),
+            h("td", null, row.price),
+            h("td", null, row.unitSignal),
+            h("td", { className: "comparison-cell" }, row.strategicRead),
+            h("td", null, h("a", { href: row.sourceUrl, target: "_blank", rel: "noreferrer" }, row.sourceLabel))
+          ))
+        )
+      )
+    ),
+    h("p", { className: "evidence-note" },
+      "Current Amazon prices can change. Treat these as benchmark readings for package strategy, not fixed market prices. The strongest pattern is not one exact price; it is the repeated use of small pouches inside 6, 8, 12, 24, or 28-count bundles."
     )
   );
 }
@@ -1835,7 +2214,214 @@ function EvidenceChainSection() {
   );
 }
 
+const appPages = [
+  { id: "overview", label: "Overview" },
+  { id: "comparator", label: "Size Comparator" },
+  { id: "matrix", label: "Competitor Matrix" },
+  { id: "amazon", label: "Amazon Bundles" },
+  { id: "costco", label: "Costco" },
+  { id: "evidence", label: "Evidence" },
+  { id: "editor", label: "Data Editor" },
+];
+
+function AppNav({ activePage, setActivePage }) {
+  return h("nav", { className: "app-nav", "aria-label": "Comparator pages" },
+    appPages.map((page) => h("button", {
+      key: page.id,
+      className: `nav-btn${activePage === page.id ? " active" : ""}`,
+      onClick: () => setActivePage(page.id),
+    }, page.label))
+  );
+}
+
+function PageIntro({ title, text, quickRead }) {
+  return h("section", { className: "page-intro" },
+    h("div", null,
+      h("p", { className: "eyebrow" }, "OHME! package workbench"),
+      h("h2", null, title),
+      h("p", null, text)
+    ),
+    h("aside", { className: "quick-read" },
+      h("strong", null, "Quick read"),
+      h("p", null, quickRead)
+    )
+  );
+}
+
+function OverviewPage({ setActivePage }) {
+  const cards = [
+    {
+      title: "Why compare package size?",
+      text: "The goal is not to claim granola bars or chips are the same product as OHME!. The goal is to separate product-form competitors from packaging and value benchmarks.",
+    },
+    {
+      title: "Direct competitor lane",
+      text: "Freeze-dried fruit and yogurt-crunch products on Amazon help answer the substitute question: if OHME! is not available, what would customers buy instead?",
+    },
+    {
+      title: "Packaging strategy lane",
+      text: "Broader healthy snacks help explain bundle count, price per pouch, claims, and channel behaviour. Those are useful even when the product format differs.",
+    },
+  ];
+
+  return h("div", { className: "page-shell" },
+    h(PageIntro, {
+      title: "Package strategy dashboard",
+      text: "Use this version to present the work in a clearer order: start with the decision question, show package size visually, then move into competitor matrix, Amazon bundles, Costco bundles, and source-backed evidence.",
+      quickRead: "Recommended position: keep the 44g snack pouch for trial/on-the-go, keep the regular pouch for home/stock-up, and test 6-pack and 8-pack bundles by channel."
+    }),
+    h("section", { className: "callout-strip" },
+      h("article", { className: "callout-pill" }, h("span", null, "OHME trial pouch"), h("strong", null, "44g / CAD $12.99")),
+      h("article", { className: "callout-pill" }, h("span", null, "Costco reference"), h("strong", null, "6-pack / CAD $54.99")),
+      h("article", { className: "callout-pill" }, h("span", null, "Amazon test"), h("strong", null, "6-pack + 8-pack")),
+      h("article", { className: "callout-pill" }, h("span", null, "Survey logic"), h("strong", null, "Recent snack spend"))
+    ),
+    h("section", { className: "summary-grid" },
+      cards.map((card) => h("article", { key: card.title, className: "summary-card" },
+        h("h3", null, card.title),
+        h("p", null, card.text)
+      ))
+    ),
+    h("section", { className: "strategy-section" },
+      h("div", { className: "section-head compact" },
+        h("div", null,
+          h("h2", null, "Presentation flow for Han"),
+          h("p", null, "This order keeps the discussion focused on decisions, not on a long list of sources.")
+        )
+      ),
+      h("div", { className: "evidence-list" },
+        [
+          ["1. State the objective", "Compare package formats to decide which OHME! package roles to test: trial pouch, home pouch, 6-pack, 8-pack, or 12-pack."],
+          ["2. Separate competitor types", "Direct freeze-dried competitors answer substitute questions. Broader healthy snacks answer packaging, value, claims, and channel questions."],
+          ["3. Show the visual comparator", "Use the Size Comparator page to make size differences concrete before showing Excel-style evidence."],
+          ["4. End with survey changes", "Explain that survey questions now measure recent snack spend, substitute brands, expected store category, and bundle response."]
+        ].map(([title, text]) => h("article", { key: title, className: "evidence-item" },
+          h("strong", null, title),
+          h("p", null, text)
+        ))
+      ),
+      h("button", { className: "primary-btn", onClick: () => setActivePage("comparator") }, "Open size comparator")
+    )
+  );
+}
+
+function ComparatorPage(props) {
+  const {
+    selectedOhmeId,
+    setSelectedOhmeId,
+    competitors,
+    selectedCompetitor,
+    selectedCompetitorId,
+    setSelectedCompetitorId,
+    selectedOhme,
+    zoom,
+    setZoom,
+  } = props;
+  const scaleText = `Scale: 1 mm = ${(0.72 * zoom).toFixed(2)} px`;
+
+  return h("div", { className: "page-shell" },
+    h(PageIntro, {
+      title: "Visual package size comparator",
+      text: "Select an OHME! package and a competitor product to compare width and height at the same scale. This page is for visual explanation, not final package approval.",
+      quickRead: "Keep OHME!'s two current package references in the visual comparison. Treat 6/8/12-pack options as bundle strategy, not new pouch dimensions."
+    }),
+    h("section", { className: "toolbar", "aria-label": "Package controls" },
+      h("label", null,
+        "OHME! package size",
+        h("select", { value: selectedOhmeId, onChange: (e) => setSelectedOhmeId(e.target.value) },
+          ohmePackages.map((item) => h("option", { key: item.id, value: item.id }, `${item.product} — ${item.widthMm}W x ${item.heightMm}H mm`))
+        )
+      ),
+      h("label", null,
+        "Competitor product",
+        h("select", { value: selectedCompetitor.id, onChange: (e) => setSelectedCompetitorId(e.target.value) },
+          competitors.map((item) => h("option", { key: item.id, value: item.id }, `${item.brand} — ${item.product}`))
+        )
+      ),
+      h("label", null,
+        "Zoom",
+        h("div", { className: "zoom-group" },
+          h("button", {
+            className: "icon-btn",
+            "aria-label": "Zoom out",
+            onClick: () => setZoom((z) => Math.max(0.45, +(z - 0.15).toFixed(2))),
+          }, "-"),
+          h("span", { className: "zoom-value" }, `${Math.round(zoom * 100)}%`),
+          h("button", {
+            className: "icon-btn",
+            "aria-label": "Zoom in",
+            onClick: () => setZoom((z) => Math.min(2.2, +(z + 0.15).toFixed(2))),
+          }, "+")
+        )
+      ),
+      h("button", { className: "secondary-btn", onClick: () => setZoom(1) }, "Reset zoom")
+    ),
+    h("section", { className: "comparison-shell" },
+      h("div", { className: "scale-strip" },
+        h("span", null, "Front view compares width x height at the same scale."),
+        h("span", null, scaleText)
+      ),
+      h("div", { className: "comparison-stage" },
+        h(PackageCard, { item: selectedOhme, type: "ohme", zoom }),
+        h(PackageCard, { item: selectedCompetitor, type: "competitor", zoom })
+      ),
+      h(DifferenceNote, { ohme: selectedOhme, competitor: selectedCompetitor })
+    ),
+    h(CompetitorPicker, {
+      competitors,
+      selectedId: selectedCompetitorId,
+      setSelectedId: setSelectedCompetitorId,
+    }),
+    h("section", { className: "detail-grid" },
+      h(DetailPanel, { title: "OHME! package details", item: selectedOhme }),
+      h(DetailPanel, { title: "Competitor package details", item: selectedCompetitor })
+    )
+  );
+}
+
+function MatrixPage({ competitors }) {
+  return h("div", { className: "page-shell" },
+    h(PageIntro, {
+      title: "Competitor matrix",
+      text: "Read this matrix in two layers: direct freeze-dried competitors for substitute/product-form logic, and broader healthy snacks for package count, price, claims, and channel strategy.",
+      quickRead: "The competitor list is useful only when it is framed by purpose. Bars and chips are package/value benchmarks; freeze-dried fruit and yogurt-crunch products are closer substitutes."
+    }),
+    h(StrategySection),
+    h(PackageSuggestionNotes),
+    h(RetailerLaunchSection),
+    h(CompetitorMatrixSection, { competitors })
+  );
+}
+
+function EvidencePage() {
+  return h("div", { className: "page-shell" },
+    h(PageIntro, {
+      title: "Evidence chain",
+      text: "This page explains how the package strategy was built from Han's notes, current OHME! price signals, competitor formats, retailer signals, and package-behaviour research.",
+      quickRead: "Use it when Han asks how the recommendation was built, or when a supervisor asks the 'so what' question."
+    }),
+    h(EvidenceChainSection)
+  );
+}
+
+function EditorPage({ competitors, setCompetitors, selectedCompetitorId, setSelectedCompetitorId }) {
+  return h("div", { className: "page-shell" },
+    h(PageIntro, {
+      title: "Editable competitor data",
+      text: "Use this page only when adding or correcting a benchmark row. The presentation pages use the same data.",
+      quickRead: "Keep direct freeze-dried competitors and broad package/value benchmarks clearly labelled."
+    }),
+    h(EditableTable, {
+      rows: competitors,
+      setRows: setCompetitors,
+      selectedId: selectedCompetitorId,
+      setSelectedId: setSelectedCompetitorId,
+    })
+  );
+}
+
 function App() {
+  const [activePage, setActivePage] = useState("overview");
   const [selectedOhmeId, setSelectedOhmeId] = useState(ohmePackages[0].id);
   const [competitors, setCompetitors] = useState(starterCompetitors);
   const [selectedCompetitorId, setSelectedCompetitorId] = useState(starterCompetitors[0].id);
@@ -1850,89 +2436,50 @@ function App() {
     [competitors, selectedCompetitorId]
   );
 
-  const scaleText = `Scale: 1 mm = ${(0.72 * zoom).toFixed(2)} px`;
+  const pageProps = {
+    selectedOhmeId,
+    setSelectedOhmeId,
+    competitors,
+    setCompetitors,
+    selectedCompetitor,
+    selectedCompetitorId,
+    setSelectedCompetitorId,
+    selectedOhme,
+    zoom,
+    setZoom,
+  };
 
   return h("div", { className: "app" },
     h("header", { className: "topbar" },
       h("div", null,
-        h("p", { className: "eyebrow" }, "OHME! package size comparator"),
-        h("h1", null, "Compare OHME! package formats against competitor packs")
+        h("div", { className: "brand-mark" }, "OHME!", h("span", { className: "brand-dot", "aria-hidden": "true" })),
+        h("p", { className: "eyebrow" }, "package size comparator"),
+        h("h1", null, "Compare package size, value, and bundle strategy")
       ),
-      h("div", { className: "top-note" },
-        h("strong", null, "No image generation. "),
-        "This tool draws package rectangles with HTML/CSS/React from package dimensions."
-      )
+      h(AppNav, { activePage, setActivePage })
     ),
     h("main", null,
-      h("section", { className: "toolbar", "aria-label": "Package controls" },
-        h("label", null,
-          "OHME! package size",
-          h("select", { value: selectedOhmeId, onChange: (e) => setSelectedOhmeId(e.target.value) },
-            ohmePackages.map((item) => h("option", { key: item.id, value: item.id }, `${item.product} — ${item.widthMm}W x ${item.heightMm}H mm`))
-          )
-        ),
-        h("label", null,
-          "Competitor product",
-          h("select", { value: selectedCompetitor.id, onChange: (e) => setSelectedCompetitorId(e.target.value) },
-            competitors.map((item) => h("option", { key: item.id, value: item.id }, `${item.brand} — ${item.product}`))
-          )
-        ),
-        h("label", null,
-          "Zoom",
-          h("div", { className: "zoom-group" },
-            h("button", {
-              className: "icon-btn",
-              "aria-label": "Zoom out",
-              onClick: () => setZoom((z) => Math.max(0.45, +(z - 0.15).toFixed(2))),
-            }, "-"),
-            h("span", { className: "zoom-value" }, `${Math.round(zoom * 100)}%`),
-            h("button", {
-              className: "icon-btn",
-              "aria-label": "Zoom in",
-              onClick: () => setZoom((z) => Math.min(2.2, +(z + 0.15).toFixed(2))),
-            }, "+")
-          )
-        ),
-        h("button", { className: "secondary-btn", onClick: () => setZoom(1) }, "Reset zoom")
-      ),
-
-      h("section", { className: "comparison-shell" },
-        h("div", { className: "scale-strip" },
-          h("span", null, "Front view compares width x height at the same scale."),
-          h("span", null, scaleText)
-        ),
-        h("div", { className: "comparison-stage" },
-          h(PackageCard, { item: selectedOhme, type: "ohme", zoom }),
-          h(PackageCard, { item: selectedCompetitor, type: "competitor", zoom })
-        ),
-        h(DifferenceNote, { ohme: selectedOhme, competitor: selectedCompetitor })
-      ),
-
-      h(CompetitorPicker, {
-        competitors,
-        selectedId: selectedCompetitorId,
-        setSelectedId: setSelectedCompetitorId,
-      }),
-
-      h("section", { className: "detail-grid" },
-        h(DetailPanel, { title: "OHME! package details", item: selectedOhme }),
-        h(DetailPanel, { title: "Competitor package details", item: selectedCompetitor })
-      ),
-
-      h(StrategySection),
-      h(PackageSuggestionNotes),
-      h(RetailerLaunchSection),
-      h(CostcoHanBundleSection),
-      h(EvidenceChainSection),
-
-      h(CompetitorMatrixSection, { competitors }),
-
-      h(EditableTable, {
-        rows: competitors,
-        setRows: setCompetitors,
-        selectedId: selectedCompetitorId,
-        setSelectedId: setSelectedCompetitorId,
-      })
+      activePage === "overview" ? h(OverviewPage, { setActivePage }) : null,
+      activePage === "comparator" ? h(ComparatorPage, pageProps) : null,
+      activePage === "matrix" ? h(MatrixPage, { competitors }) : null,
+      activePage === "amazon" ? h("div", { className: "page-shell" },
+        h(PageIntro, {
+          title: "Amazon bundle strategy",
+          text: "This page focuses on pack count, pricing, and retailer signals from Amazon.ca. It links direct freeze-dried/yogurt-crunch substitutes with broader healthy-snack bundle patterns.",
+          quickRead: "Amazon is the strongest place to test mixed-flavour bundles, subscription discounts, and a lower repeat-purchase price per pouch."
+        }),
+        h(AmazonBundleSection)
+      ) : null,
+      activePage === "costco" ? h("div", { className: "page-shell" },
+        h(PageIntro, {
+          title: "Costco bundle strategy",
+          text: "This page keeps the Costco analysis separate because Costco uses case/value logic and Costco.ca pricing, not the same entry-price logic as single-pouch retail.",
+          quickRead: "Use 6-pack as the Costco/general retail reference, then compare whether an 8-pack makes more sense for Amazon."
+        }),
+        h(CostcoHanBundleSection)
+      ) : null,
+      activePage === "evidence" ? h(EvidencePage) : null,
+      activePage === "editor" ? h(EditorPage, pageProps) : null
     )
   );
 }
