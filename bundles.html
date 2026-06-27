@@ -26,13 +26,13 @@
     h1 span { display:block; color:#171312; font-family:Arial,Helvetica,sans-serif; font-size:clamp(28px,4vw,54px); }
     p { color:var(--muted); line-height:1.5; }
     h1,h2,h3,p,a,strong,span,td,th { overflow-wrap:break-word; }
-    .hero img { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:16px; border:2px solid var(--line); background:#fff; }
+    .hero img { width:100%; aspect-ratio:4/3; object-fit:contain; border-radius:16px; border:2px solid var(--line); background:#eef8df; }
     .section { max-width:100%; margin-top:24px; border:1px solid var(--line); border-radius:18px; background:rgba(255,255,255,.86); box-shadow:0 16px 44px rgba(102,40,22,.08); padding:clamp(22px,4vw,36px); }
     .section-head { display:flex; justify-content:space-between; align-items:end; gap:18px; margin-bottom:20px; }
     .section-head h2 { margin-bottom:6px; font-size:clamp(34px,5vw,64px); line-height:.96; }
     .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
     .card { overflow:hidden; border:2px solid var(--line); border-radius:16px; background:#fff; }
-    .card img { width:100%; aspect-ratio:1.15/1; object-fit:cover; display:block; }
+    .card img { width:100%; aspect-ratio:1.15/1; object-fit:contain; background:#eef8df; display:block; }
     .card-body { padding:18px; }
     .price { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-top:12px; border:1px solid var(--line); border-radius:12px; padding:12px; font-weight:900; }
     .price strong { color:var(--red-dark); font-size:26px; }
@@ -52,8 +52,8 @@
     .box-lid { position:relative; z-index:1; display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:14px; border:2px solid rgba(255,255,255,.62); border-radius:18px; background:#fffaf2; padding:13px 14px; color:var(--red); font-family:Georgia,"Times New Roman",serif; font-size:27px; font-weight:900; }
     .box-lid span { color:#6d352c; font-family:Arial,Helvetica,sans-serif; font-size:12px; font-weight:900; text-transform:uppercase; }
     .pouch-grid { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
-    .pouch-slot { min-height:150px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; border:2px solid rgba(255,255,255,.7); border-radius:17px; background:#fff8f1; padding:9px; }
-    .pouch-slot img { width:100%; height:84px; object-fit:cover; border-radius:12px; border:1px solid rgba(255,59,24,.18); background:#fff; display:block; }
+    .pouch-slot { min-height:172px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; border:2px solid rgba(255,255,255,.7); border-radius:17px; background:#fff8f1; padding:9px; }
+    .pouch-slot img { width:100%; height:108px; object-fit:contain; border-radius:12px; border:1px solid rgba(255,59,24,.18); background:#eef8df; display:block; }
     .pouch-slot strong { margin-top:8px; color:#5b211b; font-size:13px; line-height:1.05; }
     .pouch-slot small { margin-top:4px; color:#8b4c42; font-size:10px; font-weight:900; text-transform:uppercase; }
     .insert-card { display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center; border:2px solid var(--red); border-radius:20px; background:#fff; padding:18px; box-shadow:0 18px 36px rgba(102,40,22,.09); }
@@ -99,7 +99,7 @@
         <p>Use OHME's current single-pouch price as the anchor, then test whether shoppers prefer a trial pouch, a pantry bundle, or a variety discovery pack.</p>
         <a class="btn" href="index.html#quiz">Find your snack match</a>
       </div>
-      <img src="https://www.ohmefoods.com/cdn/shop/files/Homepage_Hero.png?v=1775581381&width=1200" alt="OHME freeze dried strawberry pouch" />
+      <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-strawberries.png?crop=center&height=900&v=1776198647&width=900" alt="OHME freeze dried strawberry package" />
     </section>
 
     <section class="section discovery-section" aria-labelledby="discovery-title">
@@ -112,7 +112,7 @@
             </div>
             <div class="pouch-grid">
               <article class="pouch-slot">
-                <img src="https://www.ohmefoods.com/cdn/shop/files/strawberry.png?v=1774645406&width=600" alt="OHME strawberry pouch" />
+                <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-strawberries.png?crop=center&height=600&v=1776198647&width=600" alt="OHME strawberry pouch" />
                 <strong>Strawberry</strong>
                 <small>Real fruit only</small>
               </article>
@@ -122,7 +122,7 @@
                 <small>Fruit snack</small>
               </article>
               <article class="pouch-slot">
-                <img src="https://www.ohmefoods.com/cdn/shop/files/strawberry.png?v=1774645406&width=600" alt="OHME fruit snack range" />
+                <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-strawberries.png?crop=center&height=600&v=1776198647&width=600" alt="OHME fruit snack range" />
                 <strong>Berry</strong>
                 <small>Fruit snack</small>
               </article>
@@ -189,7 +189,7 @@
       </div>
       <div class="grid">
         <article class="card">
-          <img src="https://www.ohmefoods.com/cdn/shop/files/strawberry.png?v=1774645406&width=700" alt="OHME freeze dried fruit snack package" />
+          <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-strawberries.png?crop=center&height=700&v=1776198647&width=700" alt="OHME freeze dried fruit snack package" />
           <div class="card-body">
             <h3>Freeze Dried Fruit Snacks</h3>
             <p>Best for shoppers who want real fruit only and a clean snack cue.</p>
