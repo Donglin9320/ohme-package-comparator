@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OHME! Bundles & Prices</title>
+  <link rel="icon" href="data:," />
+  <style>
+    :root { --ink:#171312; --muted:#635650; --red:#ff3b18; --red-dark:#9b1d17; --paper:#fff2f1; --cream:#fffaf2; --line:rgba(255,59,24,.28); --yellow:#fff2a7; --lime:#dff7b4; --shadow:0 24px 70px rgba(102,40,22,.14); }
+    * { box-sizing:border-box; }
+    html, body { overflow-x:hidden; }
+    body { margin:0; color:var(--ink); font-family:Arial, Helvetica, sans-serif; background:linear-gradient(180deg,#fff1f1 0%,#fffaf2 58%,#f7ffe8 100%); }
+    a { color:inherit; }
+    .topbar { position:sticky; top:0; z-index:10; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:12px clamp(18px,4vw,48px); background:rgba(255,245,244,.9); border-bottom:1px solid var(--line); backdrop-filter:blur(16px); }
+    .logo { color:var(--red); font-family:Georgia,"Times New Roman",serif; font-size:28px; font-weight:900; text-decoration:none; }
+    nav { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; }
+    .nav-link { min-height:34px; display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:999px; background:#fff; padding:7px 12px; color:#593631; font-size:13px; font-weight:900; text-decoration:none; }
+    .nav-link.active { background:var(--red); color:#fff; }
+    main { width:min(1220px,calc(100% - 32px)); max-width:100%; margin:0 auto; padding:32px 0 56px; }
+    .hero { position:relative; overflow:hidden; min-height:520px; display:grid; grid-template-columns:minmax(0,1fr) minmax(320px,.86fr); gap:28px; align-items:center; border:2px solid var(--line); border-radius:18px; background:#fff7f4; box-shadow:var(--shadow); padding:clamp(28px,5vw,58px); }
+    .hero::before { content:"BUNDLE"; position:absolute; left:-12px; top:4px; color:rgba(255,59,24,.13); font-family:Georgia,"Times New Roman",serif; font-size:clamp(92px,18vw,250px); font-weight:900; line-height:.8; }
+    .hero > * { position:relative; z-index:1; }
+    .eyebrow { display:inline-flex; width:fit-content; margin:0 0 14px; border:1px solid var(--line); border-radius:999px; background:#fff; padding:7px 10px; color:var(--red-dark); font-size:12px; font-weight:900; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { margin-bottom:16px; color:var(--red); font-family:Georgia,"Times New Roman",serif; font-size:clamp(54px,8vw,112px); line-height:.88; text-transform:uppercase; }
+    h1 span { display:block; color:#171312; font-family:Arial,Helvetica,sans-serif; font-size:clamp(28px,4vw,54px); }
+    p { color:var(--muted); line-height:1.5; }
+    h1,h2,h3,p,a,strong,span,td,th { overflow-wrap:break-word; }
+    .hero img { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:16px; border:2px solid var(--line); background:#fff; }
+    .section { max-width:100%; margin-top:24px; border:1px solid var(--line); border-radius:18px; background:rgba(255,255,255,.86); box-shadow:0 16px 44px rgba(102,40,22,.08); padding:clamp(22px,4vw,36px); }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:18px; margin-bottom:20px; }
+    .section-head h2 { margin-bottom:6px; font-size:clamp(34px,5vw,64px); line-height:.96; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .card { overflow:hidden; border:2px solid var(--line); border-radius:16px; background:#fff; }
+    .card img { width:100%; aspect-ratio:1.15/1; object-fit:cover; display:block; }
+    .card-body { padding:18px; }
+    .price { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-top:12px; border:1px solid var(--line); border-radius:12px; padding:12px; font-weight:900; }
+    .price strong { color:var(--red-dark); font-size:26px; }
+    .discovery-section { position:relative; overflow:hidden; border:2px solid var(--red); background:linear-gradient(135deg,#fff9f1 0%,#fff2f1 58%,#f0ffd2 100%); }
+    .discovery-section::before { content:""; position:absolute; inset:-80px auto auto -70px; width:230px; height:230px; border-radius:50%; background:radial-gradient(circle at 36% 38%,#fff 0 10%,var(--red) 11% 34%,transparent 35%), radial-gradient(circle at 66% 66%,#ffe0da 0 8%,transparent 9%); opacity:.18; }
+    .discovery-section::after { content:""; position:absolute; right:-54px; bottom:-88px; width:260px; height:260px; border-radius:42% 58% 48% 52%; background:linear-gradient(135deg,rgba(223,247,180,.95),rgba(255,242,167,.72)); transform:rotate(-12deg); }
+    .discovery-section > * { position:relative; z-index:1; }
+    .discovery-layout { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(330px,.95fr); gap:clamp(22px,4vw,46px); align-items:center; }
+    .discovery-copy h2 { margin-bottom:14px; color:var(--red); font-family:Georgia,"Times New Roman",serif; font-size:clamp(46px,7vw,94px); line-height:.88; text-transform:uppercase; }
+    .discovery-copy h2 span { display:block; color:var(--ink); font-family:Arial,Helvetica,sans-serif; font-size:clamp(25px,3.4vw,45px); letter-spacing:0; }
+    .discovery-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    .btn.secondary { background:#fff; border:2px solid var(--red); color:var(--red-dark); }
+    .discovery-layout > * { min-width:0; }
+    .mockup-stage { display:grid; min-width:0; gap:14px; }
+    .discovery-box { position:relative; overflow:hidden; border:3px solid #8f2117; border-radius:24px; background:var(--red); box-shadow:0 26px 60px rgba(115,35,21,.22); padding:16px; }
+    .discovery-box::before { content:"REAL FRUIT  BIG CRUNCH"; position:absolute; right:16px; top:48px; color:rgba(255,255,255,.22); font-family:Georgia,"Times New Roman",serif; font-size:38px; font-weight:900; line-height:.9; text-align:right; transform:rotate(-4deg); }
+    .box-lid { position:relative; z-index:1; display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:14px; border:2px solid rgba(255,255,255,.62); border-radius:18px; background:#fffaf2; padding:13px 14px; color:var(--red); font-family:Georgia,"Times New Roman",serif; font-size:27px; font-weight:900; }
+    .box-lid span { color:#6d352c; font-family:Arial,Helvetica,sans-serif; font-size:12px; font-weight:900; text-transform:uppercase; }
+    .pouch-grid { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .pouch-slot { min-height:150px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; border:2px solid rgba(255,255,255,.7); border-radius:17px; background:#fff8f1; padding:9px; }
+    .pouch-slot img { width:100%; height:84px; object-fit:cover; border-radius:12px; border:1px solid rgba(255,59,24,.18); background:#fff; display:block; }
+    .pouch-slot strong { margin-top:8px; color:#5b211b; font-size:13px; line-height:1.05; }
+    .pouch-slot small { margin-top:4px; color:#8b4c42; font-size:10px; font-weight:900; text-transform:uppercase; }
+    .insert-card { display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center; border:2px solid var(--red); border-radius:20px; background:#fff; padding:18px; box-shadow:0 18px 36px rgba(102,40,22,.09); }
+    .insert-card p { margin:0 0 4px; color:var(--red-dark); font-size:12px; font-weight:900; text-transform:uppercase; }
+    .insert-card h3 { margin:0 0 6px; font-size:25px; line-height:1; }
+    .insert-card span { color:var(--muted); font-size:14px; line-height:1.35; }
+    .qr-mark { width:86px; aspect-ratio:1; border:7px solid #fff; border-radius:10px; outline:2px solid var(--ink); background:
+      linear-gradient(90deg,#171312 10px,transparent 10px 18px,#171312 18px 28px,transparent 28px 42px,#171312 42px 52px,transparent 52px),
+      linear-gradient(#171312 9px,transparent 9px 17px,#171312 17px 28px,transparent 28px 39px,#171312 39px 50px,transparent 50px),
+      #fff; }
+    .pilot-panel { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:18px; }
+    .pilot-metric { border:1px solid var(--line); border-radius:15px; background:rgba(255,255,255,.86); padding:14px; }
+    .pilot-metric strong { display:block; color:var(--red); font-size:24px; line-height:1; }
+    .pilot-metric span { display:block; margin-top:6px; color:var(--muted); font-size:12px; font-weight:900; text-transform:uppercase; }
+    .decision-strip { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+    .decision-strip span { border:1px solid var(--line); border-radius:999px; background:#fff; padding:8px 10px; color:#6b3028; font-size:12px; font-weight:900; }
+    table { width:100%; border-collapse:collapse; min-width:760px; }
+    th,td { padding:13px; border-bottom:1px solid rgba(255,59,24,.16); text-align:left; vertical-align:top; }
+    th { color:#7b2b21; font-size:12px; text-transform:uppercase; }
+    .table-wrap { overflow-x:auto; }
+    .btn { min-height:46px; display:inline-flex; align-items:center; justify-content:center; border-radius:999px; background:var(--red); color:#fff; padding:11px 18px; font-weight:900; text-decoration:none; }
+    .note { margin-top:14px; color:var(--muted); font-size:13px; }
+    @media (max-width:900px){ .topbar,.section-head{align-items:flex-start;flex-direction:column}.hero,.grid,.discovery-layout{grid-template-columns:1fr} nav{justify-content:flex-start} .pilot-panel{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    @media (max-width:560px){ main{width:min(100% - 22px,1220px);padding-top:18px}.section{padding:18px}.hero{min-height:0}.hero,.section,.discovery-box,.insert-card{width:100%;max-width:100%}.discovery-box{padding:10px;border-radius:20px}.pouch-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.pouch-slot{min-width:0;min-height:132px;padding:7px;border-radius:14px}.pouch-slot img{height:66px}.insert-card{grid-template-columns:minmax(0,1fr)}.insert-card h3{font-size:23px}.pilot-panel{grid-template-columns:1fr}.box-lid{align-items:flex-start;flex-direction:column;font-size:24px}.discovery-copy h2{font-size:42px}.discovery-copy h2 span{font-size:25px}.btn{width:100%;text-align:center}.discovery-actions{width:100%} }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="index.html">OHME!</a>
+    <nav aria-label="Site pages">
+      <a class="nav-link" href="index.html">Snack Match</a>
+      <a class="nav-link active" href="bundles.html">Bundles & Prices</a>
+      <a class="nav-link" href="why-ohme.html">Why OHME?</a>
+      <a class="nav-link" href="survey-reward.html">Survey Reward</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Bundle strategy draft</p>
+        <h1>Ways to <span>OHME!</span></h1>
+        <p>Use OHME's current single-pouch price as the anchor, then test whether shoppers prefer a trial pouch, a pantry bundle, or a variety discovery pack.</p>
+        <a class="btn" href="index.html#quiz">Find your snack match</a>
+      </div>
+      <img src="https://www.ohmefoods.com/cdn/shop/files/Homepage_Hero.png?v=1775581381&width=1200" alt="OHME freeze dried strawberry pouch" />
+    </section>
+
+    <section class="section discovery-section" aria-labelledby="discovery-title">
+      <div class="discovery-layout">
+        <div class="mockup-stage" aria-label="OHME Snack Match Discovery Box product mockup">
+          <div class="discovery-box">
+            <div class="box-lid">
+              OHME! Discovery Box
+              <span>6-pouch pilot</span>
+            </div>
+            <div class="pouch-grid">
+              <article class="pouch-slot">
+                <img src="https://www.ohmefoods.com/cdn/shop/files/strawberry.png?v=1774645406&width=600" alt="OHME strawberry pouch" />
+                <strong>Strawberry</strong>
+                <small>Real fruit only</small>
+              </article>
+              <article class="pouch-slot">
+                <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-apple-fries.png?v=1776198647&width=600" alt="OHME freeze dried mango pouch" />
+                <strong>Mango</strong>
+                <small>Fruit snack</small>
+              </article>
+              <article class="pouch-slot">
+                <img src="https://www.ohmefoods.com/cdn/shop/files/strawberry.png?v=1774645406&width=600" alt="OHME fruit snack range" />
+                <strong>Berry</strong>
+                <small>Fruit snack</small>
+              </article>
+              <article class="pouch-slot">
+                <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-blueberry-yogurt-crunch-snack.png?v=1776324857&width=600" alt="OHME strawberry yogurt crunch" />
+                <strong>Strawberry Yogurt Crunch</strong>
+                <small>Texture test</small>
+              </article>
+              <article class="pouch-slot">
+                <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-blueberry-yogurt-crunch-snack.png?v=1776324857&width=600" alt="OHME mango yogurt crunch" />
+                <strong>Mango Yogurt Crunch</strong>
+                <small>Texture test</small>
+              </article>
+              <article class="pouch-slot">
+                <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-apple-fries.png?v=1776198647&width=600" alt="OHME assorted product lineup" />
+                <strong>Rotating Test Flavour</strong>
+                <small>Limited slot</small>
+              </article>
+            </div>
+          </div>
+
+          <div class="insert-card">
+            <div>
+              <p>Box insert card</p>
+              <h3>Find your OHME! snack match.</h3>
+              <span>Try the snacks, take the quick quiz, then unlock the survey reward wheel.</span>
+            </div>
+            <div class="qr-mark" aria-label="QR code placeholder"></div>
+          </div>
+        </div>
+
+        <div class="discovery-copy">
+          <p class="eyebrow">Discovery Box Concept</p>
+          <h2 id="discovery-title">Snack Match <span>Discovery Box</span></h2>
+          <p>A public-facing 6-pouch pilot box that lowers first-purchase friction while giving OHME a clean way to learn which flavours, formats, and bundle stories shoppers want next.</p>
+          <div class="pilot-panel" aria-label="Discovery Box pilot metrics">
+            <div class="pilot-metric"><strong>30-50</strong><span>Pilot boxes</span></div>
+            <div class="pilot-metric"><strong>6</strong><span>Snack choices</span></div>
+            <div class="pilot-metric"><strong>1</strong><span>QR flow</span></div>
+            <div class="pilot-metric"><strong>1</strong><span>Decision readout</span></div>
+          </div>
+          <div class="decision-strip" aria-label="Possible decisions after the pilot">
+            <span>Scale as variety box</span>
+            <span>Use for retail sampling</span>
+            <span>Build best-seller bundle</span>
+            <span>Retire weak flavours</span>
+          </div>
+          <div class="discovery-actions">
+            <a class="btn" href="index.html#quiz">Try the Snack Match flow</a>
+            <a class="btn secondary" href="survey-reward.html">See the reward step</a>
+          </div>
+          <p class="note">This is a pilot concept for research and bundle testing. It is not presented as a live OHME offer or confirmed price.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Public product paths</p>
+          <h2>Three ways to shop.</h2>
+        </div>
+        <p>These pages mirror OHME's own product navigation: fruit snacks, yogurt crunch, and all products.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <img src="https://www.ohmefoods.com/cdn/shop/files/strawberry.png?v=1774645406&width=700" alt="OHME freeze dried fruit snack package" />
+          <div class="card-body">
+            <h3>Freeze Dried Fruit Snacks</h3>
+            <p>Best for shoppers who want real fruit only and a clean snack cue.</p>
+            <div class="price"><span>Current single pouch</span><strong>$12.99</strong></div>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-blueberry-yogurt-crunch-snack.png?v=1776324857&width=700" alt="OHME yogurt crunch package and fruit pieces" />
+          <div class="card-body">
+            <h3>Yogurt Crunch</h3>
+            <p>Best for texture-led buyers who want crunch, flavour, and a more snack-like experience.</p>
+            <div class="price"><span>Subscribe & save</span><strong>$11.69</strong></div>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://www.ohmefoods.com/cdn/shop/collections/ohme-styled-shoppingbasket.jpg?v=1776184235&width=900" alt="OHME product range" />
+          <div class="card-body">
+            <h3>All Products / Variety</h3>
+            <p>Best for discovery and gift-style bundles where the shopper wants to try more than one flavour.</p>
+            <div class="price"><span>Survey test</span><strong>6-8 pack</strong></div>
+          </div>
+        </article>
+      </div>
+      <p class="note">Prices shown from OHME's public site: one-time purchase $12.99 and subscribe & save $11.69 for listed pouches. Bundle prices below are draft survey test concepts, not live OHME prices.</p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">What to test in survey</p>
+          <h2>Bundle concepts.</h2>
+        </div>
+        <p>The goal is not to invent a public offer today. It is to learn which format makes repeat purchase feel easiest.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Format</th><th>Draft price signal</th><th>Who it fits</th><th>Research question</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Single pouch</td><td>$12.99 anchor</td><td>Trial buyers</td><td>Is the product interesting enough for first purchase?</td></tr>
+            <tr><td>Snack Match Discovery Box</td><td>Draft test: 6-pouch variety pilot</td><td>New shoppers, gift buyers, first-time OHME tasters</td><td>Which flavours and formats earn strongest trial, sharing, and repeat-purchase intent?</td></tr>
+            <tr><td>2-pack</td><td>$25.98 anchor from current 2-pack-style logic</td><td>Early repeat buyers</td><td>Does a small bundle feel better than one premium pouch?</td></tr>
+            <tr><td>6-pack pantry bundle</td><td>Draft test: lower per-pouch than single</td><td>Families, pantry buyers</td><td>Does pack count reduce price resistance?</td></tr>
+            <tr><td>8-pack variety bundle</td><td>Draft test: discovery + value</td><td>Flavour explorers</td><td>Does variety make premium pricing easier to accept?</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
