@@ -71,6 +71,7 @@
       <a class="nav-link active" href="index.html">Snack Match</a>
       <a class="nav-link" href="bundles.html">Bundles & Prices</a>
       <a class="nav-link" href="why-ohme.html">Why OHME?</a>
+      <a class="nav-link" href="competitor-insights.html">Competitor Insights</a>
       <a class="nav-link" href="survey-reward.html">Survey Reward</a>
     </nav>
   </header>
@@ -107,23 +108,96 @@
       <div class="quiz-grid">
         <div class="quiz-panel">
           <div class="progress" aria-label="Quiz progress"><span id="progressBar"></span></div>
-          <div class="question active" data-question="0"><h3>What snack mood are you in?</h3><div class="option-grid"><button class="option" data-value="fruit">Light and fruity</button><button class="option" data-value="crunch">Crunchy and fun</button><button class="option" data-value="value">Practical and shareable</button></div></div>
-          <div class="question" data-question="1"><h3>Which flavour would you reach for first?</h3><div class="option-grid"><button class="option" data-value="fruit">Strawberry or berry</button><button class="option" data-value="crunch">Yogurt crunch</button><button class="option" data-value="value">Variety pack</button></div></div>
-          <div class="question" data-question="2"><h3>Where would you eat it?</h3><div class="option-grid"><button class="option" data-value="fruit">On the go</button><button class="option" data-value="value">At home / pantry</button><button class="option" data-value="crunch">With friends</button></div></div>
-          <div class="question" data-question="3"><h3>What matters most for trial?</h3><div class="option-grid"><button class="option" data-value="fruit">Real fruit ingredients</button><button class="option" data-value="crunch">Texture and crunch</button><button class="option" data-value="value">Bundle value</button></div></div>
-          <div class="question" data-question="4"><h3>How do you prefer to discover new snacks?</h3><div class="option-grid"><button class="option" data-value="value">Try a variety box</button><button class="option" data-value="fruit">Start with one clean flavour</button><button class="option" data-value="crunch">Try the most exciting texture</button></div></div>
-          <div class="question" data-question="5"><h3>What should OHME improve first?</h3><div class="option-grid"><button class="option" data-value="value">Bundles and price options</button><button class="option" data-value="fruit">More fruit flavours</button><button class="option" data-value="crunch">More crunchy formats</button></div></div>
+          <div class="question active" data-question="0">
+            <h3>What snack mood are you in?</h3>
+            <div class="option-grid">
+              <button class="option" data-value="fruit">Light and fruity</button>
+              <button class="option" data-value="crunch">Crunchy and fun</button>
+              <button class="option" data-value="value">Practical and shareable</button>
+            </div>
+          </div>
+          <div class="question" data-question="1">
+            <h3>Which flavour would you reach for first?</h3>
+            <div class="option-grid">
+              <button class="option" data-value="fruit">Strawberry or berry</button>
+              <button class="option" data-value="crunch">Yogurt crunch</button>
+              <button class="option" data-value="value">Variety pack</button>
+            </div>
+          </div>
+          <div class="question" data-question="2">
+            <h3>Where would you eat it?</h3>
+            <div class="option-grid">
+              <button class="option" data-value="fruit">On the go</button>
+              <button class="option" data-value="value">At home / pantry</button>
+              <button class="option" data-value="crunch">With friends</button>
+            </div>
+          </div>
+          <div class="question" data-question="3">
+            <h3>What matters most for trial?</h3>
+            <div class="option-grid">
+              <button class="option" data-value="fruit">Real fruit ingredients</button>
+              <button class="option" data-value="crunch">Texture and crunch</button>
+              <button class="option" data-value="value">Bundle value</button>
+            </div>
+          </div>
+          <div class="question" data-question="4">
+            <h3>How do you prefer to discover new snacks?</h3>
+            <div class="option-grid">
+              <button class="option" data-value="value">Try a variety box</button>
+              <button class="option" data-value="fruit">Start with one clean flavour</button>
+              <button class="option" data-value="crunch">Try the most exciting texture</button>
+            </div>
+          </div>
+          <div class="question" data-question="5">
+            <h3>What should OHME improve first?</h3>
+            <div class="option-grid">
+              <button class="option" data-value="value">Bundles and price options</button>
+              <button class="option" data-value="fruit">More fruit flavours</button>
+              <button class="option" data-value="crunch">More crunchy formats</button>
+            </div>
+          </div>
         </div>
-        <aside class="result-card" aria-live="polite"><p class="eyebrow">Your result</p><h3 id="resultTitle">Ready to match?</h3><p id="resultCopy">Answer the quiz to get a shopper profile OHME can use for flavour and bundle testing.</p><img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-strawberries.png?crop=center&height=700&v=1776198647&width=700" alt="OHME package preview" /><div class="btn-row"><a class="btn secondary" href="survey-reward.html">Complete survey</a><a class="btn" href="#reward">Go to reward</a></div></aside>
+
+        <aside class="result-card" aria-live="polite">
+          <p class="eyebrow">Your result</p>
+          <h3 id="resultTitle">Ready to match?</h3>
+          <p id="resultCopy">Answer the quiz to get a shopper profile OHME can use for flavour and bundle testing.</p>
+          <img src="https://www.ohmefoods.com/cdn/shop/files/ohme-product-cover-strawberries.png?crop=center&height=700&v=1776198647&width=700" alt="OHME package preview" />
+          <div class="btn-row">
+            <a class="btn secondary" href="survey-reward.html">Complete survey</a>
+            <a class="btn" href="#reward">Go to reward</a>
+          </div>
+        </aside>
       </div>
     </section>
 
     <section class="section" id="reward">
-      <div class="section-head"><div><p class="eyebrow">Survey reward</p><h2>Spin after your survey.</h2></div><p>The wheel unlocks when Qualtrics redirects back with <strong>?completed=1</strong>. For demo, you can preview the spin here.</p></div>
-      <div class="reward-layout"><div class="wheel-wrap"><div class="wheel" id="wheel" aria-hidden="true"></div></div><div class="reward-box"><h3 id="rewardStatus">Reward locked</h3><p>Complete the survey first, then return to unlock a discount spin.</p><button class="btn" id="spinBtn" type="button">Preview spin</button> <a class="btn secondary" href="https://ubc.yul1.qualtrics.com/jfe/form/SV_a3OFwn3XlmaYRFA" target="_blank" rel="noreferrer">Open survey</a><div class="code" id="couponCode">OHME10</div></div></div>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Survey reward</p>
+          <h2>Spin after your survey.</h2>
+        </div>
+        <p>The wheel unlocks when Qualtrics redirects back with <strong>?completed=1</strong>. For demo, you can preview the spin here.</p>
+      </div>
+      <div class="reward-layout">
+        <div class="wheel-wrap"><div class="wheel" id="wheel" aria-hidden="true"></div></div>
+        <div class="reward-box">
+          <h3 id="rewardStatus">Reward locked</h3>
+          <p>Complete the survey first, then return to unlock a discount spin.</p>
+          <button class="btn" id="spinBtn" type="button">Preview spin</button>
+          <a class="btn secondary" href="https://ubc.yul1.qualtrics.com/jfe/form/SV_a3OFwn3XlmaYRFA" target="_blank" rel="noreferrer">Open survey</a>
+          <div class="code" id="couponCode">OHME10</div>
+        </div>
+      </div>
     </section>
 
-    <section class="section"><div class="steps"><article class="step"><strong>1</strong><h3>Snack match</h3><p>Visitors answer simple choices before they see the survey ask.</p></article><article class="step"><strong>2</strong><h3>Survey</h3><p>Responses connect to package, flavour, bundle, and price testing.</p></article><article class="step"><strong>3</strong><h3>Reward</h3><p>The discount wheel gives shoppers a reason to finish the feedback loop.</p></article></div></section>
+    <section class="section">
+      <div class="steps">
+        <article class="step"><strong>1</strong><h3>Snack match</h3><p>Visitors answer simple choices before they see the survey ask.</p></article>
+        <article class="step"><strong>2</strong><h3>Survey</h3><p>Responses connect to package, flavour, bundle, and price testing.</p></article>
+        <article class="step"><strong>3</strong><h3>Reward</h3><p>The discount wheel gives shoppers a reason to finish the feedback loop.</p></article>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -138,10 +212,48 @@
     const scores = { fruit: 0, crunch: 0, value: 0 };
     let current = 0;
     let rotation = 0;
-    function showQuestion(index) { questions.forEach((question, questionIndex) => question.classList.toggle("active", questionIndex === index)); progressBar.style.width = `${(index / questions.length) * 100}%`; }
-    function showResult() { progressBar.style.width = "100%"; const winner = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0]; const results = { fruit:["Light Fruity Snacker","You care most about real fruit, clean ingredients, and an easy first trial pouch."], crunch:["Crunch Explorer","You are most likely to notice texture, fun formats, and yogurt-crunch style products."], value:["Discovery Box Buyer","You want variety and value before committing to one flavour, which makes you a strong Discovery Box fit."] }; resultTitle.textContent = results[winner][0]; resultCopy.textContent = results[winner][1]; }
-    document.querySelectorAll(".option").forEach((option) => { option.addEventListener("click", () => { scores[option.dataset.value] += 1; option.classList.add("selected"); setTimeout(() => { current += 1; if (current < questions.length) showQuestion(current); else showResult(); }, 180); }); });
-    function spinWheel() { const rewards = ["OHME5","OHME10","OHME15","OHME20","OHME10","OHME5"]; const reward = rewards[Math.floor(Math.random() * rewards.length)]; rotation += 720 + Math.floor(Math.random() * 360); wheel.style.transform = `rotate(${rotation}deg)`; rewardStatus.textContent = "Reward unlocked"; couponCode.textContent = reward; couponCode.classList.add("show"); }
+
+    function showQuestion(index) {
+      questions.forEach((question, questionIndex) => {
+        question.classList.toggle("active", questionIndex === index);
+      });
+      progressBar.style.width = `${(index / questions.length) * 100}%`;
+    }
+
+    function showResult() {
+      progressBar.style.width = "100%";
+      const winner = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+      const results = {
+        fruit: ["Light Fruity Snacker", "You care most about real fruit, clean ingredients, and an easy first trial pouch."],
+        crunch: ["Crunch Explorer", "You are most likely to notice texture, fun formats, and yogurt-crunch style products."],
+        value: ["Discovery Box Buyer", "You want variety and value before committing to one flavour, which makes you a strong Discovery Box fit."]
+      };
+      resultTitle.textContent = results[winner][0];
+      resultCopy.textContent = results[winner][1];
+    }
+
+    document.querySelectorAll(".option").forEach((option) => {
+      option.addEventListener("click", () => {
+        scores[option.dataset.value] += 1;
+        option.classList.add("selected");
+        setTimeout(() => {
+          current += 1;
+          if (current < questions.length) showQuestion(current);
+          else showResult();
+        }, 180);
+      });
+    });
+
+    function spinWheel() {
+      const rewards = ["OHME5", "OHME10", "OHME15", "OHME20", "OHME10", "OHME5"];
+      const reward = rewards[Math.floor(Math.random() * rewards.length)];
+      rotation += 720 + Math.floor(Math.random() * 360);
+      wheel.style.transform = `rotate(${rotation}deg)`;
+      rewardStatus.textContent = "Reward unlocked";
+      couponCode.textContent = reward;
+      couponCode.classList.add("show");
+    }
+
     spinBtn.addEventListener("click", spinWheel);
     if (new URLSearchParams(window.location.search).get("completed") === "1") spinWheel();
   </script>
