@@ -62,6 +62,41 @@
     .step strong { display:grid; place-items:center; width:40px; height:40px; border-radius:50%; background:var(--ink); color:#fff; margin-bottom:12px; }
     @media (max-width:900px){ .topbar,.section-head{align-items:flex-start;flex-direction:column}.hero,.quiz-grid,.reward-layout,.steps{grid-template-columns:1fr}nav{justify-content:flex-start}.hero{min-height:0} }
     @media (max-width:560px){ main{width:min(100% - 22px,1220px);padding-top:18px}.hero,.section{padding:22px}h1{font-size:48px}.btn{width:100%;text-align:center}.btn-row{width:100%}.wheel{border-width:10px}.wheel::after{width:76px;height:76px;font-size:18px} }
+    @media (max-width:480px){
+      .topbar{gap:8px;padding:9px 10px}
+      .logo{font-size:24px}
+      nav{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+      .nav-link{justify-content:center;min-height:32px;padding:6px 8px;font-size:12px;text-align:center}
+      main{width:calc(100% - 18px);padding:14px 0 42px}
+      .hero{gap:16px;border-radius:14px;padding:18px}
+      .hero::before{left:-8px;top:12px;font-size:56px}
+      .eyebrow{margin-bottom:10px;padding:6px 8px;font-size:11px}
+      h1{font-size:42px;line-height:.9}
+      h1 span{font-size:24px}
+      p{font-size:15px;line-height:1.45}
+      .hero-card{gap:10px;padding:12px;border-radius:14px}
+      .hero-card img{max-height:230px;border-radius:12px}
+      .tag{padding:7px 8px;font-size:11px}
+      .section{margin-top:16px;padding:18px;border-radius:14px}
+      .section-head{gap:8px;margin-bottom:14px}
+      .section-head h2{font-size:30px;line-height:1}
+      .quiz-grid{gap:14px}
+      .question{padding:14px;border-radius:14px}
+      .question h3{font-size:20px;line-height:1.15}
+      .option{min-height:44px;padding:10px;font-size:14px}
+      .result-card{padding:16px;border-radius:14px}
+      .result-card h3{font-size:28px}
+      .result-card img{max-height:190px}
+      .reward-layout{gap:14px}
+      .wheel-wrap{padding:16px;border-radius:14px}
+      .steps{gap:10px}
+      .step{padding:14px;border-radius:14px}
+    }
+    @media (max-width:340px){
+      nav{grid-template-columns:1fr}
+      h1{font-size:38px}
+      h1 span{font-size:22px}
+    }
   </style>
 </head>
 <body>
