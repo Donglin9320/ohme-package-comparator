@@ -1,24 +1,9 @@
-# OHME! Competitor Comparator
+# OHME! Public Competitor Comparator
 
-Standalone OHME! research dashboard for Han.
+Public-facing demo built only from public brand and retailer pages.
 
-This site separates the competitor comparator from the public Snack Match / bundle website so each project has a clear URL and purpose.
+It uses public sources only and does not infer exact sales performance or future company decisions. Product prices and availability can change; visitors should open the source link in each row for the latest available information.
 
-## What It Shows
+GitHub Pages path:
 
-- Customer Drivers: pre-survey hypothesis dashboard for why shoppers choose healthy snacks.
-- Size Comparator: OHME verified pouch dimensions compared with competitor visual estimates.
-- Han Insights: short decision read before the full competitor matrix.
-- Amazon Bundles and Costco: bundle/channel strategy notes.
-- Evidence: source-backed logic behind the package recommendations.
-
-## How Han Should Read It
-
-Start with Customer Drivers, then open Size Comparator only when discussing package and bundle decisions.
-
-The Customer Drivers score is not final survey data yet. It should be replaced with Qualtrics response percentages after the survey is published and responses arrive.
-
-## Files
-
-- `index.html`: complete static site.
-- `.nojekyll`: keeps GitHub Pages from applying Jekyll processing.
+`/ohme-package-comparator/competitor-comparator/`
