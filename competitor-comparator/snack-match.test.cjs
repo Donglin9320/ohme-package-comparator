@@ -1,0 +1,115 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+
+const { PRODUCTS, recommendProducts } = require("./snack-match.js");
+
+test("recommends a resealable strawberry pouch for a fruit-first topping shopper", () => {
+  const result = recommendProducts({
+    buyer: "self",
+    occasion: "topping",
+    priority: "simple",
+    size: "regular",
+    mix: "fruit",
+  });
+
+  assert.equal(result.primary.id, "strawberries-single");
+  assert.equal(result.primary.price, 12.99);
+  assert.match(result.primary.packLabel, /46g resealable pouch/);
+});
+
+test("recommends a 3 × 16g pack for a fruit-first lunchbox shopper", () => {
+  const result = recommendProducts({
+    buyer: "children",
+    occasion: "lunchbox",
+    priority: "portable",
+    size: "snack-size",
+    mix: "fruit",
+  });
+
+  assert.equal(result.primary.id, "crispy-strawberries-3-pack");
+  assert.match(result.primary.packLabel, /3 × 16g/);
+});
+
+test("recommends a regular yogurt pouch for an at-home yogurt shopper", () => {
+  const result = recommendProducts({
+    buyer: "household",
+    occasion: "at-home",
+    priority: "taste",
+    size: "regular",
+    mix: "yogurt",
+  });
+
+  assert.equal(result.primary.id, "strawberry-yogurt-single");
+  assert.match(result.primary.packLabel, /44g resealable pouch/);
+});
+
+test("recommends the 8-pack for a portable yogurt variety shopper", () => {
+  const result = recommendProducts({
+    buyer: "household",
+    occasion: "on-the-go",
+    priority: "portable",
+    size: "snack-size",
+    mix: "yogurt",
+  });
+
+  assert.equal(result.primary.id, "yogurt-snack-8-pack");
+  assert.equal(result.primary.price, 39.99);
+});
+
+test("recommends the All-In bundle for an even-mix sharing occasion", () => {
+  const result = recommendProducts({
+    buyer: "sharing",
+    occasion: "at-home",
+    priority: "satisfying",
+    size: "both",
+    mix: "even",
+  });
+
+  assert.equal(result.primary.id, "all-in-bundle");
+  assert.equal(result.primary.price, 99.99);
+});
+
+test("returns three unique, available recommendations ordered by score", () => {
+  const result = recommendProducts({
+    buyer: "household",
+    occasion: "topping",
+    priority: "taste",
+    size: "both",
+    mix: "yogurt",
+  });
+
+  assert.equal(result.recommendations.length, 3);
+  assert.equal(new Set(result.recommendations.map((product) => product.id)).size, 3);
+  assert.ok(result.recommendations.every((product) => product.available));
+  assert.ok(result.recommendations[0].score >= result.recommendations[1].score);
+  assert.ok(PRODUCTS.length >= 7);
+});
+
+test("keeps every Snack Match entry point on the comparator page", () => {
+  const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
+
+  assert.match(html, /id="snack-match"/);
+  assert.equal((html.match(/href="#snack-match"/g) || []).length, 3);
+  assert.doesNotMatch(html, /href="\.\.\/index\.html"/);
+  assert.match(html, /id="snack-match-form"/);
+  assert.match(html, /src="snack-match\.js"/);
+});
+
+test("uses specific published-survey language and explains pack size and resealability", () => {
+  const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
+
+  assert.match(html, /Who do you usually buy packaged snacks for\?/);
+  assert.match(html, /When would you most often eat OHME!/);
+  assert.match(html, /When you buy snacks, what matters most\?/);
+  assert.match(html, /If both sizes were available in your preferred flavour, which would you buy\?/);
+  assert.match(html, /If you bought an OHME! bundle/);
+  assert.match(html, /3 × 16g/);
+  assert.match(html, /44g · resealable/);
+  assert.match(html, /data-match-key="buyer"/);
+  assert.match(html, /data-match-key="occasion"/);
+  assert.match(html, /data-match-key="priority"/);
+  assert.match(html, /data-match-key="size"/);
+  assert.match(html, /data-match-key="mix"/);
+});
