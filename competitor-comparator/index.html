@@ -3,601 +3,1241 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A public OHME! snack-format benchmark built from public brand and retailer listings." />
+    <meta
+      name="description"
+      content="A public, source-linked visual guide to how OHME! and selected snack formats appear on the shelf."
+    />
     <link rel="icon" href="data:," />
-    <title>OHME! Public Competitor Comparator</title>
+    <title>OHME! Snack Shelf Guide</title>
     <style>
       :root {
-        --ink: #241512;
-        --muted: rgba(88, 64, 55, 0.78);
-        --dim: rgba(111, 86, 76, 0.62);
-        --fruit: #ff3b18;
-        --berry: #ff7fa8;
-        --lime: #dff7b4;
-        --yellow: #ffef9a;
-        --line: rgba(255, 59, 24, 0.22);
-        --line-strong: rgba(255, 59, 24, 0.4);
-        --glass: rgba(255, 255, 255, 0.72);
-        --shadow: 0 24px 70px rgba(112, 52, 34, 0.14);
-        --radius: 28px;
+        --ink: #18120f;
+        --paper: #fffdf7;
+        --cream: #fff3cf;
+        --mint: #d9f2d5;
+        --pink: #f8d8d8;
+        --red: #d74331;
+        --orange: #ef5526;
+        --yellow: #f6dd57;
+        --line: rgba(24, 18, 15, 0.22);
+        --muted: #685b55;
+        --direct: #d9f2d5;
+        --reference: #fff0a8;
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --page: min(1440px, calc(100% - 40px));
       }
 
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
       body {
         margin: 0;
-        min-height: 100vh;
-        overflow-x: hidden;
-        background: #fff8ee;
+        overflow-x: clip;
+        background: var(--paper);
         color: var(--ink);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
       }
-
       body::before {
         content: "";
         position: fixed;
         inset: 0;
-        z-index: -4;
-        background:
-          radial-gradient(circle at 12% 10%, rgba(255, 127, 168, 0.34), transparent 32%),
-          radial-gradient(circle at 88% 6%, rgba(223, 247, 180, 0.5), transparent 32%),
-          radial-gradient(circle at 50% 94%, rgba(255, 239, 154, 0.42), transparent 36%),
-          linear-gradient(180deg, #fff8ee 0%, #fff2ed 52%, #f7ffe8 100%);
+        z-index: -1;
+        opacity: 0.36;
+        background-image: url("assets/ohme-homepage-hero.png");
+        background-size: 760px auto;
       }
-
-      .aurora,
-      .noise {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-      }
-
-      .aurora {
-        inset: -28vh -18vw;
-        z-index: -3;
-        background:
-          radial-gradient(closest-side at 16% 26%, rgba(255, 59, 24, 0.18), transparent 68%),
-          radial-gradient(closest-side at 76% 16%, rgba(255, 127, 168, 0.25), transparent 70%),
-          radial-gradient(closest-side at 40% 84%, rgba(255, 239, 154, 0.4), transparent 64%),
-          radial-gradient(closest-side at 92% 78%, rgba(223, 247, 180, 0.42), transparent 60%);
-        filter: blur(38px) saturate(128%);
-        animation: drift 18s ease-in-out infinite alternate;
-      }
-
-      .noise {
-        z-index: -2;
-        opacity: 0.15;
-        mix-blend-mode: multiply;
-        background-image:
-          radial-gradient(circle at 20% 30%, rgba(255, 59, 24, 0.18) 0 1px, transparent 1.4px),
-          radial-gradient(circle at 70% 60%, rgba(80, 120, 35, 0.12) 0 1px, transparent 1.3px);
-        background-size: 18px 18px, 23px 23px;
-      }
-
-      @keyframes drift {
-        0% { transform: translate3d(-2%, -1%, 0) scale(1); }
-        100% { transform: translate3d(4%, -2%, 0) scale(1.1) rotate(-2deg); }
-      }
-
+      img { display: block; max-width: 100%; }
       a { color: inherit; }
       button { font: inherit; }
       button,
-      a { transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
-      button:hover,
-      a:hover { transform: translateY(-2px); }
+      a { -webkit-tap-highlight-color: transparent; }
       button:focus-visible,
-      a:focus-visible { outline: 3px solid rgba(255, 59, 24, 0.45); outline-offset: 3px; }
-
-      .glass {
-        border: 1px solid var(--line);
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 246, 241, 0.68)), var(--glass);
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(28px) saturate(145%);
-        -webkit-backdrop-filter: blur(28px) saturate(145%);
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid var(--orange);
+        outline-offset: 3px;
       }
 
-      .page-shell {
-        width: min(1500px, calc(100% - 32px));
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 252px minmax(0, 1fr);
-        gap: 22px;
-        padding: 22px 0 42px;
+      .skip-link {
+        position: fixed;
+        left: 16px;
+        top: 12px;
+        z-index: 100;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: var(--paper);
+        padding: 10px 14px;
+        transform: translateY(-160%);
       }
+      .skip-link:focus { transform: translateY(0); }
 
-      .sidebar {
+      .site-header {
         position: sticky;
-        top: 22px;
-        align-self: start;
-        height: calc(100vh - 44px);
-        border-radius: var(--radius);
-        padding: 18px;
+        top: 0;
+        z-index: 40;
+        border-bottom: 2px solid var(--ink);
+        background: var(--red);
+      }
+      .header-inner {
+        width: var(--page);
+        min-height: 76px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 10px 0;
+      }
+      .wordmark {
+        flex: 0 0 auto;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: var(--paper);
+        padding: 10px 18px 8px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 0.8;
+        letter-spacing: -0.06em;
+        text-decoration: none;
+      }
+      .main-nav {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        overflow-x: auto;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: var(--paper);
+        padding: 5px;
+        scrollbar-width: none;
+      }
+      .main-nav::-webkit-scrollbar { display: none; }
+      .main-nav a {
+        min-height: 40px;
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 9px 13px;
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.02em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+      .main-nav a:hover,
+      .main-nav a[aria-current="page"] { background: var(--mint); }
+      .main-nav .shop-link { background: var(--ink); color: var(--paper); }
+
+      main { width: var(--page); margin: 0 auto; padding: 24px 0 48px; }
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--red);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      h1,
+      h2,
+      h3,
+      p { margin-top: 0; }
+      h1,
+      h2 {
+        font-family: Georgia, "Times New Roman", serif;
+        letter-spacing: -0.055em;
+      }
+      h1 {
+        max-width: 900px;
+        margin-bottom: 20px;
+        font-size: clamp(62px, 8.7vw, 134px);
+        line-height: 0.79;
+      }
+      h1 span { display: block; color: var(--red); }
+      h2 {
+        margin-bottom: 14px;
+        font-size: clamp(42px, 6vw, 82px);
+        line-height: 0.84;
+      }
+      h3 { margin-bottom: 10px; font-size: 21px; line-height: 1.06; }
+      p { color: var(--muted); line-height: 1.55; }
+
+      .hero {
+        min-height: calc(100vh - 124px);
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(390px, 0.92fr);
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-lg);
+        background: var(--paper);
+      }
+      .hero-copy {
         display: flex;
         flex-direction: column;
-        gap: 18px;
+        justify-content: center;
+        padding: clamp(34px, 6vw, 88px);
       }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        text-decoration: none;
-      }
-
-      .wordmark {
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 34px;
-        line-height: 0.9;
-        font-weight: 900;
-        letter-spacing: -0.03em;
-      }
-
-      .brand-dot {
-        width: 42px;
-        height: 42px;
-        border-radius: 16px;
-        background:
-          radial-gradient(circle at 34% 34%, #fff 0 8%, transparent 9%),
-          linear-gradient(135deg, var(--fruit), var(--berry));
-        box-shadow: 0 10px 30px rgba(255, 75, 43, 0.32);
-      }
-
-      .project-label {
-        border-top: 1px solid rgba(255, 59, 24, 0.12);
-        border-bottom: 1px solid rgba(255, 59, 24, 0.12);
-        padding: 14px 0;
-      }
-
-      .eyebrow {
-        margin: 0 0 8px;
-        color: #a52a18;
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-      }
-
-      .project-label h1 {
-        margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 24px;
-        line-height: 1;
-        letter-spacing: -0.04em;
-      }
-
-      .nav-block { display: grid; gap: 8px; }
-      .nav-label {
-        margin: 4px 0 0;
-        color: var(--dim);
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-      }
-
-      .side-link {
-        min-height: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        border: 1px solid transparent;
-        border-radius: 16px;
-        padding: 10px 12px;
-        color: var(--muted);
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 750;
-      }
-
-      .side-link:hover,
-      .side-link.active {
-        border-color: var(--line-strong);
-        background: rgba(255, 59, 24, 0.08);
-        color: var(--fruit);
-      }
-
-      .side-link span:last-child { color: rgba(255, 59, 24, 0.72); }
-      .side-foot {
-        margin-top: auto;
-        display: grid;
-        gap: 9px;
-        color: var(--dim);
-        font-size: 11px;
-        line-height: 1.45;
-      }
-
-      .status-pill {
-        display: inline-flex;
-        width: fit-content;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid rgba(120, 150, 52, 0.25);
-        border-radius: 999px;
-        background: rgba(223, 247, 180, 0.44);
-        padding: 8px 10px;
-        color: #4d6120;
-        font-weight: 800;
-      }
-
-      .status-pill::before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: #8cc83f;
-      }
-
-      main { min-width: 0; }
-      .hero {
-        min-height: calc(100vh - 44px);
-        overflow: hidden;
-        position: relative;
-        border-radius: var(--radius);
-        padding: clamp(30px, 6vw, 76px);
-        display: grid;
-        align-content: center;
-      }
-
-      .hero::before {
-        content: "OHME!";
-        position: absolute;
-        left: -14px;
-        top: 20px;
-        color: rgba(255, 59, 24, 0.065);
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(116px, 20vw, 290px);
-        font-weight: 900;
-        line-height: 0.82;
-        pointer-events: none;
-      }
-
-      .hero-copy { position: relative; z-index: 1; max-width: 920px; }
-      .hero h2 {
-        margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(58px, 8vw, 116px);
-        line-height: 0.86;
-        letter-spacing: -0.065em;
-      }
-
-      .hero h2 span {
-        display: block;
-        margin-top: 10px;
-        color: transparent;
-        background: linear-gradient(100deg, #7f2418, var(--fruit) 42%, var(--berry) 70%, #8bc541);
-        -webkit-background-clip: text;
-        background-clip: text;
-        font-size: clamp(42px, 6vw, 82px);
-        line-height: 0.9;
-      }
-
       .hero-copy > p:not(.eyebrow) {
         max-width: 720px;
-        margin: 22px 0 0;
-        color: var(--muted);
+        margin-bottom: 0;
         font-size: clamp(17px, 1.5vw, 21px);
-        line-height: 1.52;
       }
-
-      .button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-      .btn,
-      .filter-btn {
-        min-height: 46px;
+      .hero-actions,
+      .cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+      .button {
+        min-height: 48px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid var(--line);
+        border: 2px solid var(--ink);
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.75);
-        color: #8f2117;
-        padding: 11px 17px;
+        background: var(--paper);
+        padding: 11px 18px;
         font-weight: 900;
         text-decoration: none;
-        cursor: pointer;
+        transition: transform 160ms ease, background 160ms ease;
       }
+      .button.primary { background: var(--red); color: #fff; }
+      .button:hover { background: var(--mint); color: var(--ink); transform: translateY(-2px); }
 
-      .btn.accent,
-      .filter-btn.active {
-        border-color: rgba(255, 75, 43, 0.72);
-        background: linear-gradient(135deg, var(--fruit), var(--berry));
-        color: #fff;
+      .hero-visual {
+        position: relative;
+        min-height: 560px;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        isolation: isolate;
+        border-left: 2px solid var(--ink);
+        background-color: #fff;
+        background-image: url("assets/ohme-homepage-hero.png");
+        background-size: cover;
       }
+      .hero-visual::after {
+        content: "OHME!";
+        position: absolute;
+        z-index: -1;
+        color: var(--orange);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(120px, 18vw, 280px);
+        font-weight: 800;
+        letter-spacing: -0.08em;
+        white-space: nowrap;
+        transform: rotate(-90deg);
+      }
+      .hero-product {
+        position: relative;
+        z-index: 2;
+        width: min(72%, 470px);
+        filter: drop-shadow(0 22px 0 rgba(215, 67, 49, 0.18));
+        transform: rotate(3deg);
+      }
+      .hero-crunch {
+        position: absolute;
+        right: -5%;
+        bottom: 3%;
+        z-index: 3;
+        width: min(38%, 220px);
+        transform: rotate(-14deg);
+      }
+      .hero-fruit {
+        position: absolute;
+        left: -10%;
+        top: 4%;
+        z-index: 1;
+        width: min(42%, 260px);
+        transform: rotate(12deg);
+      }
+      .visual-label {
+        position: absolute;
+        z-index: 4;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: var(--cream);
+        padding: 9px 12px;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .visual-label.top { right: 5%; top: 6%; transform: rotate(4deg); }
+      .visual-label.bottom { left: 5%; bottom: 7%; transform: rotate(-4deg); }
 
-      .hero-stats {
+      .purpose-strip {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-        max-width: 620px;
-        margin-top: 44px;
+        margin-top: 16px;
+        overflow: hidden;
+        border: 2px solid var(--ink);
+        border-radius: 18px;
+        background: var(--ink);
+        gap: 2px;
       }
-
-      .stat,
-      .bento-card,
-      .source-card {
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.64);
-      }
-
-      .stat { border-radius: 18px; padding: 14px; }
-      .stat strong {
+      .purpose-item { background: var(--paper); padding: 18px; }
+      .purpose-item strong {
         display: block;
+        margin-bottom: 5px;
         font-family: Georgia, "Times New Roman", serif;
-        font-size: 30px;
-        line-height: 0.9;
+        font-size: 24px;
       }
-      .stat span { color: var(--dim); font-size: 12px; font-weight: 800; }
+      .purpose-item span { color: var(--muted); font-size: 13px; line-height: 1.4; }
 
       .section {
-        margin-top: 22px;
-        border-radius: var(--radius);
-        padding: clamp(22px, 4vw, 42px);
+        margin-top: 24px;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-lg);
+        background: var(--paper);
+        padding: clamp(26px, 5vw, 68px);
       }
-
       .section-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        gap: 18px;
-        margin-bottom: 22px;
-      }
-
-      .section-head h2 {
-        margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(38px, 5vw, 72px);
-        line-height: 0.9;
-        letter-spacing: -0.05em;
-      }
-
-      .section-head p {
-        max-width: 540px;
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.55;
-      }
-
-      .bento-grid {
         display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        grid-auto-rows: minmax(164px, auto);
-        gap: 18px;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
+        gap: 32px;
+        align-items: end;
+        margin-bottom: 32px;
       }
+      .section-head p { margin-bottom: 0; }
 
-      .bento-card {
-        min-height: 176px;
-        border-radius: 22px;
-        padding: 22px;
+      .read-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .read-card {
+        min-height: 270px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-md);
+        padding: 24px;
       }
-
-      .bento-card.large { grid-column: span 3; grid-row: span 2; }
-      .bento-card.wide { grid-column: span 3; }
-      .bento-card.small { grid-column: span 2; }
-      .bento-card h3 { margin: 0 0 10px; font-size: clamp(22px, 2vw, 31px); letter-spacing: -0.03em; }
-      .bento-card p { margin: 0; color: var(--muted); line-height: 1.5; }
-      .bento-number {
-        color: rgba(255, 59, 24, 0.76);
+      .read-card:nth-child(1) { background: var(--mint); }
+      .read-card:nth-child(2) { background: var(--pink); }
+      .read-card:nth-child(3) { background: var(--cream); }
+      .read-number {
         font-family: Georgia, "Times New Roman", serif;
-        font-size: 72px;
-        line-height: 0.8;
+        font-size: 76px;
+        line-height: 0.72;
       }
 
-      .filter-row { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 18px; }
-      .filter-btn { min-height: 40px; padding: 8px 14px; }
-      .table-wrap { max-width: 100%; overflow-x: auto; border-radius: 20px; }
-      table { width: 100%; min-width: 1020px; border-collapse: collapse; background: rgba(255, 255, 255, 0.55); }
-      th,
-      td { border-bottom: 1px solid rgba(255, 59, 24, 0.14); padding: 14px; text-align: left; vertical-align: top; }
-      th { background: #d92a1f; color: #fff; font-size: 12px; text-transform: uppercase; }
-      td { color: var(--muted); font-size: 14px; line-height: 1.45; }
-      td strong { display: block; color: var(--ink); font-size: 15px; }
-      .lane {
-        display: inline-flex;
+      .match-section { background: var(--mint); }
+      .match-source-note {
+        margin: -10px 0 24px;
+        border: 2px dashed var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--paper);
+        padding: 14px 16px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .match-source-note strong { color: var(--ink); }
+      .match-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+        gap: 16px;
+        align-items: start;
+      }
+      .match-form,
+      .match-result {
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-lg);
+        background: var(--paper);
+        padding: 22px;
+      }
+      .match-form { display: grid; gap: 14px; }
+      .match-question {
+        margin: 0;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 16px;
+      }
+      .match-question legend {
+        padding: 0 7px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 20px;
+        font-weight: 800;
+      }
+      .match-options { display: flex; flex-wrap: wrap; gap: 7px; }
+      .match-option {
+        min-height: 42px;
+        border: 2px solid var(--ink);
         border-radius: 999px;
-        background: rgba(223, 247, 180, 0.54);
-        color: #4d6120;
-        padding: 5px 8px;
+        background: var(--paper);
+        padding: 8px 12px;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .match-option:hover { background: var(--cream); }
+      .match-option[aria-pressed="true"] { background: var(--red); color: #fff; }
+      .match-option.detailed {
+        flex: 1 1 220px;
+        border-radius: 14px;
+        padding: 11px 13px;
+        text-align: left;
+      }
+      .match-option.detailed strong { display: block; margin-bottom: 3px; font-size: 13px; }
+      .match-option.detailed span { display: block; font-size: 10px; font-weight: 700; line-height: 1.35; }
+      .match-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+      .match-submit,
+      .match-reset {
+        min-height: 48px;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        padding: 10px 17px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .match-submit { background: var(--red); color: #fff; }
+      .match-submit:disabled { opacity: 0.48; cursor: not-allowed; }
+      .match-reset { background: var(--paper); color: var(--ink); }
+      .match-result {
+        position: sticky;
+        top: 96px;
+        min-height: 570px;
+      }
+      .match-placeholder {
+        min-height: 520px;
+        display: grid;
+        place-items: center;
+        border: 2px dashed var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--cream);
+        padding: 24px;
+        text-align: center;
+      }
+      .match-placeholder strong {
+        display: block;
+        margin-bottom: 10px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 42px;
+        line-height: 0.92;
+      }
+      .match-placeholder p { max-width: 430px; margin-bottom: 0; }
+      .match-result-head { margin-bottom: 16px; }
+      .match-result-head h3 {
+        margin-bottom: 8px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(34px, 4vw, 54px);
+        line-height: 0.92;
+        letter-spacing: -0.045em;
+      }
+      .match-result-head p { margin-bottom: 0; font-size: 13px; }
+      .match-primary {
+        display: grid;
+        grid-template-columns: minmax(180px, 0.72fr) minmax(0, 1fr);
+        gap: 16px;
+        align-items: center;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--pink);
+        padding: 16px;
+      }
+      .match-primary img { width: 100%; height: 260px; object-fit: contain; }
+      .match-primary h4 {
+        margin: 0 0 8px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 28px;
+        line-height: 0.98;
+      }
+      .match-price { margin: 0 0 10px; color: var(--red); font-size: 26px; font-weight: 900; }
+      .match-price del { margin-left: 7px; color: var(--muted); font-size: 13px; font-weight: 700; }
+      .match-pack { margin: -4px 0 10px; color: var(--ink); font-size: 12px; font-weight: 900; }
+      .match-reasons { display: flex; flex-wrap: wrap; gap: 5px; margin: 12px 0; }
+      .match-reason {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--paper);
+        padding: 5px 7px;
         font-size: 10px;
         font-weight: 900;
-        text-transform: uppercase;
+        text-transform: capitalize;
+      }
+      .match-shop {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: var(--red);
+        color: #fff;
+        padding: 8px 13px;
+        font-size: 12px;
+        font-weight: 900;
+        text-decoration: none;
+      }
+      .match-alternatives { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+      .match-alternative {
+        display: grid;
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 10px;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--paper);
+        padding: 10px;
+      }
+      .match-alternative img { width: 76px; height: 88px; object-fit: contain; }
+      .match-alternative strong { display: block; margin-bottom: 4px; font-size: 12px; line-height: 1.25; }
+      .match-alternative span { color: var(--red); font-size: 12px; font-weight: 900; }
+      .match-alternative a { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; font-weight: 900; }
+      .match-disclaimer { margin: 13px 0 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
+
+      .shelf-section { background: var(--cream); }
+      .advantage-rail {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+      .advantage-signal {
+        min-height: 134px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--paper);
+        padding: 17px;
+      }
+      .advantage-signal:first-child { background: var(--mint); }
+      .advantage-signal:nth-child(2) { background: var(--pink); }
+      .advantage-signal:nth-child(3) { background: var(--reference); }
+      .advantage-signal strong {
+        display: block;
+        margin-bottom: 7px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 23px;
+        line-height: 0.96;
+      }
+      .advantage-signal span { color: var(--muted); font-size: 12px; line-height: 1.4; }
+      .advantage-source-note {
+        grid-column: 1 / -1;
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .filter-bar {
+        position: sticky;
+        top: 88px;
+        z-index: 20;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 22px;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: var(--paper);
+        padding: 6px;
+      }
+      .filter-button {
+        min-height: 42px;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        padding: 9px 14px;
+        color: var(--ink);
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .filter-button:hover { background: var(--mint); }
+      .filter-button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+      .filter-count {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        margin-left: auto;
+        padding: 8px 12px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
       }
 
-      .lane.format { background: rgba(255, 239, 154, 0.56); color: #795b10; }
-      .source-link { color: #b82718; font-weight: 900; text-underline-offset: 3px; }
-
-      .source-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-      .source-card { border-radius: 20px; padding: 18px; }
-      .source-card h3 { margin: 0 0 8px; }
-      .source-card p { margin: 0; color: var(--muted); line-height: 1.5; }
-
-      .public-note {
-        margin-top: 18px;
-        border: 1px dashed var(--line-strong);
-        border-radius: 18px;
-        background: rgba(255, 242, 167, 0.32);
-        padding: 16px;
+      .lane-stack { display: grid; gap: 18px; }
+      .lane-group {
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr);
+        gap: 16px;
+        align-items: stretch;
+      }
+      .lane-heading {
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--paper);
+        padding: 18px;
+      }
+      .lane-heading strong {
+        display: block;
+        margin-bottom: 6px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 26px;
+        line-height: 0.92;
+      }
+      .lane-heading span { color: var(--muted); font-size: 12px; line-height: 1.4; }
+      .lane-cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .product-card {
+        min-width: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--paper);
+      }
+      .product-card[hidden] { display: none; }
+      .product-media {
+        position: relative;
+        min-height: 240px;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        border-bottom: 2px solid var(--ink);
+        background: #fff;
+        padding: 18px;
+      }
+      .product-media img { width: 100%; height: 220px; object-fit: contain; }
+      .product-card.anchor .product-media { background: var(--mint); }
+      .product-card.direct .product-media { background: #eef9e9; }
+      .product-card.reference .product-media { background: #fff9da; }
+      .role-chip {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: var(--paper);
+        padding: 6px 8px;
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .product-copy {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 18px;
+      }
+      .product-copy h3 { font-family: Georgia, "Times New Roman", serif; font-size: 25px; }
+      .product-copy p { margin-bottom: 16px; font-size: 14px; }
+      .signal-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+      .signal-tag {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--paper);
+        padding: 5px 7px;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .product-source {
+        margin-top: 14px;
+        color: var(--red);
+        font-size: 12px;
+        font-weight: 900;
+        text-underline-offset: 3px;
+      }
+      .image-use-note {
+        display: block;
+        margin-top: 10px;
         color: var(--muted);
+        font-size: 10px;
+        line-height: 1.35;
+      }
+
+      .matrix-wrap {
+        max-width: 100%;
+        overflow-x: auto;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--paper);
+      }
+      table { width: 100%; min-width: 1000px; border-collapse: collapse; }
+      th,
+      td { padding: 14px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+      th {
+        background: var(--red);
+        color: #fff;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      td { color: var(--muted); font-size: 13px; line-height: 1.4; }
+      td strong { display: block; color: var(--ink); font-size: 14px; }
+      tbody tr:nth-child(even) { background: rgba(217, 242, 213, 0.38); }
+      .cell-signal {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border-radius: 999px;
+        padding: 5px 7px;
+        background: var(--mint);
+        color: #31462d;
+        font-size: 10px;
+        font-weight: 900;
+      }
+      .cell-signal.no { background: #eee8e2; color: #655a54; }
+      .cell-signal.partial { background: var(--reference); color: #664f10; }
+      .method-note {
+        margin: 16px 0 0;
+        border: 2px dashed var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--paper);
+        padding: 16px;
+        font-size: 13px;
+      }
+
+      .brand-story { background: var(--red); color: #fff; }
+      .brand-story .eyebrow,
+      .brand-story h2 { color: #fff; }
+      .brand-story .section-head p { color: rgba(255,255,255,0.82); }
+      .story-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+      .story-card {
+        overflow: hidden;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-md);
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .story-media {
+        min-height: 260px;
+        display: grid;
+        place-items: center;
+        border-bottom: 2px solid var(--ink);
+        background: var(--cream);
+        padding: 24px;
+      }
+      .story-card:nth-child(2) .story-media { background: var(--mint); }
+      .story-card:nth-child(3) .story-media { background: var(--pink); }
+      .story-media img { width: 100%; height: 220px; object-fit: contain; }
+      .story-copy { padding: 20px; }
+      .story-copy p { margin-bottom: 0; font-size: 14px; }
+
+      .source-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+      .source-card {
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        background: var(--paper);
+      }
+      .source-card:nth-child(2) { background: var(--mint); }
+      .source-card:nth-child(3) { background: var(--cream); }
+      .source-card p { margin-bottom: 0; font-size: 14px; }
+      .source-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 18px;
+      }
+      .source-links a {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--paper);
+        padding: 8px 10px;
+        color: var(--red);
+        font-size: 11px;
+        font-weight: 900;
+        text-decoration: none;
+      }
+
+      .closing-cta {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.45fr);
+        gap: 24px;
+        align-items: center;
+        background: var(--mint);
+      }
+      .closing-cta figure { margin: 0; display: grid; place-items: center; }
+      .closing-cta img { max-height: 380px; object-fit: contain; }
+      footer {
+        width: var(--page);
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
+        border-top: 2px solid var(--ink);
+        padding: 22px 0 34px;
+        color: var(--muted);
+        font-size: 12px;
         line-height: 1.5;
       }
 
-      footer { padding: 24px 4px 0; color: var(--dim); font-size: 12px; line-height: 1.5; }
-      .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
-      .reveal.visible { opacity: 1; transform: translateY(0); }
+      .reveal { opacity: 0; transform: translateY(18px); transition: opacity 420ms ease, transform 420ms ease; }
+      .reveal.visible { opacity: 1; transform: none; }
       .hero.reveal { opacity: 1; transform: none; }
 
-      @media (max-width: 1100px) {
-        .page-shell { grid-template-columns: minmax(0, 1fr); }
-        main,
-        .section,
-        .table-wrap { min-width: 0; max-width: 100%; }
-        .sidebar {
-          position: sticky;
-          top: 0;
-          z-index: 20;
-          height: auto;
-          border-radius: 0 0 24px 24px;
-          margin: -22px -16px 0;
-          padding: 12px 16px;
-        }
-        .project-label,
-        .nav-label,
-        .side-foot { display: none; }
-        .nav-block { display: flex; overflow-x: auto; padding-bottom: 2px; }
-        .side-link { flex: 0 0 auto; min-width: max-content; }
-        .bento-card.large,
-        .bento-card.wide { grid-column: span 6; grid-row: auto; }
-        .bento-card.small { grid-column: span 3; }
+      @media (max-width: 1080px) {
+        :root { --page: min(100% - 28px, 1440px); }
+        .hero { grid-template-columns: 1fr; }
+        .hero-visual { min-height: 520px; border-left: 0; border-top: 2px solid var(--ink); }
+        .section-head { grid-template-columns: 1fr; align-items: start; }
+        .match-layout { grid-template-columns: 1fr; }
+        .match-result { position: static; min-height: 0; }
+        .lane-group { grid-template-columns: 1fr; }
+        .lane-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .product-card.anchor { grid-column: 1 / -1; }
       }
 
-      @media (max-width: 720px) {
-        .page-shell { width: min(100% - 22px, 1500px); padding-top: 14px; }
-        .sidebar { margin: -14px -11px 0; }
-        .wordmark { font-size: 28px; }
-        .brand-dot { width: 34px; height: 34px; border-radius: 13px; }
-        .side-link { min-height: 38px; padding: 9px 11px; font-size: 12px; }
-        .side-link span:last-child { display: none; }
-        .hero { min-height: auto; padding: 24px; }
-        .hero h2 { font-size: clamp(48px, 17vw, 72px); }
-        .hero h2 span { font-size: clamp(34px, 12vw, 52px); }
-        .hero-stats,
-        .source-grid { grid-template-columns: 1fr; }
-        .button-row .btn { width: 100%; }
-        .section-head { align-items: flex-start; flex-direction: column; }
-        .bento-grid { grid-template-columns: 1fr; }
-        .bento-card.large,
-        .bento-card.wide,
-        .bento-card.small { grid-column: span 1; }
+      @media (max-width: 760px) {
+        :root { --page: min(100% - 20px, 1440px); }
+        .header-inner { min-height: 0; flex-direction: column; align-items: stretch; gap: 8px; padding: 8px 0; }
+        .wordmark { width: fit-content; padding: 8px 14px 7px; font-size: 27px; }
+        .main-nav { width: 100%; }
+        .main-nav a { min-height: 38px; padding: 8px 10px; font-size: 10px; }
+        main { padding-top: 12px; }
+        h1 { font-size: clamp(52px, 19vw, 78px); }
+        h2 { font-size: clamp(40px, 14vw, 62px); }
+        .hero-copy { padding: 28px 20px; }
+        .hero-visual { min-height: 410px; }
+        .hero-product { width: min(74%, 330px); }
+        .purpose-strip,
+        .read-grid,
+        .advantage-rail,
+        .story-grid,
+        .source-grid,
+        .closing-cta { grid-template-columns: 1fr; }
+        .section { padding: 26px 18px; border-radius: 22px; }
+        .filter-bar { top: 112px; flex-wrap: nowrap; overflow-x: auto; border-radius: 16px; scrollbar-width: none; }
+        .filter-button { flex: 0 0 auto; }
+        .filter-count { display: none; }
+        .lane-cards { grid-template-columns: 1fr; }
+        .product-card.anchor { grid-column: auto; }
+        .product-media { min-height: 220px; }
+        .match-form,
+        .match-result { padding: 16px; border-radius: 20px; }
+        .match-primary { grid-template-columns: 1fr; text-align: center; }
+        .match-primary img { height: 230px; }
+        .match-reasons { justify-content: center; }
+        .match-alternatives { grid-template-columns: 1fr; }
+        .match-submit,
+        .match-reset { width: 100%; }
+        .hero-actions .button,
+        .cta-actions .button { width: 100%; }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.001ms !important; }
+        *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition-duration: 0.001ms !important; }
       }
     </style>
   </head>
   <body>
-    <div class="aurora" aria-hidden="true"></div>
-    <div class="noise" aria-hidden="true"></div>
-    <div class="page-shell">
-      <aside class="sidebar glass" aria-label="Public comparator navigation">
-        <a class="brand" href="#top" aria-label="OHME public comparator home">
-          <span class="wordmark">OHME!</span>
-          <span class="brand-dot" aria-hidden="true"></span>
-        </a>
-        <div class="project-label">
-          <p class="eyebrow">Public research demo</p>
-          <h1>Competitor comparator</h1>
-        </div>
-        <nav class="nav-block" aria-label="Page sections">
-          <p class="nav-label">Explore</p>
-          <a class="side-link active" href="#top"><span>Overview</span><span>01</span></a>
-          <a class="side-link" href="#method"><span>How to read</span><span>02</span></a>
-          <a class="side-link" href="#benchmarks"><span>Benchmarks</span><span>03</span></a>
-          <a class="side-link" href="#sources"><span>Source notes</span><span>04</span></a>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="wordmark" href="#top" aria-label="OHME snack shelf guide home">OHME!</a>
+        <nav class="main-nav" aria-label="Public page navigation">
+          <a href="#how-to-read">How to read</a>
+          <a href="#shelf-map">Shelf map</a>
+          <a href="#pattern-matrix">Pattern matrix</a>
+          <a href="#sources">Sources</a>
+          <a href="#snack-match">Snack Match</a>
+          <a class="shop-link" href="https://www.ohmefoods.com/collections/all-ohme-products" target="_blank" rel="noopener noreferrer">Shop OHME! ↗</a>
         </nav>
-        <div class="side-foot">
-          <span class="status-pill">Public sources</span>
-          <span>Public brand and retailer listings only. Current price and availability may change.</span>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero reveal" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">Public snack-shelf guide</p>
+          <h1>A clearer way to read <span>the snack shelf.</span></h1>
+          <p>See where OHME! sits alongside freeze-dried fruit formats and broader portable-snack references. This is a source-linked format guide—not a taste ranking, sales claim, or recommendation to copy another brand.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#shelf-map">Explore the visual map</a>
+            <a class="button" href="#snack-match">Find your snack match</a>
+          </div>
         </div>
-      </aside>
+        <!-- Image slot: current OHME pouch, transparent square crop, plus one oversized crunch/fruit object. -->
+        <figure class="hero-visual" data-image-slot="hero-brand-scene" aria-label="OHME product and fruit-forward brand visual">
+          <img class="hero-fruit" src="assets/ohme-fruit-collage.png" alt="Raspberry and banana fruit pieces" />
+          <img class="hero-product" src="assets/ohme-strawberry-yogurt-crunch.png" alt="OHME freeze-dried strawberry yogurt crunch pouch" />
+          <img class="hero-crunch" src="assets/ohme-snack-word.png" alt="Close-up OHME yogurt crunch piece" />
+          <span class="visual-label top">Real fruit only</span>
+          <span class="visual-label bottom">Crunchy on purpose</span>
+        </figure>
+      </section>
 
-      <main id="top">
-        <section class="hero glass reveal">
-          <div class="hero-copy">
-            <p class="eyebrow">OHME! public snack benchmark</p>
-            <h2>Compare the snack shelf.<span>Product, format, and value signals.</span></h2>
-            <p>A public-facing comparison of snack formats built from brand and retailer pages. Use the source links to see current product information and pricing.</p>
-            <div class="button-row">
-              <a class="btn accent" href="#benchmarks">Explore benchmarks</a>
-              <a class="btn" href="https://www.ohmefoods.com/collections/all-ohme-products" target="_blank" rel="noopener noreferrer">Open OHME products ↗</a>
+      <section class="purpose-strip" aria-label="What this public guide compares">
+        <div class="purpose-item"><strong>Product form</strong><span>Freeze-dried fruit and yogurt-crunch cues.</span></div>
+        <div class="purpose-item"><strong>Pack format</strong><span>Single-serve, multipack, and trial signals.</span></div>
+        <div class="purpose-item"><strong>Public proof</strong><span>Every product points back to a public source.</span></div>
+      </section>
+
+      <section class="section reveal" id="how-to-read">
+        <div class="section-head">
+          <div><p class="eyebrow">Comparison method</p><h2>Three roles, not one ranking.</h2></div>
+          <p>A granola bite can teach us about portioning without being the same product as freeze-dried fruit. The page separates each role so the comparison stays honest and useful.</p>
+        </div>
+        <div class="read-grid">
+          <article class="read-card">
+            <div><p class="eyebrow">OHME anchor</p><h3>Start with the product story OHME actually tells.</h3><p>Fruit-led, freeze-dried, crunchy products presented through current public OHME pages.</p></div>
+            <span class="read-number">01</span>
+          </article>
+          <article class="read-card">
+            <div><p class="eyebrow">Closest formats</p><h3>Compare product form before packaging style.</h3><p>Freeze-dried fruit and crunchy fruit formats are the closest shelf references in this public set.</p></div>
+            <span class="read-number">02</span>
+          </article>
+          <article class="read-card">
+            <div><p class="eyebrow">Packaging references</p><h3>Borrow the question, not the product positioning.</h3><p>Bars, granola bites, and low-sugar candy help illustrate portability, portioning, and variety packs.</p></div>
+            <span class="read-number">03</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section match-section reveal" id="snack-match">
+        <div class="section-head">
+          <div><p class="eyebrow">Snack Match · stays on this page</p><h2>Which OHME fits you?</h2></div>
+          <p>Answer five purchase questions drawn from OHME's published Qualtrics survey. We combine who you buy for, when you snack, what matters, exact pack preferences, and flavour mix with current public OHME prices.</p>
+        </div>
+        <p class="match-source-note"><strong>Question source:</strong> Published Qualtrics survey questions 5, 7, 8, 10, and 11. <strong>Pack comparison:</strong> 3 × 16g snack-size pouches versus a 44g resealable regular pouch. <strong>Current price source:</strong> OHME's public Shopify product data, checked July 15, 2026. Prices and availability can change. No Qualtrics response data is read or stored here.</p>
+        <div class="match-layout">
+          <form class="match-form" id="snack-match-form">
+            <fieldset class="match-question">
+              <legend>1. Who do you usually buy packaged snacks for?</legend>
+              <div class="match-options">
+                <button class="match-option" type="button" data-match-key="buyer" data-match-value="self" aria-pressed="false">Myself</button>
+                <button class="match-option" type="button" data-match-key="buyer" data-match-value="children" aria-pressed="false">Children or younger family</button>
+                <button class="match-option" type="button" data-match-key="buyer" data-match-value="household" aria-pressed="false">Partner, family, or household</button>
+                <button class="match-option" type="button" data-match-key="buyer" data-match-value="sharing" aria-pressed="false">Friends, guests, or sharing</button>
+              </div>
+            </fieldset>
+            <fieldset class="match-question">
+              <legend>2. When would you most often eat OHME!?</legend>
+              <div class="match-options">
+                <button class="match-option" type="button" data-match-key="occasion" data-match-value="topping" aria-pressed="false">Yogurt, smoothie bowl, or dessert topping</button>
+                <button class="match-option" type="button" data-match-key="occasion" data-match-value="lunchbox" aria-pressed="false">Lunchbox, work, or school</button>
+                <button class="match-option" type="button" data-match-key="occasion" data-match-value="on-the-go" aria-pressed="false">Between class, work, or errands</button>
+                <button class="match-option" type="button" data-match-key="occasion" data-match-value="at-home" aria-pressed="false">At home</button>
+              </div>
+            </fieldset>
+            <fieldset class="match-question">
+              <legend>3. When you buy snacks, what matters most?</legend>
+              <div class="match-options">
+                <button class="match-option" type="button" data-match-key="priority" data-match-value="taste" aria-pressed="false">Taste, flavour, or texture</button>
+                <button class="match-option" type="button" data-match-key="priority" data-match-value="value" aria-pressed="false">Price, value, or a deal</button>
+                <button class="match-option" type="button" data-match-key="priority" data-match-value="satisfying" aria-pressed="false">Feeling full or satisfied</button>
+                <button class="match-option" type="button" data-match-key="priority" data-match-value="portable" aria-pressed="false">Easy to carry, store, or eat on the go</button>
+                <button class="match-option" type="button" data-match-key="priority" data-match-value="simple" aria-pressed="false">Simple or recognizable ingredients</button>
+              </div>
+            </fieldset>
+            <fieldset class="match-question">
+              <legend>4. If both sizes were available in your preferred flavour, which would you buy?</legend>
+              <div class="match-options">
+                <button class="match-option detailed" type="button" data-match-key="size" data-match-value="snack-size" aria-pressed="false"><strong>Smaller snack packs</strong><span>3 × 16g · about CAD $5.50 each · sold as a 3-pack for CAD $16.49</span></button>
+                <button class="match-option detailed" type="button" data-match-key="size" data-match-value="regular" aria-pressed="false"><strong>Regular pouch</strong><span>44g · resealable · CAD $12.99</span></button>
+                <button class="match-option detailed" type="button" data-match-key="size" data-match-value="both" aria-pressed="false"><strong>Both sizes</strong><span>Different formats for different occasions</span></button>
+                <button class="match-option detailed" type="button" data-match-key="size" data-match-value="not-sure" aria-pressed="false"><strong>Not sure</strong><span>Use my other answers to decide</span></button>
+              </div>
+            </fieldset>
+            <fieldset class="match-question">
+              <legend>5. If you bought an OHME! bundle, which product mix would you prefer?</legend>
+              <div class="match-options">
+                <button class="match-option" type="button" data-match-key="mix" data-match-value="one-flavour" aria-pressed="false">One favourite flavour</button>
+                <button class="match-option" type="button" data-match-key="mix" data-match-value="yogurt" aria-pressed="false">Mostly yogurt flavours</button>
+                <button class="match-option" type="button" data-match-key="mix" data-match-value="fruit" aria-pressed="false">Mostly fruit flavours</button>
+                <button class="match-option" type="button" data-match-key="mix" data-match-value="even" aria-pressed="false">Even mix of yogurt and fruit</button>
+                <button class="match-option" type="button" data-match-key="mix" data-match-value="no-preference" aria-pressed="false">No preference</button>
+              </div>
+            </fieldset>
+            <div class="match-actions">
+              <button class="match-submit" id="match-submit" type="submit" disabled>Show my OHME match</button>
+              <button class="match-reset" type="reset">Reset choices</button>
             </div>
-            <div class="hero-stats" aria-label="Public comparator summary">
-              <div class="stat"><strong>6</strong><span>public brand signals</span></div>
-              <div class="stat"><strong>3</strong><span>format lanes</span></div>
-              <div class="stat"><strong>1</strong><span>source link per row</span></div>
+          </form>
+
+          <aside class="match-result" id="match-result" tabindex="-1" aria-live="polite" aria-label="OHME product recommendation">
+            <div class="match-placeholder">
+              <div><p class="eyebrow">Your product match</p><strong>Five survey-based choices. One useful shortlist.</strong><p>Your result will show a best match and two alternatives with pack details, current public prices, and direct OHME product links.</p></div>
             </div>
-          </div>
-        </section>
+          </aside>
+        </div>
+      </section>
 
-        <section class="section glass reveal" id="method">
-          <div class="section-head">
-            <div><p class="eyebrow">Comparison method</p><h2>Read by lane.</h2></div>
-            <p>A product can be useful as a direct format comparison or as a broader packaging benchmark. The page labels the role rather than implying every snack is a direct substitute.</p>
-          </div>
-          <div class="bento-grid">
-            <article class="bento-card large">
-              <div><p class="eyebrow">Closest format lane</p><h3>Freeze-dried fruit and crunchy fruit formats.</h3><p>These products are the closest public shelf references for ingredient story, pack format, and snacking occasion.</p></div>
-              <span class="bento-number">01</span>
-            </article>
-            <article class="bento-card wide"><div><p class="eyebrow">Packaging lane</p><h3>Bars, granola bites, and low-sugar candy.</h3><p>These are broader references for portioning, multipacks, claims, and convenience—not identical products.</p></div></article>
-            <article class="bento-card small"><p class="eyebrow">Included</p><h3>Public listings</h3><p>Brand claims, published pack formats, and retailer product pages.</p></article>
-            <article class="bento-card small"><p class="eyebrow">Outside scope</p><h3>Unverified claims</h3><p>Exact sales performance and future company decisions cannot be established from public product pages.</p></article>
-            <article class="bento-card small"><p class="eyebrow">Best practice</p><h3>Open the source</h3><p>Verify current pricing and availability before using a listing.</p></article>
-          </div>
-        </section>
+      <section class="section shelf-section reveal" id="shelf-map">
+        <div class="section-head">
+          <div><p class="eyebrow">Interactive visualization</p><h2>The public shelf map.</h2></div>
+          <p>Start with what OHME can visibly own, then filter by comparison role. Product images identify the linked listing only; they are not drawn to physical scale and do not imply sales performance.</p>
+        </div>
+        <div class="advantage-rail" aria-label="OHME public advantage signals">
+          <article class="advantage-signal"><div><p class="eyebrow">OHME advantage 01</p><strong>Real fruit reads first.</strong></div><span>The fruit and flavour stay visible before shoppers reach the fine print.</span></article>
+          <article class="advantage-signal"><div><p class="eyebrow">OHME advantage 02</p><strong>A distinct freeze-dried crunch.</strong></div><span>The texture cue separates OHME from bars, granola bites, and candy references.</span></article>
+          <article class="advantage-signal"><div><p class="eyebrow">OHME advantage 03</p><strong>No-added-sugar clarity.</strong></div><span>The claim sits high in the public product story instead of being buried in comparison copy.</span></article>
+          <article class="advantage-signal"><div><p class="eyebrow">OHME advantage 04</p><strong>Made-in-Canada context.</strong></div><span>Canadian provenance gives the brand another concrete, visible point of difference.</span></article>
+          <p class="advantage-source-note"><strong>How to read these:</strong> they are OHME's published product and packaging signals, not proof that every shopper will prefer OHME or that OHME outsells another brand.</p>
+        </div>
+        <div class="filter-bar" role="group" aria-label="Filter public shelf map">
+          <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All six</button>
+          <button class="filter-button" type="button" data-filter="anchor" aria-pressed="false">OHME anchor</button>
+          <button class="filter-button" type="button" data-filter="direct" aria-pressed="false">Closest formats</button>
+          <button class="filter-button" type="button" data-filter="reference" aria-pressed="false">Packaging references</button>
+          <span class="filter-count" id="filter-count" role="status" aria-live="polite">Showing 6 public products</span>
+        </div>
 
-        <section class="section glass reveal" id="benchmarks">
-          <div class="section-head">
-            <div><p class="eyebrow">Public comparator</p><h2>Snack benchmarks.</h2></div>
-            <p>Filter by the role each public product plays in the comparison. Source links open in a new tab.</p>
-          </div>
-          <div class="filter-row" aria-label="Filter benchmark rows">
-            <button class="filter-btn active" type="button" data-filter="all">All products</button>
-            <button class="filter-btn" type="button" data-filter="anchor">OHME anchor</button>
-            <button class="filter-btn" type="button" data-filter="direct">Closest formats</button>
-            <button class="filter-btn" type="button" data-filter="format">Packaging references</button>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Brand / Product</th><th>Role</th><th>Published format signal</th><th>Public comparison use</th><th>Source</th></tr></thead>
-              <tbody>
-                <tr data-lane="anchor"><td><strong>OHME!</strong>Fruit Crunch &amp; Yogurt Crunch</td><td><span class="lane">OHME anchor</span></td><td>Fruit and yogurt-crunch products across snack-pouch and bundle offers.</td><td>Starting point for comparing product form, public claims, and current offers.</td><td><a class="source-link" href="https://www.ohmefoods.com/collections/all-ohme-products" target="_blank" rel="noopener noreferrer">View OHME collection ↗</a></td></tr>
-                <tr data-lane="direct"><td><strong>Origo</strong>Freeze-Dried Strawberry</td><td><span class="lane">Closest format</span></td><td>Amazon listing for a multi-unit freeze-dried fruit offer.</td><td>Useful public reference for fruit format and multipack presentation.</td><td><a class="source-link" href="https://www.amazon.ca/Origo-Freeze-Dried-Strawberry-Healthy-Preservatives/dp/B0DJMTB2N9" target="_blank" rel="noopener noreferrer">Open Amazon listing ↗</a></td></tr>
-                <tr data-lane="direct"><td><strong>Crispy Green</strong>Crispy Fruit Assorted Trial Pack</td><td><span class="lane">Closest format</span></td><td>Assorted single-serve freeze-dried fruit bags.</td><td>Useful public reference for variety and trial-pack communication.</td><td><a class="source-link" href="https://crispygreen.com/product/crispy-fruit-assorted-trial-pack/" target="_blank" rel="noopener noreferrer">View product page ↗</a></td></tr>
-                <tr data-lane="format"><td><strong>SmartSweets</strong>Sweet Fish</td><td><span class="lane format">Packaging reference</span></td><td>Single-pouch better-for-you candy format with low-sugar claims.</td><td>Broader reference for portable pouch messaging and front-of-pack claims.</td><td><a class="source-link" href="https://smartsweets.ca/products/sweet-fish" target="_blank" rel="noopener noreferrer">View product page ↗</a></td></tr>
-                <tr data-lane="format"><td><strong>MadeGood</strong>Chocolate Chip Granola Minis</td><td><span class="lane format">Packaging reference</span></td><td>Individually portioned granola bites sold in multipack formats.</td><td>Broader reference for lunchbox convenience and individual-unit packaging.</td><td><a class="source-link" href="https://www.madegoodfoods.ca/products/chocolate-chip-granola-minis" target="_blank" rel="noopener noreferrer">View product page ↗</a></td></tr>
-                <tr data-lane="format"><td><strong>That's it.</strong>Mini Fruit Bars Variety</td><td><span class="lane format">Packaging reference</span></td><td>Mini fruit bars sold as a variety multipack.</td><td>Broader reference for fruit-led messaging, portability, and variety packaging.</td><td><a class="source-link" href="https://www.thatsitfruit.com/search?q=mini%20fruit%20bars%20variety&amp;type=product" target="_blank" rel="noopener noreferrer">Search current products ↗</a></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="public-note">Public listings can change by date, retailer, and location. This demo does not claim exact sales performance or predict future company decisions. Open the source link for the latest available product and price information.</p>
-        </section>
+        <div class="lane-stack">
+          <section class="lane-group" data-lane-group="anchor">
+            <div class="lane-heading"><strong>OHME anchor</strong><span>The public product story the rest of the page uses as its reference point.</span></div>
+            <div class="lane-cards">
+              <article class="product-card anchor" data-lane="anchor">
+                <!-- Image slot: current OHME fruit pouch, straight-on/side product PNG, 1:1. -->
+                <figure class="product-media" data-image-slot="ohme-anchor-product">
+                  <span class="role-chip">OHME anchor</span>
+                  <img src="assets/ohme-strawberry-side.png" alt="OHME freeze-dried sliced strawberries pouch" />
+                </figure>
+                <div class="product-copy">
+                  <p class="eyebrow">OHME!</p><h3>Fruit Crunch &amp; Yogurt Crunch</h3>
+                  <p>Fruit and yogurt-crunch products with a visible real-fruit story, freeze-dried texture, and clear pouch identity.</p>
+                  <div class="signal-tags"><span class="signal-tag">Real fruit</span><span class="signal-tag">Freeze-dried crunch</span><span class="signal-tag">No added sugar</span><span class="signal-tag">Made in Canada</span></div>
+                  <a class="product-source" href="https://www.ohmefoods.com/collections/all-ohme-products" target="_blank" rel="noopener noreferrer">View OHME collection ↗</a>
+                  <small class="image-use-note">Official OHME image · Product reference, not a size model.</small>
+                </div>
+              </article>
+            </div>
+          </section>
 
-        <section class="section glass reveal" id="sources">
-          <div class="section-head">
-            <div><p class="eyebrow">Source hygiene</p><h2>What the links mean.</h2></div>
-            <p>The comparator is intentionally transparent about the limits of public web research.</p>
-          </div>
-          <div class="source-grid">
-            <article class="source-card"><h3>Current, not permanent</h3><p>Retail prices and availability can change. The linked page is the current reference point.</p></article>
-            <article class="source-card"><h3>Signal, not sales proof</h3><p>A public product page confirms an offer and its claims; it does not prove exact category sales.</p></article>
-            <article class="source-card"><h3>Role-labelled comparisons</h3><p>Closest formats and broader packaging references are separated so the comparison remains clear.</p></article>
-          </div>
-        </section>
+          <section class="lane-group" data-lane-group="direct">
+            <div class="lane-heading"><strong>Closest formats</strong><span>Public listings that most closely match the freeze-dried fruit format in this set.</span></div>
+            <div class="lane-cards">
+              <article class="product-card direct" data-lane="direct">
+                <!-- Image slot: exact Origo strawberry 6-pack product hero from the linked retailer page, 1:1 light background. -->
+                <figure class="product-media" data-image-slot="origo-product">
+                  <span class="role-chip">Closest format</span>
+                  <img src="assets/origo-strawberry.jpg" alt="Origo freeze-dried strawberry pack of six" loading="lazy" />
+                </figure>
+                <div class="product-copy"><p class="eyebrow">Origo</p><h3>Freeze-Dried Strawberry</h3><p>A multi-unit freeze-dried fruit offer useful for reading fruit format and multipack presentation.</p><div class="signal-tags"><span class="signal-tag">Freeze-dried</span><span class="signal-tag">Fruit-led</span><span class="signal-tag">Multipack</span></div><a class="product-source" href="https://www.amazon.ca/Origo-Freeze-Dried-Strawberry-Healthy-Preservatives/dp/B0DJMTB2N9" target="_blank" rel="noopener noreferrer">Open Amazon listing ↗</a><small class="image-use-note">Retailer listing image · Verify the current listing at source.</small></div>
+              </article>
+              <article class="product-card direct" data-lane="direct">
+                <!-- Image slot: exact Crispy Green trial-pack hero from the linked brand page, 1:1. -->
+                <figure class="product-media" data-image-slot="crispy-green-product">
+                  <span class="role-chip">Closest format</span>
+                  <img src="assets/crispy-green-trial.png" alt="Crispy Green trial four pack" loading="lazy" />
+                </figure>
+                <div class="product-copy"><p class="eyebrow">Crispy Green</p><h3>Trial 4 Pack</h3><p>Single-serve freeze-dried fruit bags used here as a public trial-pack and variety signal.</p><div class="signal-tags"><span class="signal-tag">Freeze-dried</span><span class="signal-tag">Single-serve</span><span class="signal-tag">Trial pack</span></div><a class="product-source" href="https://crispygreen.com/products/trial-4-pack-free-shipping" target="_blank" rel="noopener noreferrer">View product page ↗</a><small class="image-use-note">Official brand image · Current page replaces the prior retired URL.</small></div>
+              </article>
+            </div>
+          </section>
 
-        <footer>OHME! Public Competitor Comparator · Public brand and retailer information · Source review date: July 15, 2026</footer>
-      </main>
-    </div>
+          <section class="lane-group" data-lane-group="reference">
+            <div class="lane-heading"><strong>Packaging references</strong><span>Broader snack formats included for portioning, portability, claims, or multipack communication.</span></div>
+            <div class="lane-cards">
+              <article class="product-card reference" data-lane="reference">
+                <!-- Image slot: SmartSweets Sweet Fish current pouch hero, 1:1. -->
+                <figure class="product-media" data-image-slot="smartsweets-product"><span class="role-chip">Packaging reference</span><img src="assets/smartsweets-sweet-fish.png" alt="SmartSweets Sweet Fish pouch" loading="lazy" /></figure>
+                <div class="product-copy"><p class="eyebrow">SmartSweets</p><h3>Sweet Fish</h3><p>A single-pouch better-for-you candy format used only for portable-pack and front-of-pack comparison.</p><div class="signal-tags"><span class="signal-tag">Single pouch</span><span class="signal-tag">Portable</span><span class="signal-tag">Claim-led</span></div><a class="product-source" href="https://smartsweets.ca/products/sweet-fish" target="_blank" rel="noopener noreferrer">View product page ↗</a><small class="image-use-note">Official product image · Not a direct product substitute.</small></div>
+              </article>
+              <article class="product-card reference" data-lane="reference">
+                <!-- Image slot: MadeGood Chocolate Chip Granola Minis exact product hero, 1:1. -->
+                <figure class="product-media" data-image-slot="madegood-product"><span class="role-chip">Packaging reference</span><img src="assets/madegood-chocolate-chip.png" alt="MadeGood chocolate chip granola minis package" loading="lazy" /></figure>
+                <div class="product-copy"><p class="eyebrow">MadeGood</p><h3>Chocolate Chip Granola Minis</h3><p>Individually portioned bites sold in multipack formats; useful for lunchbox and portion communication.</p><div class="signal-tags"><span class="signal-tag">Individual units</span><span class="signal-tag">Multipack</span><span class="signal-tag">Lunchbox</span></div><a class="product-source" href="https://www.madegoodfoods.ca/products/chocolate-chip-granola-minis" target="_blank" rel="noopener noreferrer">View product page ↗</a><small class="image-use-note">Official product image · Packaging reference only.</small></div>
+              </article>
+              <article class="product-card reference" data-lane="reference">
+                <!-- Image slot: That's it. 24-bar minis variety pouch hero, 1:1. -->
+                <figure class="product-media" data-image-slot="thats-it-product"><span class="role-chip">Packaging reference</span><img src="assets/thats-it-minis.jpg" alt="That's it mini fruit bars variety pack" loading="lazy" /></figure>
+                <div class="product-copy"><p class="eyebrow">That's it.</p><h3>Minis Variety Pack</h3><p>Mini fruit bars sold as a variety multipack; useful for fruit-led portability and variety communication.</p><div class="signal-tags"><span class="signal-tag">Fruit-led</span><span class="signal-tag">Mini bars</span><span class="signal-tag">Variety pack</span></div><a class="product-source" href="https://www.thatsitfruit.com/products/strawberry-blueberry-mango-minis-variety-pack" target="_blank" rel="noopener noreferrer">View product page ↗</a><small class="image-use-note">Official product image · Packaging reference only.</small></div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
 
+      <section class="section reveal" id="pattern-matrix">
+        <div class="section-head">
+          <div><p class="eyebrow">Pattern visualization</p><h2>What each listing can—and cannot—show.</h2></div>
+          <p>The matrix visualizes published product and pack-format signals. It avoids scores because a score would imply a ranking the public sources do not support.</p>
+        </div>
+        <div class="matrix-wrap">
+          <table>
+            <thead><tr><th>Brand / product</th><th>Comparison role</th><th>Freeze-dried signal</th><th>Fruit-led signal</th><th>Single-serve signal</th><th>Multipack / trial signal</th><th>Why included</th></tr></thead>
+            <tbody>
+              <tr><td><strong>OHME!</strong>Fruit &amp; Yogurt Crunch</td><td>OHME anchor</td><td><span class="cell-signal">✓ Published</span></td><td><span class="cell-signal">✓ Published</span></td><td><span class="cell-signal">✓ Pouch</span></td><td><span class="cell-signal partial">△ Offers vary</span></td><td>Starting point for format and public claim comparison.</td></tr>
+              <tr><td><strong>Origo</strong>Freeze-Dried Strawberry</td><td>Closest format</td><td><span class="cell-signal">✓ Published</span></td><td><span class="cell-signal">✓ Published</span></td><td><span class="cell-signal partial">△ Units in pack</span></td><td><span class="cell-signal">✓ Pack of 6</span></td><td>Freeze-dried fruit and multipack presentation.</td></tr>
+              <tr><td><strong>Crispy Green</strong>Trial 4 Pack</td><td>Closest format</td><td><span class="cell-signal">✓ Published</span></td><td><span class="cell-signal">✓ Published</span></td><td><span class="cell-signal">✓ Individual bags</span></td><td><span class="cell-signal">✓ Trial pack</span></td><td>Freeze-dried trial and variety communication.</td></tr>
+              <tr><td><strong>SmartSweets</strong>Sweet Fish</td><td>Packaging reference</td><td><span class="cell-signal no">— Not used</span></td><td><span class="cell-signal no">— Not fruit-led</span></td><td><span class="cell-signal">✓ Pouch</span></td><td><span class="cell-signal no">— Not used</span></td><td>Portable pouch and claim hierarchy.</td></tr>
+              <tr><td><strong>MadeGood</strong>Granola Minis</td><td>Packaging reference</td><td><span class="cell-signal no">— Not used</span></td><td><span class="cell-signal no">— Not fruit-led</span></td><td><span class="cell-signal">✓ Individual units</span></td><td><span class="cell-signal">✓ Multipack</span></td><td>Lunchbox portions and individual-unit packaging.</td></tr>
+              <tr><td><strong>That's it.</strong>Minis Variety Pack</td><td>Packaging reference</td><td><span class="cell-signal no">— Not used</span></td><td><span class="cell-signal">✓ Fruit-led</span></td><td><span class="cell-signal">✓ Mini bars</span></td><td><span class="cell-signal">✓ Variety pack</span></td><td>Fruit-led portability and variety-pack structure.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="method-note" id="matrix-method"><strong>How to use this matrix:</strong> treat each check as a published format signal, not evidence of preference or sales. Prices and availability can change by date, retailer, and location.</p>
+      </section>
+
+      <section class="section brand-story reveal" aria-labelledby="brand-story-title">
+        <div class="section-head">
+          <div><p class="eyebrow">OHME brand context</p><h2 id="brand-story-title">Why OHME reads differently.</h2></div>
+          <p>The comparator becomes more useful when public listings are read against OHME's own visible product story—not against generic “healthy snack” language.</p>
+        </div>
+        <div class="story-grid">
+          <article class="story-card">
+            <!-- Image slot: current OHME real-fruit icon/illustration, transparent 1:1. -->
+            <figure class="story-media" data-image-slot="real-fruit-story"><img src="assets/ohme-real-fruit.png" alt="OHME strawberry line illustration" loading="lazy" /></figure>
+            <div class="story-copy"><p class="eyebrow">01 · Ingredient cue</p><h3>Real fruit is the first reading lens.</h3><p>Use public ingredient and product pages to confirm the claim; do not infer it from package colour alone.</p></div>
+          </article>
+          <article class="story-card">
+            <!-- Image slot: current OHME no-added-sugar illustration, transparent 1:1. -->
+            <figure class="story-media" data-image-slot="sugar-story"><img src="assets/ohme-no-added-sugar.png" alt="OHME no-added-sugar line illustration" loading="lazy" /></figure>
+            <div class="story-copy"><p class="eyebrow">02 · Claim cue</p><h3>Claims need a simple hierarchy.</h3><p>The public page compares how claims are presented, not whether one product is healthier than another.</p></div>
+          </article>
+          <article class="story-card">
+            <!-- Image slot: current OHME freeze-drying illustration, transparent 4:3. -->
+            <figure class="story-media" data-image-slot="freeze-dried-story"><img src="assets/ohme-freeze-dryer.png" alt="OHME illustration of a freeze-drying machine" loading="lazy" /></figure>
+            <div class="story-copy"><p class="eyebrow">03 · Process cue</p><h3>Freeze-dried is a product-form signal.</h3><p>That process separates the closest-format lane from bars, granola bites, and candy references.</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="sources">
+        <div class="section-head">
+          <div><p class="eyebrow">Source hygiene</p><h2>Transparent by design.</h2></div>
+          <p>The value of a public comparator is not certainty. It is a clear trail back to the page where each signal was observed.</p>
+        </div>
+        <div class="source-grid">
+          <article class="source-card"><h3>Current, not permanent</h3><p>Retail prices, stock, pack formats, and product pages change. Always reopen the linked source before quoting a current offer.</p></article>
+          <article class="source-card"><h3>Signal, not sales proof</h3><p>A public listing confirms that an offer or claim is shown. It does not prove demand, conversion, or category leadership.</p></article>
+          <article class="source-card"><h3>Images identify listings</h3><p>Product images help visitors recognize the listing. They are not used to infer dimensions, volume, or market performance.</p></article>
+        </div>
+        <div class="source-links" aria-label="Public sources used on this page">
+          <a href="https://www.ohmefoods.com/collections/all-ohme-products" target="_blank" rel="noopener noreferrer">OHME! ↗</a>
+          <a href="https://www.amazon.ca/Origo-Freeze-Dried-Strawberry-Healthy-Preservatives/dp/B0DJMTB2N9" target="_blank" rel="noopener noreferrer">Origo ↗</a>
+          <a href="https://crispygreen.com/products/trial-4-pack-free-shipping" target="_blank" rel="noopener noreferrer">Crispy Green ↗</a>
+          <a href="https://smartsweets.ca/products/sweet-fish" target="_blank" rel="noopener noreferrer">SmartSweets ↗</a>
+          <a href="https://www.madegoodfoods.ca/products/chocolate-chip-granola-minis" target="_blank" rel="noopener noreferrer">MadeGood ↗</a>
+          <a href="https://www.thatsitfruit.com/products/strawberry-blueberry-mango-minis-variety-pack" target="_blank" rel="noopener noreferrer">That's it. ↗</a>
+        </div>
+      </section>
+
+      <section class="section closing-cta reveal">
+        <div>
+          <p class="eyebrow">From comparison to discovery</p>
+          <h2>Know the shelf. Then find your crunch.</h2>
+          <p>The comparator explains format roles. Snack Match turns that context into a short, public-friendly preference journey.</p>
+          <div class="cta-actions"><a class="button primary" href="#snack-match">Start Snack Match</a><a class="button" href="https://www.ohmefoods.com/collections/all-ohme-products" target="_blank" rel="noopener noreferrer">Explore OHME products ↗</a></div>
+        </div>
+        <!-- Image slot: current OHME fruit pouch with clean edges and enough negative space, 1:1 transparent PNG. -->
+        <figure data-image-slot="closing-product"><img src="assets/ohme-strawberry-side.png" alt="OHME freeze-dried sliced strawberries pouch" loading="lazy" /></figure>
+      </section>
+    </main>
+
+    <footer>
+      <span>OHME! Snack Shelf Guide · Public brand and retailer information only.</span>
+      <span>Source review date: July 15, 2026 · <a href="IMAGE_PLAN.md">Image plan</a></span>
+    </footer>
+
+    <script src="snack-match.js"></script>
     <script>
       const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
-      const rows = Array.from(document.querySelectorAll("[data-lane]"));
+      const productCards = Array.from(document.querySelectorAll("[data-lane]"));
+      const laneGroups = Array.from(document.querySelectorAll("[data-lane-group]"));
+      const filterCount = document.getElementById("filter-count");
 
       filterButtons.forEach((button) => {
         button.addEventListener("click", () => {
           const filter = button.dataset.filter;
-          filterButtons.forEach((item) => item.classList.toggle("active", item === button));
-          rows.forEach((row) => { row.hidden = filter !== "all" && row.dataset.lane !== filter; });
+          let visibleCount = 0;
+
+          filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          productCards.forEach((card) => {
+            const visible = filter === "all" || card.dataset.lane === filter;
+            card.hidden = !visible;
+            if (visible) visibleCount += 1;
+          });
+          laneGroups.forEach((group) => {
+            const visibleCards = group.querySelectorAll("[data-lane]:not([hidden])").length;
+            group.hidden = visibleCards === 0;
+          });
+          filterCount.textContent = `Showing ${visibleCount} public ${visibleCount === 1 ? "product" : "products"}`;
         });
       });
 
+      const matchAnswers = {};
+      const matchForm = document.getElementById("snack-match-form");
+      const matchSubmit = document.getElementById("match-submit");
+      const matchResult = document.getElementById("match-result");
+      const matchOptions = Array.from(document.querySelectorAll("[data-match-key]"));
+
+      function updateMatchSubmit() {
+        matchSubmit.disabled = ["buyer", "occasion", "priority", "size", "mix"].some((key) => !matchAnswers[key]);
+      }
+
+      function priceMarkup(product) {
+        const compareAt = product.compareAtPrice ? `<del>CAD $${product.compareAtPrice.toFixed(2)}</del>` : "";
+        return `CAD $${product.price.toFixed(2)} ${compareAt}`;
+      }
+
+      function renderMatchResults(result) {
+        const primary = result.primary;
+        const alternatives = result.recommendations.slice(1);
+        matchResult.innerHTML = `
+          <div class="match-result-head">
+            <p class="eyebrow">Your best current match</p>
+            <h3>${primary.shortName}</h3>
+            <p>Selected from current, available products in OHME's public collection.</p>
+          </div>
+          <article class="match-primary">
+            <img src="${primary.image}" alt="${primary.name}" />
+            <div>
+              <h4>${primary.name}</h4>
+              <p class="match-price">${priceMarkup(primary)}</p>
+              <p class="match-pack">${primary.packLabel}</p>
+              <p>${primary.description}</p>
+              <div class="match-reasons">${primary.reasons.map((reason) => `<span class="match-reason">${reason}</span>`).join("")}</div>
+              <a class="match-shop" href="${primary.url}" target="_blank" rel="noopener noreferrer">View this product on OHME ↗</a>
+            </div>
+          </article>
+          <div class="match-alternatives" aria-label="Alternative OHME matches">
+            ${alternatives.map((product) => `
+              <article class="match-alternative">
+                <img src="${product.image}" alt="" />
+                <div><strong>${product.shortName}</strong><span>CAD $${product.price.toFixed(2)} · ${product.packLabel}</span><a href="${product.url}" target="_blank" rel="noopener noreferrer">View alternative ↗</a></div>
+              </article>
+            `).join("")}
+          </div>
+          <p class="match-disclaimer">Recommendation uses only the five choices above and current public product data. It is not nutrition or medical advice. Price check: July 15, 2026.</p>
+        `;
+        matchResult.focus({ preventScroll: true });
+      }
+
+      matchOptions.forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.matchKey;
+          matchAnswers[key] = button.dataset.matchValue;
+          matchOptions.filter((item) => item.dataset.matchKey === key).forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          updateMatchSubmit();
+        });
+      });
+
+      matchForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (matchSubmit.disabled) return;
+        if (!window.OhmeSnackMatch) {
+          matchResult.innerHTML = '<div class="match-placeholder"><div><strong>Product matcher unavailable.</strong><p>Please refresh the page and try again.</p></div></div>';
+          return;
+        }
+        renderMatchResults(window.OhmeSnackMatch.recommendProducts(matchAnswers));
+      });
+
+      matchForm.addEventListener("reset", () => {
+        Object.keys(matchAnswers).forEach((key) => delete matchAnswers[key]);
+        matchOptions.forEach((button) => button.setAttribute("aria-pressed", "false"));
+        matchResult.innerHTML = '<div class="match-placeholder"><div><p class="eyebrow">Your product match</p><strong>Five survey-based choices. One useful shortlist.</strong><p>Your result will show a best match and two alternatives with pack details, current public prices, and direct OHME product links.</p></div></div>';
+        updateMatchSubmit();
+      });
+
       const revealItems = Array.from(document.querySelectorAll(".reveal"));
-      if (!("IntersectionObserver" in window)) {
+      if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         revealItems.forEach((item) => item.classList.add("visible"));
       } else {
         const observer = new IntersectionObserver((entries) => {
@@ -607,7 +1247,7 @@
               observer.unobserve(entry.target);
             }
           });
-        }, { threshold: 0.12 });
+        }, { threshold: 0.08 });
         revealItems.forEach((item) => observer.observe(item));
       }
     </script>
