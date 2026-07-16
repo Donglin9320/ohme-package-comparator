@@ -152,10 +152,13 @@ test("matches the OHME brand-home reference with moment imagery and interactive 
   assert.match(html, /data-compare-tab="ingredients"/);
 });
 
-test("shows complete Origo and MadeGood images without cover cropping", () => {
+test("keeps all comparison images contained below their labels", () => {
   const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
 
-  assert.match(html, /\.read-media img \{[^}]*object-fit: contain;/s);
+  assert.match(html, /\.read-media img \{[^}]*min-width: 0;[^}]*min-height: 0;[^}]*max-width: 100%;[^}]*max-height: 100%;[^}]*object-fit: contain;/s);
+  assert.match(html, /padding: 52px 28px 28px;/);
+  assert.match(html, /padding: 48px 24px 24px;/);
+  assert.match(html, /OHME freeze-dried strawberry yogurt crunch pouch/);
   assert.match(html, /Complete Origo freeze-dried strawberry pouches and multipack box/);
   assert.match(html, /Complete MadeGood chocolate chip granola bites box and single-serve pouch/);
 });

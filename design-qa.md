@@ -26,7 +26,7 @@ The combined board places the top 1067px of the supplied reference beside the fi
 
 ## Focused region comparison evidence
 
-Focused screenshots were required because the user's annotations specifically identified cropped competitor product images. Origo now shows the complete box and all pouches inside the media frame. MadeGood now shows the complete box, individual pouch, and product pieces without the label covering the lower product. The role label was moved to the upper-left and the media frame increased to 300px on mobile.
+Focused screenshots were required because the user's annotations specifically identified cropped or obstructed product images. OHME, Origo, and MadeGood now remain fully contained below their role labels and above the copy boundary. The media frame remains 300px tall on mobile, with reserved label space inside the frame.
 
 ## Comparison history
 
@@ -57,7 +57,7 @@ No actionable P0, P1, or P2 differences remain.
 - [x] Match the reference's consumer-brand homepage hierarchy.
 - [x] Add four responsive OHME moment images and interactive presets.
 - [x] Preserve the complete Snack Match flow and current public-price recommendations.
-- [x] Show full Origo and MadeGood images without crop or overlay obstruction.
+- [x] Show full OHME, Origo, and MadeGood images without crop or overlay obstruction.
 - [x] Verify desktop, mobile, interactions, console, and automated tests.
 
 ## Follow-up polish

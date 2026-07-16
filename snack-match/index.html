@@ -421,9 +421,18 @@
         place-items: center;
         border-bottom: 1.5px solid var(--red);
         background: #fff;
-        padding: 28px;
+        padding: 52px 28px 28px;
       }
-      .read-media img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+      .read-media img {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
       .read-media figcaption { position: absolute; left: 12px; top: 12px; border: 1px solid var(--red); border-radius: 999px; background: var(--paper); padding: 6px 9px; color: var(--red-dark); font-size: 9px; font-weight: 900; text-transform: uppercase; }
       .read-copy { flex: 1; padding: 22px; }
       .read-copy h3 { font-size: 28px; line-height: 0.98; }
@@ -513,7 +522,7 @@
         .match-submit,
         .match-reset { width: 100%; }
         .read-card { flex-basis: 88%; min-height: 500px; }
-        .read-media { height: 300px; flex-basis: 300px; padding: 24px; }
+        .read-media { height: 300px; flex-basis: 300px; padding: 48px 24px 24px; }
         .filter-bar { flex-wrap: nowrap; overflow-x: auto; }
         .filter-button { flex: 0 0 auto; }
         .filter-count { display: none; }
