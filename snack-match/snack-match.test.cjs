@@ -189,3 +189,21 @@ test("removes competitor branding, the shelf map, and the standalone sources sec
   assert.match(html, /category-level comparison/i);
   assert.match(html, /What makes OHME different/);
 });
+
+test("tracks the Qualtrics-to-product funnel with GA4 without survey identifiers", () => {
+  const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
+
+  assert.match(html, /googletagmanager\.com\/gtag\/js\?id=G-9E4JZXY1XV/);
+  assert.match(html, /gtag\("config", "G-9E4JZXY1XV"/);
+  assert.match(html, /allow_google_signals: false/);
+  assert.match(html, /allow_ad_personalization_signals: false/);
+  assert.match(html, /utm_source.*qualtrics/s);
+  assert.match(html, /utm_medium.*survey_complete/s);
+  assert.match(html, /trackEvent\("survey_landing"/);
+  assert.match(html, /trackEvent\("snack_match_start"/);
+  assert.match(html, /trackEvent\("snack_match_complete"/);
+  assert.match(html, /trackEvent\("product_click"/);
+  assert.match(html, /data-analytics="product-link"/);
+  assert.doesNotMatch(html, /analyticsParameters\.get\("utm_campaign"/);
+  assert.doesNotMatch(html, /ResponseID|response_id|user_email|first_name|last_name|analyticsParameters\.get\("email"/i);
+});
