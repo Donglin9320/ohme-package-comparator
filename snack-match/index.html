@@ -7,6 +7,16 @@
     <link rel="canonical" href="https://donglin9320.github.io/ohme-snack-match/snack-match/" />
     <link rel="icon" href="data:," />
     <title>OHME! Snack Match · Find Your Crunch</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9E4JZXY1XV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-9E4JZXY1XV", {
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+      });
+    </script>
     <style>
       :root {
         --red: #e6422f;
@@ -708,7 +718,7 @@
       </section>
     </main>
 
-    <footer><div class="footer-inner"><strong>OHME!</strong><span>Public snack guide · Source review July 15, 2026<br />Product availability and prices can change.</span><a class="pill-link" href="#snack-match">Find your OHME match</a></div></footer>
+    <footer><div class="footer-inner"><strong>OHME!</strong><span>Public snack guide · Source review July 15, 2026<br />Product availability and prices can change.<br />Analytics never receives survey answers, names, emails, or Qualtrics response IDs.</span><a class="pill-link" href="#snack-match">Find your OHME match</a></div></footer>
 
     <script src="snack-match.js"></script>
     <script>
@@ -719,6 +729,20 @@
       const matchLayout = document.querySelector(".match-layout");
       const matchOptions = Array.from(document.querySelectorAll("[data-match-key]"));
       const crunchChoices = Array.from(document.querySelectorAll("[data-crunch]"));
+      const analyticsParameters = new URLSearchParams(window.location.search);
+      let snackMatchStarted = false;
+      let snackMatchCompleted = false;
+
+      function trackEvent(name, parameters = {}) {
+        if (typeof window.gtag !== "function") return;
+        window.gtag("event", name, parameters);
+      }
+
+      if (analyticsParameters.get("utm_source") === "qualtrics" && analyticsParameters.get("utm_medium") === "survey_complete") {
+        trackEvent("survey_landing", {
+          survey_campaign: "ohme_research",
+        });
+      }
 
       function updateMatchSubmit() {
         matchSubmit.disabled = ["buyer", "occasion", "priority", "size", "mix"].some((key) => !matchAnswers[key]);
@@ -742,8 +766,8 @@
         matchLayout.classList.add("has-result");
         matchResult.innerHTML = `
           <div class="match-result-head"><p class="eyebrow">Your best current match</p><h3>${primary.shortName}</h3><p>Selected from current, available products in OHME's public collection.</p></div>
-          <article class="match-primary"><img src="${primary.image}" alt="${primary.name}" /><div><h4>${primary.name}</h4><p class="match-price">${priceMarkup(primary)}</p><p class="match-pack">${primary.packLabel}</p><p>${primary.description}</p><div class="match-reasons">${primary.reasons.map((reason) => `<span class="match-reason">${reason}</span>`).join("")}</div><a class="match-shop" href="${primary.url}" target="_blank" rel="noopener noreferrer">View this product on OHME</a></div></article>
-          <div class="match-alternatives" aria-label="Alternative OHME matches">${alternatives.map((product) => `<article class="match-alternative"><img src="${product.image}" alt="" /><div><strong>${product.shortName}</strong><span>CAD $${product.price.toFixed(2)} · ${product.packLabel}</span><a href="${product.url}" target="_blank" rel="noopener noreferrer">View alternative</a></div></article>`).join("")}</div>
+          <article class="match-primary"><img src="${primary.image}" alt="${primary.name}" /><div><h4>${primary.name}</h4><p class="match-price">${priceMarkup(primary)}</p><p class="match-pack">${primary.packLabel}</p><p>${primary.description}</p><div class="match-reasons">${primary.reasons.map((reason) => `<span class="match-reason">${reason}</span>`).join("")}</div><a class="match-shop" href="${primary.url}" target="_blank" rel="noopener noreferrer" data-analytics="product-link" data-product-id="${primary.id}" data-result-position="primary">View this product on OHME</a></div></article>
+          <div class="match-alternatives" aria-label="Alternative OHME matches">${alternatives.map((product, index) => `<article class="match-alternative"><img src="${product.image}" alt="" /><div><strong>${product.shortName}</strong><span>CAD $${product.price.toFixed(2)} · ${product.packLabel}</span><a href="${product.url}" target="_blank" rel="noopener noreferrer" data-analytics="product-link" data-product-id="${product.id}" data-result-position="alternative-${index + 1}">View alternative</a></div></article>`).join("")}</div>
           <p class="match-disclaimer">Recommendation uses your crunch-family choice, the four questions above, and current public OHME product data. It is not nutrition or medical advice. Price check: July 15, 2026.</p>`;
         matchResult.focus({ preventScroll: true });
       }
@@ -758,7 +782,14 @@
           matchResult.innerHTML = '<p class="match-error">Product matcher unavailable. Please refresh the page and try again.</p>';
           return;
         }
-        renderMatchResults(window.OhmeSnackMatch.recommendProducts(matchAnswers));
+        const result = window.OhmeSnackMatch.recommendProducts(matchAnswers);
+        renderMatchResults(result);
+        if (!snackMatchCompleted) {
+          snackMatchCompleted = true;
+          trackEvent("snack_match_complete", {
+            recommended_product: result.primary.id,
+          });
+        }
       });
       matchForm.addEventListener("reset", () => {
         Object.keys(matchAnswers).forEach((key) => delete matchAnswers[key]);
@@ -785,8 +816,24 @@
       crunchChoices.forEach((button) => button.addEventListener("click", () => {
         crunchChoices.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
         selectMatchAnswer("mix", button.dataset.crunch);
+        if (!snackMatchStarted) {
+          snackMatchStarted = true;
+          trackEvent("snack_match_start", {
+            crunch_family: button.dataset.crunch,
+          });
+        }
         matchForm.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
       }));
+
+      matchResult.addEventListener("click", (event) => {
+        const productLink = event.target.closest('[data-analytics="product-link"]');
+        if (!productLink) return;
+        trackEvent("product_click", {
+          product_id: productLink.dataset.productId,
+          result_position: productLink.dataset.resultPosition,
+          transport_type: "beacon",
+        });
+      });
 
       const compareCopy = {
         ingredients: "OHME starts with real fruit, with fruit-only and yogurt-crunch options. The comparison below stays at category level and does not use competitor branding.",
